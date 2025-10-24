@@ -1,0 +1,222 @@
+---
+title: "My Modern Web Development Stack in 2024"
+date: "2024-01-15"
+author: "James Gault"
+excerpt: "An in-depth look at the technologies I use to build fast, scalable, and maintainable web applications for clients."
+coverImage: "/images/blog/tech-stack.png"
+tags: ["Web Development", "Tech Stack", "React", "Next.js", "Best Practices"]
+readTime: "8 min read"
+---
+
+# My Modern Web Development Stack in 2024
+
+After building dozens of web applications for clients, I've settled on a technology stack that balances developer experience, performance, and long-term maintainability. Here's what I use and why.
+
+## Frontend: React + Next.js
+
+**Why React?**
+- Component-based architecture makes code reusable and maintainable
+- Huge ecosystem of libraries and tools
+- Industry standard with tons of developer talent available
+- Great for complex, interactive UIs
+
+**Why Next.js on top of React?**
+- Server-side rendering (SSR) for better SEO and initial page load
+- File-based routing makes navigation setup trivial
+- API routes let me build full-stack apps without a separate backend
+- Image optimization built-in saves tons of bandwidth
+- Incremental static regeneration (ISR) for the best of static and dynamic
+- Deployment to Vercel is one-click and incredibly fast
+
+## Styling: Tailwind CSS
+
+I used to write custom CSS for everything. Then I discovered Tailwind and never looked back.
+
+**Benefits:**
+- Utility-first approach means I never leave my HTML/JSX
+- No naming conventions to remember (goodbye BEM!)
+- Purges unused CSS in production, resulting in tiny bundles (usually <10KB)
+- Responsive design is trivial with breakpoint prefixes (md:, lg:, etc.)
+- Customization through tailwind.config is powerful
+- Dark mode support with one class
+
+**Example:**
+```jsx
+<button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition duration-300 transform hover:scale-105">
+  Get Started
+</button>
+```
+
+That's a fully styled, responsive, accessible button in one line. Beautiful.
+
+## Backend: Node.js + Express
+
+For full-stack apps, I use Node.js with Express.
+
+**Why Node.js?**
+- JavaScript everywhere (frontend + backend) = one language to master
+- npm ecosystem is unmatched
+- Great for real-time features with Socket.io
+- Fast for I/O-heavy applications (which most web apps are)
+
+**Why Express?**
+- Minimal and unopinionated - I can structure apps how I want
+- Huge community and middleware ecosystem
+- Easy to understand and onboard new developers
+- Battle-tested in production for years
+
+## Database: PostgreSQL or MongoDB
+
+I choose databases based on the project:
+
+**PostgreSQL for:**
+- Complex relationships between data
+- Need for transactions and ACID compliance
+- Financial data or anything requiring strict consistency
+- Advanced querying with JOINs, CTEs, etc.
+- Example: E-commerce platforms, SaaS applications
+
+**MongoDB for:**
+- Flexible schemas that might evolve
+- Document-based data (blog posts, user profiles)
+- High write throughput
+- Rapid prototyping where schema might change
+- Example: Content management systems, social platforms
+
+Both have excellent ORMs (Prisma for PostgreSQL, Mongoose for MongoDB) that make working with them a pleasure.
+
+## Authentication: JWT + bcrypt
+
+I implement custom JWT (JSON Web Token) authentication for most projects:
+
+**The flow:**
+1. User registers → password hashed with bcrypt → stored in database
+2. User logs in → credentials verified → JWT token issued
+3. Token stored in httpOnly cookie (secure from XSS)
+4. Subsequent requests include token → verified server-side
+5. Token expires after X hours → user must log in again
+
+**Why not OAuth/Auth0?**
+- More control over the authentication flow
+- No vendor lock-in
+- Lower cost (free for any number of users)
+- Easier to customize for specific business logic
+
+I do integrate OAuth for "Login with Google/Facebook" features when clients request it.
+
+## Deployment: Vercel + AWS
+
+**Vercel for frontend/full-stack Next.js apps:**
+- Automatic HTTPS and CDN
+- Preview deployments for every git push
+- Zero configuration
+- Blazing fast edge network
+- Generous free tier
+
+**AWS for complex backends:**
+- EC2 for custom server configurations
+- RDS for managed databases
+- S3 for file storage
+- CloudFront for CDN
+- More control when needed, but more complexity
+
+## Development Tools
+
+**Version Control:** Git + GitHub
+- Branching strategy: main, develop, feature branches
+- Pull requests required for code review
+- GitHub Actions for CI/CD
+
+**Code Quality:**
+- ESLint for catching errors
+- Prettier for consistent formatting
+- Husky for pre-commit hooks
+- TypeScript for type safety
+
+**Testing:**
+- Jest for unit tests
+- React Testing Library for component tests
+- Playwright for end-to-end tests
+- Aim for 80%+ coverage on critical paths
+
+**API Testing:**
+- Postman for manual testing
+- Automated tests with Supertest
+- API documentation with Swagger
+
+## Performance Optimization
+
+**Images:**
+- Next.js Image component for automatic optimization
+- WebP format with JPEG fallback
+- Lazy loading below the fold
+- Responsive images with srcset
+
+**Code:**
+- Code splitting with dynamic imports
+- Lazy loading components
+- Memoization with useMemo and React.memo
+- Bundle analysis to catch bloat
+
+**Caching:**
+- Redis for session storage and caching
+- CDN caching for static assets
+- Database query caching
+- Service workers for offline support (PWAs)
+
+## Monitoring & Analytics
+
+**For Clients:**
+- Google Analytics 4 for user behavior
+- Google Search Console for SEO
+- Hotjar for heatmaps and session recordings
+
+**For Developers:**
+- Sentry for error tracking
+- LogRocket for session replay
+- Vercel Analytics for performance metrics
+- Uptime monitoring with UptimeRobot
+
+## Why This Stack Works
+
+This stack hits the sweet spot of:
+1. **Performance** - Fast initial loads, snappy interactions
+2. **SEO** - Server-side rendering + modern tooling
+3. **Developer Experience** - Fast iteration, great tooling
+4. **Scalability** - Can handle traffic spikes, easy to scale
+5. **Maintainability** - Clean code, good documentation
+6. **Cost** - Most tools have generous free tiers
+
+## What I Don't Use (And Why)
+
+**WordPress:**
+- Great for blogs, but I prefer code control for custom apps
+- Security vulnerabilities from plugins
+- Performance can be sluggish
+
+**jQuery:**
+- React renders it obsolete
+- Modern JavaScript has most of jQuery's features built-in
+
+**Angular:**
+- Too opinionated for my taste
+- Steeper learning curve for clients who want to hand off
+
+**Ruby on Rails:**
+- Love Rails, but JavaScript everywhere (Node.js) is simpler for my workflow
+
+## The Bottom Line
+
+Your tech stack should match your goals:
+- **Building a blog?** Next.js + Markdown is perfect
+- **E-commerce?** Next.js + Stripe + PostgreSQL
+- **SaaS?** Next.js + Node.js + PostgreSQL + Redis
+- **Mobile app backend?** Node.js + Express + MongoDB
+
+This stack has served me well for years. It's modern, battle-tested, and most importantly, it gets results for clients.
+
+What's your stack? Let me know what you'd add or change!
+
+---
+
+**Want to discuss tech for your project?** [Get in touch](/contact) and let's chat about the best tools for your needs.

@@ -1,0 +1,15 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Ephesis&display=swap') layer(fonts);
+
+@layer theme {
+  :root {
+    --font-family-playfair: "Playfair Display", serif;
+    --font-family-ephesis: "Ephesis", cursive;
+  }
+}
+
+@layer utilities {
+  .text-shadow {
+    text-shadow: 1px 2px 2px #1c6ea4;
+  }
+}

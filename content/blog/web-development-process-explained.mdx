@@ -1,0 +1,402 @@
+---
+title: "My Web Development Process: From Discovery to Launch"
+date: "2024-02-01"
+author: "James Gault"
+excerpt: "A transparent look at how I take client projects from initial idea to successful launch, with real examples and timelines."
+coverImage: "/images/blog/process.png"
+tags: ["Process", "Project Management", "Client Work", "Best Practices"]
+readTime: "10 min read"
+---
+
+# My Web Development Process: From Discovery to Launch
+
+One of the most common questions I get from potential clients is: "What does the development process actually look like?"
+
+It's a great question. If you're investing thousands of dollars and weeks of time into a web project, you deserve to know exactly what you're getting into.
+
+Here's my complete process, with real examples from recent projects.
+
+## Phase 1: Discovery & Planning (1-2 weeks)
+
+This is the most important phase. Get this right, and everything else flows smoothly. Rush it, and you'll pay for it later.
+
+### Initial Consultation (Week 1, Day 1-2)
+
+We start with a 60-90 minute video call where I ask a ton of questions:
+
+**Business Questions:**
+- What problem are you trying to solve?
+- Who are your customers/users?
+- What are your competitors doing?
+- What does success look like in 6 months? 1 year?
+
+**Technical Questions:**
+- Do you have existing systems we need to integrate with?
+- What's your hosting budget?
+- Do you need ongoing maintenance or just a one-time build?
+- Who will manage content updates?
+
+**Example:** For WannaBurger (restaurant client), I learned that 70% of orders were coming by phone, and staff was overwhelmed during dinner rush. The website needed to shift orders online, not just "look pretty."
+
+### Requirements Document (Week 1, Day 3-5)
+
+I turn our conversation into a detailed requirements document:
+
+```
+Project: WannaBurger Online Ordering
+Goal: Reduce phone orders by 50%, increase online orders by 100%
+
+User Stories:
+- As a hungry customer, I want to browse the menu on my phone
+- As a customer, I want to customize my burger (no onions, extra cheese)
+- As a customer, I want to track my order status
+- As staff, I want to see new orders in real-time
+- As owner, I want to update menu prices easily
+
+Technical Requirements:
+- Mobile-first design (75% of traffic is mobile)
+- Integration with existing POS system
+- Payment processing with Stripe
+- SMS notifications for order updates
+- Admin panel for menu management
+
+Success Metrics:
+- Page load time < 3 seconds
+- 50% of orders come through website within 3 months
+- 4+ star rating on customer satisfaction surveys
+```
+
+### Wireframes & Sitemap (Week 2)
+
+I sketch low-fidelity wireframes showing the layout and flow:
+
+- Homepage
+- Menu page (with categories)
+- Individual item page
+- Cart
+- Checkout
+- Order confirmation
+- Admin dashboard
+
+**Why wireframes matter:** They're cheap to change. Moving a button in a wireframe takes 30 seconds. Moving it in code takes 30 minutes.
+
+### Timeline & Quote (Week 2)
+
+I break the project into sprints and estimate time:
+
+```
+Sprint 1 (Week 1-2): Design & Prototyping
+- High-fidelity mockups
+- Interactive prototype
+- Client review & revisions
+
+Sprint 2 (Week 3-4): Frontend Development
+- Homepage
+- Menu pages
+- Cart & checkout flow
+
+Sprint 3 (Week 5-6): Backend Development
+- Database setup
+- API endpoints
+- Payment integration
+- Admin panel
+
+Sprint 4 (Week 7): Testing & Launch
+- Cross-browser testing
+- Performance optimization
+- Staff training
+- Launch!
+
+Total: 7 weeks
+Cost: $8,500
+```
+
+**Deliverables from Discovery:**
+✅ Requirements Document
+✅ Sitemap
+✅ Wireframes
+✅ Timeline
+✅ Detailed Quote
+
+## Phase 2: Design & Prototyping (2-3 weeks)
+
+Now that we know *what* we're building, let's figure out *how* it should look.
+
+### Brand Discovery
+
+I gather:
+- Logo and brand guidelines
+- Brand colors and fonts
+- Examples of designs they like (and hate!)
+- Competitor websites to analyze
+
+### High-Fidelity Mockups
+
+Using Figma, I create pixel-perfect mockups of every page:
+- Homepage with hero image, featured items, call-to-action
+- Menu page with filters and search
+- Item detail page with customization options
+- Shopping cart
+- Checkout flow (step-by-step)
+- Order confirmation page
+
+**Key principle:** Design for mobile first, then scale up to desktop.
+
+### Interactive Prototype
+
+I link the mockups together in Figma so clients can click through the entire flow before we write a single line of code.
+
+**Why this matters:** Clients can catch UX issues early. "Wait, how do I remove an item from my cart?" → We fix it in the prototype in 5 minutes instead of in code later.
+
+### Design Review Sessions
+
+I schedule 2-3 review sessions:
+1. **First draft:** Show initial designs, gather feedback
+2. **Revision 1:** Address feedback, refine based on input
+3. **Final approval:** Get sign-off to move to development
+
+**Real talk:** Design always takes longer than expected. Budget 20-30% more time than you think.
+
+**Deliverables from Design:**
+✅ High-fidelity mockups (Figma files)
+✅ Interactive prototype
+✅ Design system (colors, fonts, components)
+✅ Responsive designs (mobile, tablet, desktop)
+
+## Phase 3: Development (4-8 weeks)
+
+This is where the magic happens. Code time!
+
+### Environment Setup (Day 1)
+
+- Set up Git repository
+- Create development, staging, and production environments
+- Configure CI/CD pipeline
+- Set up error tracking (Sentry)
+- Initialize database
+
+### Sprint-Based Development
+
+I work in 1-week sprints with weekly demos:
+
+**Week 1-2: Frontend Foundation**
+- Set up Next.js project
+- Create reusable components (buttons, cards, forms)
+- Build homepage
+- Build menu browsing
+
+**Week 3-4: Shopping & Checkout**
+- Shopping cart functionality
+- Checkout flow
+- Payment integration (Stripe)
+- Order confirmation
+
+**Week 5-6: Backend & Admin**
+- Database models (users, items, orders)
+- API endpoints (CRUD operations)
+- Admin dashboard
+- Real-time order notifications
+
+**Week 7: Polish & Optimization**
+- Fix bugs from testing
+- Performance optimization
+- SEO meta tags
+- Accessibility improvements
+
+### Weekly Client Demos
+
+Every Friday at 2pm, I show progress:
+- Demo new features
+- Get feedback
+- Adjust next week's priorities
+
+**Why weekly demos?** Clients see constant progress, and we catch misunderstandings early instead of at launch.
+
+### Code Quality Practices
+
+- **Code reviews:** I review my own code before committing
+- **Testing:** Unit tests for critical functions, E2E tests for user flows
+- **Documentation:** Inline comments, README files, API documentation
+- **TypeScript:** Catch errors at compile time, not runtime
+
+**Deliverables from Development:**
+✅ Fully functional web application
+✅ Clean, documented codebase
+✅ Test suite
+✅ Admin panel
+
+## Phase 4: Testing & QA (1-2 weeks)
+
+Never skip testing. Ever.
+
+### Functional Testing
+
+I test every feature against the requirements:
+- Can users add items to cart?
+- Does checkout work with real payment?
+- Do admins receive order notifications?
+- Can menu items be updated?
+
+### Cross-Browser Testing
+
+Test on:
+- Chrome (desktop + mobile)
+- Safari (desktop + mobile)
+- Firefox
+- Edge
+
+**Pro tip:** Use BrowserStack to test on real devices.
+
+### Performance Testing
+
+Tools: Lighthouse, GTmetrix, WebPageTest
+
+Goals:
+- Largest Contentful Paint (LCP) < 2.5s
+- First Input Delay (FID) < 100ms
+- Cumulative Layout Shift (CLS) < 0.1
+- Overall Lighthouse score > 90
+
+### Accessibility Testing
+
+- Keyboard navigation works
+- Screen reader friendly
+- Sufficient color contrast
+- ARIA labels where needed
+- WCAG 2.1 AA compliance
+
+### User Acceptance Testing (UAT)
+
+I give the client access to a staging environment:
+- They test the entire flow
+- We track bugs in a shared spreadsheet
+- I fix issues, they re-test
+
+**Deliverables from Testing:**
+✅ Test reports
+✅ Bug fixes
+✅ Performance optimizations
+✅ UAT sign-off
+
+## Phase 5: Launch (1 week)
+
+### Pre-Launch Checklist
+
+- [ ] All UAT issues resolved
+- [ ] Analytics installed (Google Analytics)
+- [ ] Error monitoring active (Sentry)
+- [ ] SEO meta tags complete
+- [ ] Sitemap submitted to Google
+- [ ] SSL certificate installed
+- [ ] Backups configured
+- [ ] Domain pointing to production
+- [ ] Staff trained on admin panel
+
+### Soft Launch
+
+I often do a soft launch first:
+- Limited menu available
+- Invite-only access
+- Monitor for issues
+- Fix bugs in real-time
+
+### Full Launch
+
+Once soft launch is stable (usually 2-3 days):
+- Open to public
+- Announce on social media
+- Update Google Business listing
+- Send email to customer list
+
+### Launch Day Support
+
+I'm on standby for the first 24-48 hours:
+- Monitor error logs
+- Watch analytics for issues
+- Quick fixes if needed
+
+**Deliverables from Launch:**
+✅ Live production website
+✅ DNS configured
+✅ SSL certificate
+✅ Monitoring dashboards
+
+## Phase 6: Training & Handoff (1 week)
+
+### Admin Training
+
+1-hour video call walking through:
+- How to add/edit menu items
+- How to manage orders
+- How to update prices
+- How to run reports
+
+I record the training so they can reference it later.
+
+### Documentation Handoff
+
+I provide:
+- Admin user guide (PDF + video)
+- Technical documentation (for future developers)
+- Codebase access (GitHub)
+- Login credentials (password manager)
+- Hosting account info
+
+### 30-Day Support Period
+
+After launch, I include 30 days of free bug fixes:
+- Bugs? I fix them immediately.
+- New features? We discuss a maintenance contract.
+
+## Phase 7: Ongoing Maintenance (Optional)
+
+Many clients opt for a monthly maintenance plan ($300-500/month):
+
+**Included:**
+- Security updates
+- Dependency updates
+- Monthly backups
+- Uptime monitoring
+- Priority support
+- Monthly performance reports
+
+## Lessons Learned
+
+After dozens of projects, here's what I've learned:
+
+### Communication is Everything
+- Weekly updates prevent surprises
+- Over-communicate timelines
+- Set realistic expectations
+
+### Design Takes Longer Than You Think
+- Budget 30% more time for design
+- Clients need time to review (don't rush them)
+- Revisions are normal
+
+### Test Early, Test Often
+- Catch bugs in development, not after launch
+- Real user testing reveals issues you'd never find
+
+### Document Everything
+- Future you (or the next developer) will thank you
+- Clients forget conversations - emails don't lie
+
+### Build Relationships, Not Just Websites
+- Happy clients refer new clients
+- Most of my work comes from referrals
+- Treat every project like it's your own business
+
+## What This Process Achieves
+
+✅ Clear expectations from day one
+✅ No surprise costs or timeline changes
+✅ High-quality, tested code
+✅ Happy clients who refer friends
+✅ Websites that actually solve business problems
+
+## Want to Work Together?
+
+If this process sounds like what you're looking for, [let's chat about your project](/contact).
+
+No sales pressure, just an honest conversation about whether we're a good fit.
