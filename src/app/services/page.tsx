@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import FadeIn from "@/components/animations/FadeIn";
 import ScaleIn from "@/components/animations/ScaleIn";
+import InteractiveCodeBlock from "@/components/ui/InteractiveCodeBlock";
 
 export default function Services() {
   const services = [
@@ -346,6 +347,142 @@ export default function Services() {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Code Examples */}
+      <section className="container mx-auto px-4 mb-20">
+        <div className="mb-12">
+          <FadeIn>
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900">
+              See Our Work in Action
+            </h2>
+            <p className="text-center text-gray-600 max-w-2xl mx-auto">
+              Here are some examples of the clean, modern code we write. Click to expand and explore.
+            </p>
+          </FadeIn>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto">
+          <FadeIn delay={0.1}>
+            <InteractiveCodeBlock
+              title="React Component"
+              language="TypeScript"
+              description="Modern React component with TypeScript for type safety and better developer experience."
+              code={`interface UserCardProps {
+  name: string;
+  email: string;
+  role: 'admin' | 'user';
+}
+
+export default function UserCard({ name, email, role }: UserCardProps) {
+  return (
+    <div className="rounded-lg shadow-md p-6">
+      <h3 className="text-xl font-bold">{name}</h3>
+      <p className="text-gray-600">{email}</p>
+      <span className="badge">{role}</span>
+    </div>
+  );
+}`}
+            />
+          </FadeIn>
+
+          <FadeIn delay={0.2}>
+            <InteractiveCodeBlock
+              title="API Route"
+              language="TypeScript"
+              description="Secure Next.js API route with authentication and error handling."
+              code={`import { NextResponse } from 'next/server';
+import { authenticateUser } from '@/lib/auth';
+
+export async function GET(request: Request) {
+  try {
+    const user = await authenticateUser(request);
+
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    const data = await fetchUserData(user.id);
+    return NextResponse.json(data);
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
+  }
+}`}
+            />
+          </FadeIn>
+
+          <FadeIn delay={0.3}>
+            <InteractiveCodeBlock
+              title="Database Query"
+              language="TypeScript"
+              description="Type-safe database queries using Prisma ORM for PostgreSQL."
+              code={`import { prisma } from '@/lib/prisma';
+
+async function getActiveUsers() {
+  const users = await prisma.user.findMany({
+    where: {
+      status: 'active',
+      emailVerified: true,
+    },
+    include: {
+      profile: true,
+      orders: {
+        where: {
+          createdAt: {
+            gte: new Date('2025-01-01'),
+          },
+        },
+      },
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
+
+  return users;
+}`}
+            />
+          </FadeIn>
+
+          <FadeIn delay={0.4}>
+            <InteractiveCodeBlock
+              title="Animation Hook"
+              language="TypeScript"
+              description="Custom React hook using Framer Motion for smooth scroll animations."
+              code={`import { useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
+
+export function useParallax() {
+  const ref = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start'],
+  });
+
+  const y = useTransform(
+    scrollYProgress,
+    [0, 1],
+    ['0%', '50%']
+  );
+
+  const opacity = useTransform(
+    scrollYProgress,
+    [0, 0.5, 1],
+    [0, 1, 0]
+  );
+
+  return { ref, y, opacity };
+}`}
+            />
+          </FadeIn>
         </div>
       </section>
 

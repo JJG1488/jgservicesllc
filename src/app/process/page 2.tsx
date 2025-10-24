@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import FadeIn from "@/components/animations/FadeIn";
 import ScaleIn from "@/components/animations/ScaleIn";
 import Image from "next/image";
-import InteractiveTimeline from "@/components/InteractiveTimeline";
 
 export default function Process() {
   const phases = [
@@ -13,8 +12,6 @@ export default function Process() {
       title: "Discovery & Planning",
       duration: "1-2 weeks",
       description: "We start by deeply understanding your business, goals, and target audience. This foundation is critical for project success.",
-      color: "blue",
-      icon: "🔍",
       steps: [
         {
           name: "Initial Consultation",
@@ -43,15 +40,14 @@ export default function Process() {
         "Sitemap & Information Architecture",
         "Project Timeline & Milestones",
         "Initial Budget & Resource Plan"
-      ]
+      ],
+      color: "blue"
     },
     {
       number: "02",
       title: "Design & Prototyping",
       duration: "2-3 weeks",
       description: "We transform requirements into visual designs and interactive prototypes, ensuring the user experience is intuitive and aligned with your brand.",
-      color: "purple",
-      icon: "🎨",
       steps: [
         {
           name: "Wireframing",
@@ -80,15 +76,14 @@ export default function Process() {
         "Interactive prototype",
         "Design system & style guide",
         "Responsive design specifications"
-      ]
+      ],
+      color: "purple"
     },
     {
       number: "03",
       title: "Development",
       duration: "4-8 weeks",
       description: "This is where the magic happens. We write clean, maintainable code following industry best practices and modern development standards.",
-      color: "green",
-      icon: "💻",
       steps: [
         {
           name: "Environment Setup",
@@ -121,15 +116,14 @@ export default function Process() {
         "API documentation",
         "Test suite with coverage reports",
         "Performance optimization reports"
-      ]
+      ],
+      color: "green"
     },
     {
       number: "04",
       title: "Testing & Quality Assurance",
       duration: "1-2 weeks",
       description: "Rigorous testing ensures your application works flawlessly across all devices, browsers, and edge cases before launch.",
-      color: "yellow",
-      icon: "🧪",
       steps: [
         {
           name: "Functional Testing",
@@ -166,15 +160,14 @@ export default function Process() {
         "Performance audit results",
         "Accessibility compliance report",
         "UAT sign-off document"
-      ]
+      ],
+      color: "orange"
     },
     {
       number: "05",
       title: "Deployment & Launch",
       duration: "1 week",
       description: "We handle the entire launch process, from domain setup to production deployment, ensuring a smooth go-live.",
-      color: "red",
-      icon: "🚀",
       steps: [
         {
           name: "Pre-Launch Checklist",
@@ -207,15 +200,14 @@ export default function Process() {
         "SSL certificate setup",
         "Monitoring dashboards",
         "Launch announcement support"
-      ]
+      ],
+      color: "red"
     },
     {
       number: "06",
       title: "Training & Handoff",
       duration: "1 week",
       description: "We ensure you and your team are fully equipped to manage and maintain your new website.",
-      color: "indigo",
-      icon: "📚",
       steps: [
         {
           name: "CMS Training",
@@ -244,15 +236,14 @@ export default function Process() {
         "Complete technical documentation",
         "Codebase access & repository",
         "Ongoing support plan details"
-      ]
+      ],
+      color: "indigo"
     },
     {
       number: "07",
       title: "Ongoing Support & Maintenance",
       duration: "Ongoing",
       description: "Your website is never truly 'done'. We provide continuous support to keep it secure, updated, and performing optimally.",
-      color: "teal",
-      icon: "🛠️",
       steps: [
         {
           name: "Regular Updates",
@@ -365,26 +356,8 @@ export default function Process() {
         </div>
       </section>
 
-      {/* Interactive Timeline */}
-      <section className="container mx-auto px-4 mb-32">
-        <FadeIn>
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-900">
-            Our 7-Phase Process
-          </h2>
-        </FadeIn>
-        <InteractiveTimeline phases={phases} />
-      </section>
-
-      {/* Detailed Process Phases */}
+      {/* Process Phases */}
       <section className="container mx-auto px-4 mb-20">
-        <FadeIn>
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900">
-            Detailed Phase Breakdown
-          </h2>
-          <p className="text-center text-gray-600 mb-16 max-w-2xl mx-auto">
-            Dive deeper into each phase to see exactly what we do and what you'll receive at every step.
-          </p>
-        </FadeIn>
         <div className="space-y-16">
           {phases.map((phase, index) => (
             <motion.div

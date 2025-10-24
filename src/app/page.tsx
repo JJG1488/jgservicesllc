@@ -8,6 +8,10 @@ import ScaleIn from "@/components/animations/ScaleIn";
 import AnimatedButton from "@/components/ui/AnimatedButton";
 import FloatingCard from "@/components/ui/FloatingCard";
 import Testimonials from "@/components/Testimonials";
+import CountUpStat from "@/components/CountUpStat";
+import MagneticButton from "@/components/ui/MagneticButton";
+import GlowCard from "@/components/ui/GlowCard";
+import ParallaxSection from "@/components/ParallaxSection";
 
 export default function Home() {
   // Stagger animation for grid items
@@ -96,11 +100,7 @@ export default function Home() {
           </FadeIn>
 
           <FadeIn delay={0.6}>
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-block"
-            >
+            <MagneticButton href="/services" strength={0.4}>
               <AnimatedButton href="/services">
                 <motion.span
                   className="relative z-20"
@@ -116,7 +116,7 @@ export default function Home() {
                   Discover Our Services 🚀
                 </motion.span>
               </AnimatedButton>
-            </motion.div>
+            </MagneticButton>
           </FadeIn>
 
           {/* Floating scroll indicator */}
@@ -158,105 +158,111 @@ export default function Home() {
             viewport={{ once: true, margin: "-100px" }}
           >
             <motion.div variants={itemVariants}>
-              <FloatingCard className="text-center p-6 h-full">
-                <motion.div
-                  className="relative w-full h-48 mb-4 bg-gray-50"
-                  whileHover={{ scale: 1.05, rotate: [0, -2, 2, 0] }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <Image
-                    src="/images/portfolio_idea_generation.png"
-                    alt="Idea Generation"
-                    fill
-                    className="object-contain"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    loading="lazy"
-                    quality={85}
-                  />
-                </motion.div>
-                <motion.div
-                  className="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center mx-auto mb-3 font-bold text-xl"
-                  whileHover={{ rotate: 360 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  1
-                </motion.div>
-                <h4 className="text-xl font-semibold mb-3 text-gray-900">
-                  Idea Generation
-                </h4>
-                <p className="text-gray-600">
-                  We begin by understanding your vision and turning everyday ideas
-                  into concrete project plans.
-                </p>
-              </FloatingCard>
+              <GlowCard glowColor="rgba(59, 130, 246, 0.4)">
+                <FloatingCard className="text-center p-6 h-full">
+                  <motion.div
+                    className="relative w-full h-48 mb-4 bg-gray-50"
+                    whileHover={{ scale: 1.05, rotate: [0, -2, 2, 0] }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <Image
+                      src="/images/portfolio_idea_generation.png"
+                      alt="Idea Generation"
+                      fill
+                      className="object-contain"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      loading="lazy"
+                      quality={85}
+                    />
+                  </motion.div>
+                  <motion.div
+                    className="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center mx-auto mb-3 font-bold text-xl"
+                    whileHover={{ rotate: 360 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    1
+                  </motion.div>
+                  <h4 className="text-xl font-semibold mb-3 text-gray-900">
+                    Idea Generation
+                  </h4>
+                  <p className="text-gray-600">
+                    We begin by understanding your vision and turning everyday ideas
+                    into concrete project plans.
+                  </p>
+                </FloatingCard>
+              </GlowCard>
             </motion.div>
 
             <motion.div variants={itemVariants}>
-              <FloatingCard className="text-center p-6 h-full">
-                <motion.div
-                  className="relative w-full h-48 mb-4 bg-gray-50"
-                  whileHover={{ scale: 1.05, rotate: [0, -2, 2, 0] }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <Image
-                    src="/images/portfolio_design_and_development.png"
-                    alt="Design & Development"
-                    fill
-                    className="object-contain"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    loading="lazy"
-                    quality={85}
-                  />
-                </motion.div>
-                <motion.div
-                  className="w-12 h-12 bg-purple-500 text-white rounded-full flex items-center justify-center mx-auto mb-3 font-bold text-xl"
-                  whileHover={{ rotate: 360 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  2
-                </motion.div>
-                <h4 className="text-xl font-semibold mb-3 text-gray-900">
-                  Design & Development
-                </h4>
-                <p className="text-gray-600">
-                  Our experts design intuitive interfaces and develop robust
-                  applications tailored to your needs.
-                </p>
-              </FloatingCard>
+              <GlowCard glowColor="rgba(168, 85, 247, 0.4)">
+                <FloatingCard className="text-center p-6 h-full">
+                  <motion.div
+                    className="relative w-full h-48 mb-4 bg-gray-50"
+                    whileHover={{ scale: 1.05, rotate: [0, -2, 2, 0] }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <Image
+                      src="/images/portfolio_design_and_development.png"
+                      alt="Design & Development"
+                      fill
+                      className="object-contain"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      loading="lazy"
+                      quality={85}
+                    />
+                  </motion.div>
+                  <motion.div
+                    className="w-12 h-12 bg-purple-500 text-white rounded-full flex items-center justify-center mx-auto mb-3 font-bold text-xl"
+                    whileHover={{ rotate: 360 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    2
+                  </motion.div>
+                  <h4 className="text-xl font-semibold mb-3 text-gray-900">
+                    Design & Development
+                  </h4>
+                  <p className="text-gray-600">
+                    Our experts design intuitive interfaces and develop robust
+                    applications tailored to your needs.
+                  </p>
+                </FloatingCard>
+              </GlowCard>
             </motion.div>
 
             <motion.div variants={itemVariants}>
-              <FloatingCard className="text-center p-6 h-full">
-                <motion.div
-                  className="relative w-full h-48 mb-4 bg-gray-50"
-                  whileHover={{ scale: 1.05, rotate: [0, -2, 2, 0] }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <Image
-                    src="/images/portoflio_launch_and_support.png"
-                    alt="Launch & Support"
-                    fill
-                    className="object-contain"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    loading="lazy"
-                    quality={85}
-                  />
-                </motion.div>
-                <motion.div
-                  className="w-12 h-12 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto mb-3 font-bold text-xl"
-                  whileHover={{ rotate: 360 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  3
-                </motion.div>
-                <h4 className="text-xl font-semibold mb-3 text-gray-900">
-                  Launch & Support
-                </h4>
-                <p className="text-gray-600">
-                  We ensure a smooth launch and provide ongoing support to keep
-                  your application running at peak performance.
-                </p>
-              </FloatingCard>
+              <GlowCard glowColor="rgba(34, 197, 94, 0.4)">
+                <FloatingCard className="text-center p-6 h-full">
+                  <motion.div
+                    className="relative w-full h-48 mb-4 bg-gray-50"
+                    whileHover={{ scale: 1.05, rotate: [0, -2, 2, 0] }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <Image
+                      src="/images/portoflio_launch_and_support.png"
+                      alt="Launch & Support"
+                      fill
+                      className="object-contain"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      loading="lazy"
+                      quality={85}
+                    />
+                  </motion.div>
+                  <motion.div
+                    className="w-12 h-12 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto mb-3 font-bold text-xl"
+                    whileHover={{ rotate: 360 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    3
+                  </motion.div>
+                  <h4 className="text-xl font-semibold mb-3 text-gray-900">
+                    Launch & Support
+                  </h4>
+                  <p className="text-gray-600">
+                    We ensure a smooth launch and provide ongoing support to keep
+                    your application running at peak performance.
+                  </p>
+                </FloatingCard>
+              </GlowCard>
             </motion.div>
           </motion.div>
         </div>
@@ -271,32 +277,34 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <FadeIn direction="left">
-              <motion.div
-                className="relative w-full h-96 bg-gray-50"
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.3 }}
-              >
+              <ParallaxSection speed={0.3} direction="up">
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-lg opacity-20"
-                  animate={{
-                    scale: [1, 1.05, 1],
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                />
-                <Image
-                  src="/images/portfolio_custom_web_development.png"
-                  alt="Web Development In Action"
-                  fill
-                  className="object-contain rounded-lg relative z-10"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  loading="lazy"
-                  quality={85}
-                />
-              </motion.div>
+                  className="relative w-full h-96 bg-gray-50"
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-lg opacity-20"
+                    animate={{
+                      scale: [1, 1.05, 1],
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                  />
+                  <Image
+                    src="/images/portfolio_custom_web_development.png"
+                    alt="Web Development In Action"
+                    fill
+                    className="object-contain rounded-lg relative z-10"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    loading="lazy"
+                    quality={85}
+                  />
+                </motion.div>
+              </ParallaxSection>
             </FadeIn>
 
             <FadeIn direction="right">
@@ -391,35 +399,36 @@ export default function Home() {
           </ScaleIn>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { number: "50+", label: "Websites Delivered", icon: "🚀" },
-              { number: "100%", label: "Client Satisfaction", icon: "⭐" },
-              { number: "<3s", label: "Average Load Time", icon: "⚡" },
-              { number: "95+", label: "Lighthouse Score", icon: "💯" }
-            ].map((stat, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.5 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1, type: "spring", stiffness: 100 }}
-                className="text-center"
-              >
-                <motion.div
-                  className="text-5xl mb-2"
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ duration: 2, repeat: Infinity, delay: index * 0.2 }}
-                >
-                  {stat.icon}
-                </motion.div>
-                <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">
-                  {stat.number}
-                </div>
-                <div className="text-gray-600 dark:text-gray-400">
-                  {stat.label}
-                </div>
-              </motion.div>
-            ))}
+            <CountUpStat
+              end={50}
+              suffix="+"
+              label="Websites Delivered"
+              icon="🚀"
+              delay={0}
+            />
+            <CountUpStat
+              end={100}
+              suffix="%"
+              label="Client Satisfaction"
+              icon="⭐"
+              delay={0.1}
+            />
+            <CountUpStat
+              end={2.8}
+              suffix="s"
+              prefix="<"
+              decimals={1}
+              label="Average Load Time"
+              icon="⚡"
+              delay={0.2}
+            />
+            <CountUpStat
+              end={95}
+              suffix="+"
+              label="Lighthouse Score"
+              icon="💯"
+              delay={0.3}
+            />
           </div>
         </div>
       </section>
