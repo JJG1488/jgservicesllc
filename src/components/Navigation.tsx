@@ -14,6 +14,7 @@ export default function Navigation() {
     { href: "/services", label: "Services" },
     { href: "/process", label: "Process" },
     { href: "/projects", label: "Projects" },
+    { href: "/demos", label: "Demos" },
     { href: "/resources", label: "Resources" },
     { href: "/faq", label: "FAQ" },
     { href: "/contact", label: "Contact" },
