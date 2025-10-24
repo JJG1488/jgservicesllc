@@ -177,7 +177,7 @@ export default function RestaurantDemo() {
               <div className="container mx-auto px-4">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   <div className="text-center">
-                    <div className="text-5xl mb-4">👨‍🍳</div>
+                    <div className="text-5xl mb-4">👨</div>
                     <h3 className="text-xl font-bold mb-2">Expert Chefs</h3>
                     <p className="text-gray-600">
                       20+ years of Italian culinary expertise

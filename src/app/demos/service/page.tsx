@@ -144,28 +144,28 @@ export default function ServiceBusinessDemo() {
       role: 'Managing Partner',
       bio: '15+ years transforming businesses. Former McKinsey consultant.',
       expertise: ['Strategy', 'M&A', 'Scaling'],
-      image: '👨‍💼'
+      image: '👨'
     },
     {
       name: 'Maria Garcia',
       role: 'Operations Director',
       bio: 'Process optimization expert. Led digital transformation at Fortune 500.',
       expertise: ['Operations', 'Technology', 'Change Management'],
-      image: '👩‍💼'
+      image: '👩'
     },
     {
       name: 'James Wilson',
       role: 'Data Analytics Lead',
       bio: 'Data scientist turned business consultant. Makes numbers tell stories.',
       expertise: ['Analytics', 'KPIs', 'Dashboards'],
-      image: '👨‍💻'
+      image: '👨'
     },
     {
       name: 'Priya Patel',
       role: 'Leadership Coach',
       bio: 'Executive coach with 200+ leaders transformed. ICF certified.',
       expertise: ['Coaching', 'Leadership', 'Culture'],
-      image: '👩‍🏫'
+      image: '👩'
     }
   ];
 

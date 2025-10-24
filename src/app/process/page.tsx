@@ -289,8 +289,7 @@ export default function Process() {
         "Security patches & updates",
         "Priority support access",
         "Quarterly strategy consultations"
-      ],
-      color: "teal"
+      ]
     }
   ];
 
