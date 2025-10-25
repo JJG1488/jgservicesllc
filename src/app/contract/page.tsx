@@ -51,6 +51,11 @@ export default function ContractPage() {
     setIsSubmitting(true);
 
     try {
+      // Check if Firebase is configured
+      if (!db) {
+        throw new Error('Firebase is not configured');
+      }
+
       // Save to Firebase
       await addDoc(collection(db, 'contracts'), {
         ...formData,
