@@ -28,19 +28,38 @@ interface Contact {
   read: boolean;
 }
 
+interface Contract {
+  id: string;
+  clientName: string;
+  companyName?: string;
+  email: string;
+  phone: string;
+  projectType: string;
+  projectDescription: string;
+  servicePackage: string;
+  budget?: string;
+  signature: string;
+  submittedAt: any;
+  status: 'pending_review' | 'approved' | 'rejected';
+  approved: boolean;
+}
+
 export default function AdminDashboard() {
   const { user, loading: authLoading, signInWithGoogle, signOut, isAdmin } = useAuth();
   const [leads, setLeads] = useState<Lead[]>([]);
   const [contacts, setContacts] = useState<Contact[]>([]);
+  const [contracts, setContracts] = useState<Contract[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'leads' | 'contacts'>('leads');
+  const [activeTab, setActiveTab] = useState<'leads' | 'contacts' | 'contracts'>('leads');
   const [stats, setStats] = useState({
     total: 0,
     newsletter: 0,
     thisWeek: 0,
     totalContacts: 0,
     unreadContacts: 0,
+    totalContracts: 0,
+    pendingContracts: 0,
   });
 
   useEffect(() => {
@@ -73,8 +92,17 @@ export default function AdminDashboard() {
           ...doc.data()
         })) as Contact[];
 
+        // Fetch contracts
+        const contractsQuery = query(collection(db, 'contracts'), orderBy('submittedAt', 'desc'));
+        const contractsSnapshot = await getDocs(contractsQuery);
+        const contractsData = contractsSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })) as Contract[];
+
         setLeads(leadsData);
         setContacts(contactsData);
+        setContracts(contractsData);
 
         // Calculate stats
         const weekAgo = new Date();
@@ -89,6 +117,8 @@ export default function AdminDashboard() {
           }).length,
           totalContacts: contactsData.length,
           unreadContacts: contactsData.filter(c => !c.read).length,
+          totalContracts: contractsData.length,
+          pendingContracts: contractsData.filter(c => c.status === 'pending_review').length,
         });
 
         setLoading(false);
@@ -278,7 +308,7 @@ export default function AdminDashboard() {
         </motion.div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-6 mb-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -353,14 +383,44 @@ export default function AdminDashboard() {
               <div className="text-4xl">🔔</div>
             </div>
           </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6"
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Total Contracts</p>
+                <p className="text-3xl font-bold text-gray-900 dark:text-white">{stats.totalContracts}</p>
+              </div>
+              <div className="text-4xl">📝</div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7 }}
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6"
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Pending Review</p>
+                <p className="text-3xl font-bold text-gray-900 dark:text-white">{stats.pendingContracts}</p>
+              </div>
+              <div className="text-4xl">⏳</div>
+            </div>
+          </motion.div>
         </div>
 
         {/* Tabs */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-          className="mb-6 flex gap-4"
+          transition={{ delay: 0.8 }}
+          className="mb-6 flex gap-4 flex-wrap"
         >
           <button
             onClick={() => setActiveTab('leads')}
@@ -384,6 +444,21 @@ export default function AdminDashboard() {
             {stats.unreadContacts > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center">
                 {stats.unreadContacts}
+              </span>
+            )}
+          </button>
+          <button
+            onClick={() => setActiveTab('contracts')}
+            className={`px-6 py-3 rounded-lg font-semibold transition-all relative ${
+              activeTab === 'contracts'
+                ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+                : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:shadow-md'
+            }`}
+          >
+            📝 Service Contracts ({stats.totalContracts})
+            {stats.pendingContracts > 0 && (
+              <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center">
+                {stats.pendingContracts}
               </span>
             )}
           </button>
@@ -573,6 +648,141 @@ export default function AdminDashboard() {
           </motion.div>
         )}
 
+        {/* Contracts View */}
+        {activeTab === 'contracts' && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden"
+          >
+            {contracts.length === 0 ? (
+              <div className="p-12 text-center">
+                <div className="text-6xl mb-4">📭</div>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                  No service contracts yet
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  Service contract submissions will appear here.
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-6 p-6">
+                {contracts.map((contract, index) => (
+                  <motion.div
+                    key={contract.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.05 * index }}
+                    className={`p-6 rounded-lg border-2 transition-all ${
+                      contract.status === 'pending_review'
+                        ? 'border-orange-300 dark:border-orange-600 bg-orange-50 dark:bg-orange-900/20'
+                        : contract.status === 'approved'
+                        ? 'border-green-300 dark:border-green-600 bg-green-50 dark:bg-green-900/20'
+                        : 'border-red-300 dark:border-red-600 bg-red-50 dark:bg-red-900/20'
+                    }`}
+                  >
+                    <div className="flex justify-between items-start mb-4">
+                      <div>
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                          {contract.clientName}
+                          {contract.status === 'pending_review' && (
+                            <span className="ml-2 px-3 py-1 text-xs font-semibold rounded-full bg-orange-500 text-white">
+                              PENDING REVIEW
+                            </span>
+                          )}
+                          {contract.status === 'approved' && (
+                            <span className="ml-2 px-3 py-1 text-xs font-semibold rounded-full bg-green-500 text-white">
+                              ✓ APPROVED
+                            </span>
+                          )}
+                          {contract.status === 'rejected' && (
+                            <span className="ml-2 px-3 py-1 text-xs font-semibold rounded-full bg-red-500 text-white">
+                              REJECTED
+                            </span>
+                          )}
+                        </h3>
+                        {contract.companyName && (
+                          <p className="text-gray-600 dark:text-gray-400 font-semibold">{contract.companyName}</p>
+                        )}
+                        <div className="flex gap-4 mt-2 text-sm">
+                          <a
+                            href={`mailto:${contract.email}`}
+                            className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
+                          >
+                            📧 {contract.email}
+                          </a>
+                          <a
+                            href={`tel:${contract.phone}`}
+                            className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
+                          >
+                            📱 {contract.phone}
+                          </a>
+                        </div>
+                      </div>
+                      <div className="text-right text-sm text-gray-500 dark:text-gray-400">
+                        <div>{contract.submittedAt?.toDate().toLocaleDateString() || 'Unknown'}</div>
+                        <div className="text-xs">{contract.submittedAt?.toDate().toLocaleTimeString() || ''}</div>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                      <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                        <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Project Details</h4>
+                        <div className="space-y-2 text-sm">
+                          <div>
+                            <span className="text-gray-600 dark:text-gray-400">Type:</span>
+                            <span className="ml-2 font-semibold text-gray-900 dark:text-white">{contract.projectType}</span>
+                          </div>
+                          <div>
+                            <span className="text-gray-600 dark:text-gray-400">Package:</span>
+                            <span className="ml-2 font-semibold text-gray-900 dark:text-white">{contract.servicePackage}</span>
+                          </div>
+                          {contract.budget && (
+                            <div>
+                              <span className="text-gray-600 dark:text-gray-400">Budget:</span>
+                              <span className="ml-2 font-semibold text-gray-900 dark:text-white">{contract.budget}</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                        <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Digital Signature</h4>
+                        <p className="text-2xl font-['Brush_Script_MT',cursive] text-gray-900 dark:text-white mb-2">
+                          {contract.signature}
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                          Signed electronically on {contract.submittedAt?.toDate().toLocaleDateString()}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                      <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Project Description</h4>
+                      <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
+                        {contract.projectDescription}
+                      </p>
+                    </div>
+
+                    {/* Action Buttons - You can add approve/reject functionality later */}
+                    {contract.status === 'pending_review' && (
+                      <div className="flex gap-3 mt-4">
+                        <button className="flex-1 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                          ✓ Approve Contract
+                        </button>
+                        <button className="flex-1 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                          ✗ Reject Contract
+                        </button>
+                      </div>
+                    )}
+                  </motion.div>
+                ))}
+              </div>
+            )}
+          </motion.div>
+        )}
+
         {/* Footer Info */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -583,7 +793,9 @@ export default function AdminDashboard() {
           <p>
             {activeTab === 'leads'
               ? `Showing ${leads.length} lead${leads.length !== 1 ? 's' : ''}`
-              : `Showing ${contacts.length} contact message${contacts.length !== 1 ? 's' : ''}`
+              : activeTab === 'contacts'
+              ? `Showing ${contacts.length} contact message${contacts.length !== 1 ? 's' : ''}`
+              : `Showing ${contracts.length} service contract${contracts.length !== 1 ? 's' : ''}`
             } • Last updated: {new Date().toLocaleString()}
           </p>
         </motion.div>
