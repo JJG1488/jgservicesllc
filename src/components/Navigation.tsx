@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import ThemeToggle from "./ThemeToggle";
+import LanguageSelector from "./LanguageSelector";
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -49,11 +50,13 @@ export default function Navigation() {
                 {link.label}
               </Link>
             ))}
+            <LanguageSelector />
             <ThemeToggle />
           </div>
 
-          {/* Mobile Menu Button and Theme Toggle */}
+          {/* Mobile Menu Button, Language, and Theme Toggle */}
           <div className="md:hidden flex items-center space-x-2">
+            <LanguageSelector />
             <ThemeToggle />
             <button
               className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition"
