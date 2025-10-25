@@ -97,15 +97,15 @@ export default function DemosPage() {
           </FadeIn>
           <FadeIn delay={0.4}>
             <div className="flex justify-center gap-4 flex-wrap">
-              <div className="bg-black bg-opacity-20 backdrop-blur rounded-lg px-6 py-3 text-center">
+              <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg px-6 py-3 text-center">
                 <p className="text-3xl font-bold text-white">100%</p>
                 <p className="text-sm text-white font-semibold">Interactive</p>
               </div>
-              <div className="bg-black bg-opacity-20 backdrop-blur rounded-lg px-6 py-3 text-center">
+              <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg px-6 py-3 text-center">
                 <p className="text-3xl font-bold text-white">3</p>
                 <p className="text-sm text-white font-semibold">Live Demos</p>
               </div>
-              <div className="bg-black bg-opacity-20 backdrop-blur rounded-lg px-6 py-3 text-center">
+              <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg px-6 py-3 text-center">
                 <p className="text-3xl font-bold text-white">Real</p>
                 <p className="text-sm text-white font-semibold">Functionality</p>
               </div>
