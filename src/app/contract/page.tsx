@@ -29,9 +29,17 @@ export default function ContractPage() {
     customFeatures: '',
     budget: '',
 
+    // Budget Package Specific Fields
+    domainName: '',
+    primaryColor: '',
+    secondaryColor: '',
+    accentColor: '',
+    businessEmail: '',
+
     // Agreement
     agreeToTerms: false,
     agreeToPrivacy: false,
+    agreeToBudgetTerms: false, // Special agreement for budget package
     signature: '',
     signatureDate: new Date().toLocaleDateString(),
   });
@@ -75,6 +83,12 @@ export default function ContractPage() {
   };
 
   const servicePackages = [
+    {
+      value: 'budget',
+      label: 'Budget-Friendly Package ($300 Fixed)',
+      description: 'Perfect for tight budgets - I have full creative control. You provide: domain, colors, business info. Any changes outside scope require upgrade to custom contract.',
+      highlight: true
+    },
     { value: 'starter', label: 'Starter Website ($2,500 - $5,000)', description: '5-10 pages, responsive design, contact form' },
     { value: 'professional', label: 'Professional Website ($5,000 - $10,000)', description: '10-20 pages, CMS, SEO optimization, analytics' },
     { value: 'enterprise', label: 'Enterprise Website ($10,000+)', description: 'Custom features, integrations, scalable architecture' },
@@ -404,27 +418,168 @@ export default function ContractPage() {
                         key={pkg.value}
                         className={`block p-4 border-2 rounded-lg cursor-pointer transition-all ${
                           formData.servicePackage === pkg.value
-                            ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                            ? pkg.value === 'budget'
+                              ? 'border-green-500 bg-green-50 dark:bg-green-900/20 ring-2 ring-green-300'
+                              : 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                            : pkg.value === 'budget'
+                            ? 'border-green-300 dark:border-green-600 hover:border-green-400 bg-green-50/50 dark:bg-green-900/10'
                             : 'border-gray-300 dark:border-gray-600 hover:border-blue-300'
                         }`}
                       >
-                        <input
-                          type="radio"
-                          name="servicePackage"
-                          value={pkg.value}
-                          checked={formData.servicePackage === pkg.value}
-                          onChange={handleInputChange}
-                          className="mr-3"
-                          required
-                        />
-                        <span className="font-semibold text-gray-900 dark:text-white">{pkg.label}</span>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 ml-6 mt-1">
-                          {pkg.description}
-                        </p>
+                        <div className="flex items-start">
+                          <input
+                            type="radio"
+                            name="servicePackage"
+                            value={pkg.value}
+                            checked={formData.servicePackage === pkg.value}
+                            onChange={handleInputChange}
+                            className="mr-3 mt-1"
+                            required
+                          />
+                          <div>
+                            <span className="font-semibold text-gray-900 dark:text-white">
+                              {pkg.label}
+                              {pkg.value === 'budget' && (
+                                <span className="ml-2 px-2 py-1 text-xs font-bold rounded-full bg-green-500 text-white">
+                                  BUDGET-FRIENDLY
+                                </span>
+                              )}
+                            </span>
+                            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                              {pkg.description}
+                            </p>
+                          </div>
+                        </div>
                       </label>
                     ))}
                   </div>
                 </div>
+
+                {/* Budget Package Specific Fields */}
+                {formData.servicePackage === 'budget' && (
+                  <div className="bg-green-50 dark:bg-green-900/20 p-6 rounded-lg border-2 border-green-300 dark:border-green-600 space-y-4">
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-4">
+                      Budget Package Requirements
+                    </h3>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          Domain Name *
+                        </label>
+                        <input
+                          type="text"
+                          name="domainName"
+                          value={formData.domainName}
+                          onChange={handleInputChange}
+                          required={formData.servicePackage === 'budget'}
+                          className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                          placeholder="yourdomain.com"
+                        />
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                          You must purchase and provide your own domain
+                        </p>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          Business Email *
+                        </label>
+                        <input
+                          type="email"
+                          name="businessEmail"
+                          value={formData.businessEmail}
+                          onChange={handleInputChange}
+                          required={formData.servicePackage === 'budget'}
+                          className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                          placeholder="contact@yourdomain.com"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          Primary Color *
+                        </label>
+                        <div className="flex gap-2">
+                          <input
+                            type="color"
+                            name="primaryColor"
+                            value={formData.primaryColor}
+                            onChange={handleInputChange}
+                            required={formData.servicePackage === 'budget'}
+                            className="h-12 w-16 border border-gray-300 dark:border-gray-600 rounded cursor-pointer"
+                          />
+                          <input
+                            type="text"
+                            value={formData.primaryColor}
+                            onChange={(e) => setFormData(prev => ({ ...prev, primaryColor: e.target.value }))}
+                            className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                            placeholder="#000000"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          Secondary Color
+                        </label>
+                        <div className="flex gap-2">
+                          <input
+                            type="color"
+                            name="secondaryColor"
+                            value={formData.secondaryColor}
+                            onChange={handleInputChange}
+                            className="h-12 w-16 border border-gray-300 dark:border-gray-600 rounded cursor-pointer"
+                          />
+                          <input
+                            type="text"
+                            value={formData.secondaryColor}
+                            onChange={(e) => setFormData(prev => ({ ...prev, secondaryColor: e.target.value }))}
+                            className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                            placeholder="#000000"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          Accent Color
+                        </label>
+                        <div className="flex gap-2">
+                          <input
+                            type="color"
+                            name="accentColor"
+                            value={formData.accentColor}
+                            onChange={handleInputChange}
+                            className="h-12 w-16 border border-gray-300 dark:border-gray-600 rounded cursor-pointer"
+                          />
+                          <input
+                            type="text"
+                            value={formData.accentColor}
+                            onChange={(e) => setFormData(prev => ({ ...prev, accentColor: e.target.value }))}
+                            className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                            placeholder="#000000"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg border border-yellow-300 dark:border-yellow-600">
+                      <p className="text-sm text-gray-700 dark:text-gray-300">
+                        <strong className="text-yellow-800 dark:text-yellow-400">⚠️ Important Terms:</strong> By selecting the Budget Package, you agree that:
+                      </p>
+                      <ul className="text-sm text-gray-700 dark:text-gray-300 mt-2 space-y-1 ml-4 list-disc">
+                        <li>The $300 fixed price includes full creative control by the developer</li>
+                        <li>You are responsible for purchasing and providing your domain name</li>
+                        <li>Any requested changes outside the initial requirements will void this contract</li>
+                        <li>Additional changes will require upgrading to a custom development contract</li>
+                        <li>Custom contract pricing: Per Feature, Weekly, Monthly, or Yearly basis</li>
+                      </ul>
+                    </div>
+                  </div>
+                )}
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -525,6 +680,37 @@ export default function ContractPage() {
                         {servicePackages.find(p => p.value === formData.servicePackage)?.label || formData.servicePackage}
                       </p>
                     </div>
+                    {formData.servicePackage === 'budget' && formData.domainName && (
+                      <>
+                        <div>
+                          <span className="text-gray-600 dark:text-gray-400">Domain:</span>
+                          <p className="font-semibold text-gray-900 dark:text-white">{formData.domainName}</p>
+                        </div>
+                        <div>
+                          <span className="text-gray-600 dark:text-gray-400">Colors:</span>
+                          <div className="flex gap-2 mt-1">
+                            {formData.primaryColor && (
+                              <div className="flex items-center gap-1">
+                                <div className="w-6 h-6 rounded border" style={{ backgroundColor: formData.primaryColor }}></div>
+                                <span className="text-xs text-gray-600 dark:text-gray-400">Primary</span>
+                              </div>
+                            )}
+                            {formData.secondaryColor && (
+                              <div className="flex items-center gap-1">
+                                <div className="w-6 h-6 rounded border" style={{ backgroundColor: formData.secondaryColor }}></div>
+                                <span className="text-xs text-gray-600 dark:text-gray-400">Secondary</span>
+                              </div>
+                            )}
+                            {formData.accentColor && (
+                              <div className="flex items-center gap-1">
+                                <div className="w-6 h-6 rounded border" style={{ backgroundColor: formData.accentColor }}></div>
+                                <span className="text-xs text-gray-600 dark:text-gray-400">Accent</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
 
@@ -565,6 +751,22 @@ export default function ContractPage() {
                       *
                     </span>
                   </label>
+
+                  {formData.servicePackage === 'budget' && (
+                    <label className="flex items-start gap-3 cursor-pointer bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg border border-yellow-300 dark:border-yellow-600">
+                      <input
+                        type="checkbox"
+                        name="agreeToBudgetTerms"
+                        checked={formData.agreeToBudgetTerms}
+                        onChange={handleInputChange}
+                        required
+                        className="mt-1"
+                      />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">
+                        <strong className="text-yellow-800 dark:text-yellow-400">I understand and agree to the Budget Package terms:</strong> I acknowledge that this $300 fixed-price contract grants full creative control to the developer. I am responsible for providing my own domain name. Any changes requested outside the initial requirements will void this contract and require upgrading to a custom development contract with pricing based on features (per feature, weekly, monthly, or yearly). *
+                      </span>
+                    </label>
+                  )}
                 </div>
 
                 {/* Digital Signature */}
@@ -606,7 +808,13 @@ export default function ContractPage() {
                   </button>
                   <button
                     type="submit"
-                    disabled={isSubmitting || !formData.agreeToTerms || !formData.agreeToPrivacy || !formData.signature}
+                    disabled={
+                      isSubmitting ||
+                      !formData.agreeToTerms ||
+                      !formData.agreeToPrivacy ||
+                      !formData.signature ||
+                      (formData.servicePackage === 'budget' && !formData.agreeToBudgetTerms)
+                    }
                     className="bg-gradient-to-r from-green-600 to-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition-shadow disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? 'Submitting...' : '✓ Submit Contract'}
