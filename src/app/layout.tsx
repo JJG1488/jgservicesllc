@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import FloatingBudgetCTA from "@/components/FloatingBudgetCTA";
 import DynamicTechBackground from "@/components/DynamicTechBackground";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { AuthProvider } from "@/contexts/AuthContext";
@@ -51,6 +52,7 @@ export default function RootLayout({
               </main>
               <Footer />
             </div>
+            <FloatingBudgetCTA />
           </AuthProvider>
         </ThemeProvider>
       </body>
