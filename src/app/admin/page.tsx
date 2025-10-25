@@ -37,6 +37,12 @@ export default function AdminDashboard() {
         return;
       }
 
+      if (!db) {
+        setError('Firebase is not configured');
+        setLoading(false);
+        return;
+      }
+
       try {
         const q = query(collection(db, 'leads'), orderBy('timestamp', 'desc'));
         const querySnapshot = await getDocs(q);

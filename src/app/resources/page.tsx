@@ -182,15 +182,17 @@ export default function Resources() {
     e.preventDefault();
 
     try {
-      // Save to Firebase Firestore
-      await addDoc(collection(db, 'leads'), {
-        ...formData,
-        guide: selectedGuide?.id,
-        guideTitle: selectedGuide?.title,
-        timestamp: serverTimestamp(),
-        source: 'resources-page',
-        userAgent: navigator.userAgent,
-      });
+      // Save to Firebase Firestore (if configured)
+      if (db) {
+        await addDoc(collection(db, 'leads'), {
+          ...formData,
+          guide: selectedGuide?.id,
+          guideTitle: selectedGuide?.title,
+          timestamp: serverTimestamp(),
+          source: 'resources-page',
+          userAgent: navigator.userAgent,
+        });
+      }
 
       // Also save to localStorage as backup
       const leads = JSON.parse(localStorage.getItem('jg-leads') || '[]');
