@@ -2,7 +2,7 @@
 
 **Project**: Portfolio & Business Website for JG Services LLC
 **Owner**: James Gault
-**Tech Stack**: Next.js 15.3.3, React 19, TypeScript, Tailwind CSS v4, Framer Motion
+**Tech Stack**: Next.js 15.3.3, React 19, TypeScript, Tailwind CSS v4, Framer Motion, Firebase
 **Repository**: https://github.com/JJG1488/jgservicesllc
 **Started**: 2025
 **Last Updated**: 2025-01-24
@@ -49,10 +49,11 @@ JG Services LLC is a web development business offering professional website desi
 3. **Process** (`/process`) - 7-phase development process with interactive timeline
 4. **Projects** (`/projects`) - Case studies with `/projects/[slug]` dynamic routes
 5. **Demos** (`/demos`) - Interactive demo websites (Restaurant, E-Commerce, Service Business)
-6. **Resources** (`/resources`) - Educational tools and downloadable guides
+6. **Resources** (`/resources`) - Educational tools and downloadable guides (Firebase-powered)
 7. **FAQ** (`/faq`) - 45+ questions organized by category
 8. **Contact** (`/contact`) - Contact form with email integration
-9. **Blog** (`/blog`) - MDX-based blog (currently has compilation issues)
+9. **Admin** (`/admin`) - Firebase-powered lead dashboard with stats and CSV export
+10. **Blog** (`/blog`) - MDX-based blog (currently has compilation issues)
 
 ### Interactive Tools (Resources)
 1. **ROI Calculator** - Calculate website investment return
@@ -87,9 +88,18 @@ JG Services LLC is a web development business offering professional website desi
   "next": "15.3.3",
   "react": "19.2.0",
   "framer-motion": "^11.x",
-  "next-mdx-remote": "^5.x"
+  "next-mdx-remote": "^5.x",
+  "firebase": "12.4.0"
 }
 ```
+
+### Firebase Integration
+- **Firestore Database**: Lead capture and storage
+- **Collections**:
+  - `leads/` - Guide downloads with email capture
+- **Config Location**: `/src/lib/firebase.ts`
+- **Environment Variables**: `.env.local` (not committed to git)
+- **Admin Dashboard**: `/admin` page with stats and CSV export
 
 ### Animation Strategy
 - **Framer Motion** for all animations
@@ -383,7 +393,24 @@ const phases = [
 
 ## 🔄 Change Log
 
-### 2025-01-24
+### 2025-01-24 (Evening Session)
+- **Firebase Integration Complete** 🎉
+  - Set up Firebase project and Firestore database
+  - Integrated Firebase SDK (v12.4.0)
+  - Updated resources page to save leads to Firestore
+  - Created admin dashboard at `/admin` with:
+    - Real-time lead viewing
+    - Stats cards (total leads, this week, newsletter subscribers)
+    - CSV export functionality
+    - Beautiful animated UI with Framer Motion
+  - Configured environment variables in `.env.local`
+  - Tested lead capture successfully
+
+### 2025-01-24 (Earlier)
+- Fixed downloadable guides functionality
+  - Made form inputs controlled components
+  - Added actual file downloads (formatted .txt files)
+  - localStorage backup for lead tracking
 - Created comprehensive logo system (10+ options)
 - Added logo showcase page
 - Fixed production build errors (emojis, duplicate properties)

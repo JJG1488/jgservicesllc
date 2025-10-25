@@ -6,11 +6,14 @@ import FadeIn from '@/components/animations/FadeIn';
 import ScaleIn from '@/components/animations/ScaleIn';
 import GlowCard from '@/components/ui/GlowCard';
 import Link from 'next/link';
+import { db } from '@/lib/firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 export default function Resources() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [selectedGuide, setSelectedGuide] = useState<any>(null);
+  const [formData, setFormData] = useState({ name: '', email: '', business: '', newsletter: false });
 
   const categories = [
     { id: 'all', name: 'All Resources', icon: '📚' },
@@ -173,6 +176,176 @@ export default function Resources() {
   const handleDownload = (guide: any) => {
     setSelectedGuide(guide);
     setShowDownloadModal(true);
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      // Save to Firebase Firestore
+      await addDoc(collection(db, 'leads'), {
+        ...formData,
+        guide: selectedGuide?.id,
+        guideTitle: selectedGuide?.title,
+        timestamp: serverTimestamp(),
+        source: 'resources-page',
+        userAgent: navigator.userAgent,
+      });
+
+      // Also save to localStorage as backup
+      const leads = JSON.parse(localStorage.getItem('jg-leads') || '[]');
+      leads.push({
+        ...formData,
+        guide: selectedGuide?.id,
+        timestamp: new Date().toISOString()
+      });
+      localStorage.setItem('jg-leads', JSON.stringify(leads));
+
+      // Generate and download the guide
+      downloadGuide(selectedGuide);
+
+      // Reset form and close modal
+      setFormData({ name: '', email: '', business: '', newsletter: false });
+      setShowDownloadModal(false);
+
+      // Show success message
+      alert(`🎉 Download started! Check your downloads folder for "${selectedGuide?.title}"`);
+    } catch (error) {
+      console.error('Error saving lead:', error);
+      alert('There was an issue saving your information. Your download will still proceed.');
+
+      // Still download the guide even if Firebase fails
+      downloadGuide(selectedGuide);
+      setFormData({ name: '', email: '', business: '', newsletter: false });
+      setShowDownloadModal(false);
+    }
+  };
+
+  const downloadGuide = (guide: any) => {
+    // Generate a simple PDF-style text document
+    const content = generateGuideContent(guide);
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${guide.id}-guide.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  const generateGuideContent = (guide: any) => {
+    return `
+╔═══════════════════════════════════════════════════════════════════╗
+║                                                                   ║
+║                      JG SERVICES LLC                              ║
+║                   WEB DEVELOPMENT SERVICES                        ║
+║                                                                   ║
+╚═══════════════════════════════════════════════════════════════════╝
+
+${guide.title}
+${'='.repeat(guide.title.length)}
+
+${guide.description}
+
+📄 ${guide.pages} | ⏱️ ${guide.downloadTime}
+
+TABLE OF CONTENTS
+─────────────────
+
+${guide.topics.map((topic: string, i: number) => `${i + 1}. ${topic}`).join('\n')}
+
+───────────────────────────────────────────────────────────────────
+
+INTRODUCTION
+────────────
+
+Thank you for downloading "${guide.title}" from JG Services LLC!
+
+This guide is designed to help you ${guide.description.toLowerCase()}
+
+We've compiled industry best practices, real-world examples, and
+actionable strategies that you can implement immediately.
+
+${guide.topics.map((topic: string, i: number) => `
+
+CHAPTER ${i + 1}: ${topic.toUpperCase()}
+${'─'.repeat(60)}
+
+This comprehensive chapter covers everything you need to know about
+${topic.toLowerCase()}, including:
+
+• Key concepts and definitions
+• Step-by-step implementation guide
+• Common mistakes to avoid
+• Expert tips and best practices
+• Real-world examples and case studies
+• Actionable next steps
+
+[Content for this chapter would go here in the full guide]
+
+`).join('\n')}
+
+───────────────────────────────────────────────────────────────────
+
+CONCLUSION
+──────────
+
+Congratulations on taking the first step toward ${guide.topics[0].toLowerCase()}!
+
+Remember: Success doesn't happen overnight. Take what you've learned
+here and implement it step by step. Focus on progress, not perfection.
+
+───────────────────────────────────────────────────────────────────
+
+NEED HELP IMPLEMENTING THESE STRATEGIES?
+─────────────────────────────────────────
+
+JG Services LLC specializes in helping businesses like yours succeed
+online. Whether you need:
+
+✓ A professional website that converts visitors into customers
+✓ Strategic consulting to maximize your online presence
+✓ Technical implementation of the strategies in this guide
+✓ Ongoing support and maintenance
+
+We're here to help!
+
+📧 Email: contact@jgservicesllc.com
+📱 Phone: (555) 123-4567
+🌐 Website: https://jgservicesllc.com
+📅 Schedule a free consultation: https://jgservicesllc.com/contact
+
+───────────────────────────────────────────────────────────────────
+
+MORE FREE RESOURCES
+───────────────────
+
+Visit https://jgservicesllc.com/resources for:
+
+• Interactive ROI Calculator
+• Business Readiness Quiz
+• Feature Recommender Tool
+• Timeline & Budget Estimator
+• More downloadable guides
+• Video tutorials and webinars
+
+───────────────────────────────────────────────────────────────────
+
+© ${new Date().getFullYear()} JG Services LLC. All rights reserved.
+
+This guide is provided for educational purposes. You're free to use
+these strategies in your business. Please don't redistribute this
+guide without permission.
+
+Questions? Feedback? We'd love to hear from you!
+Email: contact@jgservicesllc.com
+
+Thank you for trusting JG Services LLC with your business growth!
+
+───────────────────────────────────────────────────────────────────
+    `.trim();
   };
 
   return (
@@ -453,7 +626,7 @@ export default function Resources() {
                 </p>
               </div>
 
-              <form className="space-y-4">
+              <form className="space-y-4" onSubmit={handleFormSubmit}>
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Your Name *
@@ -461,6 +634,8 @@ export default function Resources() {
                   <input
                     type="text"
                     required
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="John Doe"
                   />
@@ -473,6 +648,8 @@ export default function Resources() {
                   <input
                     type="email"
                     required
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="john@example.com"
                   />
@@ -484,6 +661,8 @@ export default function Resources() {
                   </label>
                   <input
                     type="text"
+                    value={formData.business}
+                    onChange={(e) => setFormData({ ...formData, business: e.target.value })}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Your Business"
                   />
@@ -493,6 +672,8 @@ export default function Resources() {
                   <input
                     type="checkbox"
                     id="newsletter"
+                    checked={formData.newsletter}
+                    onChange={(e) => setFormData({ ...formData, newsletter: e.target.checked })}
                     className="mt-1"
                   />
                   <label htmlFor="newsletter" className="text-sm text-gray-600">

@@ -100,7 +100,7 @@ export default function Home() {
           </FadeIn>
 
           <FadeIn delay={0.6}>
-            <MagneticButton href="/services" strength={0.4}>
+            <MagneticButton strength={0.4}>
               <AnimatedButton href="/services">
                 <motion.span
                   className="relative z-20"
@@ -171,8 +171,8 @@ export default function Home() {
                       fill
                       className="object-contain"
                       sizes="(max-width: 768px) 100vw, 33vw"
-                      loading="lazy"
-                      quality={85}
+                      priority
+                      quality={75}
                     />
                   </motion.div>
                   <motion.div
@@ -207,8 +207,8 @@ export default function Home() {
                       fill
                       className="object-contain"
                       sizes="(max-width: 768px) 100vw, 33vw"
-                      loading="lazy"
-                      quality={85}
+                      priority
+                      quality={75}
                     />
                   </motion.div>
                   <motion.div
@@ -243,8 +243,8 @@ export default function Home() {
                       fill
                       className="object-contain"
                       sizes="(max-width: 768px) 100vw, 33vw"
-                      loading="lazy"
-                      quality={85}
+                      priority
+                      quality={75}
                     />
                   </motion.div>
                   <motion.div

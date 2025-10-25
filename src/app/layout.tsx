@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import DynamicTechBackground from "@/components/DynamicTechBackground";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 export const metadata: Metadata = {
   title: "JGServicesLLC - Professional Web Development",
@@ -40,11 +42,16 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
         <ThemeProvider>
-          <Navigation />
-          <main className="flex-grow">
-            {children}
-          </main>
-          <Footer />
+          <AuthProvider>
+            <DynamicTechBackground mode="page-specific" />
+            <div className="relative z-0">
+              <Navigation />
+              <main className="flex-grow">
+                {children}
+              </main>
+              <Footer />
+            </div>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
