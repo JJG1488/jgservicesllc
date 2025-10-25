@@ -314,8 +314,8 @@ online. Whether you need:
 
 We're here to help!
 
-📧 Email: contact@jgservicesllc.com
-📱 Phone: (555) 123-4567
+📧 Email: info@jgservicesllc.com
+📱 Phone: (586) 276-5646
 🌐 Website: https://jgservicesllc.com
 📅 Schedule a free consultation: https://jgservicesllc.com/contact
 
