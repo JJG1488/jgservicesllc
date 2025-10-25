@@ -19,19 +19,32 @@ interface Lead {
   userAgent?: string;
 }
 
+interface Contact {
+  id: string;
+  name: string;
+  email: string;
+  message: string;
+  createdAt: any;
+  read: boolean;
+}
+
 export default function AdminDashboard() {
   const { user, loading: authLoading, signInWithGoogle, signOut, isAdmin } = useAuth();
   const [leads, setLeads] = useState<Lead[]>([]);
+  const [contacts, setContacts] = useState<Contact[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<'leads' | 'contacts'>('leads');
   const [stats, setStats] = useState({
     total: 0,
     newsletter: 0,
     thisWeek: 0,
+    totalContacts: 0,
+    unreadContacts: 0,
   });
 
   useEffect(() => {
-    async function fetchLeads() {
+    async function fetchData() {
       if (!isAdmin) {
         setLoading(false);
         return;
@@ -44,14 +57,24 @@ export default function AdminDashboard() {
       }
 
       try {
-        const q = query(collection(db, 'leads'), orderBy('timestamp', 'desc'));
-        const querySnapshot = await getDocs(q);
-        const leadsData = querySnapshot.docs.map(doc => ({
+        // Fetch leads
+        const leadsQuery = query(collection(db, 'leads'), orderBy('timestamp', 'desc'));
+        const leadsSnapshot = await getDocs(leadsQuery);
+        const leadsData = leadsSnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
         })) as Lead[];
 
+        // Fetch contacts
+        const contactsQuery = query(collection(db, 'contacts'), orderBy('createdAt', 'desc'));
+        const contactsSnapshot = await getDocs(contactsQuery);
+        const contactsData = contactsSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })) as Contact[];
+
         setLeads(leadsData);
+        setContacts(contactsData);
 
         // Calculate stats
         const weekAgo = new Date();
@@ -64,18 +87,20 @@ export default function AdminDashboard() {
             const leadDate = l.timestamp?.toDate();
             return leadDate && leadDate > weekAgo;
           }).length,
+          totalContacts: contactsData.length,
+          unreadContacts: contactsData.filter(c => !c.read).length,
         });
 
         setLoading(false);
       } catch (err) {
-        console.error('Error fetching leads:', err);
-        setError('Failed to load leads. Please check your Firebase configuration.');
+        console.error('Error fetching data:', err);
+        setError('Failed to load data. Please check your Firebase configuration.');
         setLoading(false);
       }
     }
 
     if (user && isAdmin) {
-      fetchLeads();
+      fetchData();
     }
   }, [user, isAdmin]);
 
@@ -238,7 +263,7 @@ export default function AdminDashboard() {
         >
           <div>
             <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-              Lead Dashboard
+              Admin Dashboard
             </h1>
             <p className="text-gray-600 dark:text-gray-400">
               Signed in as: <strong>{user.email}</strong>
@@ -253,7 +278,7 @@ export default function AdminDashboard() {
         </motion.div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -298,131 +323,268 @@ export default function AdminDashboard() {
               <div className="text-4xl">✉️</div>
             </div>
           </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6"
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Contact Messages</p>
+                <p className="text-3xl font-bold text-gray-900 dark:text-white">{stats.totalContacts}</p>
+              </div>
+              <div className="text-4xl">💬</div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6"
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Unread Messages</p>
+                <p className="text-3xl font-bold text-gray-900 dark:text-white">{stats.unreadContacts}</p>
+              </div>
+              <div className="text-4xl">🔔</div>
+            </div>
+          </motion.div>
         </div>
 
-        {/* Export Button */}
+        {/* Tabs */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
-          className="mb-6 flex justify-end"
+          transition={{ delay: 0.6 }}
+          className="mb-6 flex gap-4"
         >
           <button
-            onClick={exportToCSV}
-            className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-shadow flex items-center gap-2"
+            onClick={() => setActiveTab('leads')}
+            className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+              activeTab === 'leads'
+                ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+                : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:shadow-md'
+            }`}
           >
-            <span>📥</span>
-            Export to CSV
+            📊 Resource Leads ({stats.total})
+          </button>
+          <button
+            onClick={() => setActiveTab('contacts')}
+            className={`px-6 py-3 rounded-lg font-semibold transition-all relative ${
+              activeTab === 'contacts'
+                ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+                : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:shadow-md'
+            }`}
+          >
+            💬 Contact Messages ({stats.totalContacts})
+            {stats.unreadContacts > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center">
+                {stats.unreadContacts}
+              </span>
+            )}
           </button>
         </motion.div>
 
+        {/* Export Button */}
+        {activeTab === 'leads' && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.7 }}
+            className="mb-6 flex justify-end"
+          >
+            <button
+              onClick={exportToCSV}
+              className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-shadow flex items-center gap-2"
+            >
+              <span>📥</span>
+              Export Leads to CSV
+            </button>
+          </motion.div>
+        )}
+
         {/* Leads Table */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden"
-        >
-          {leads.length === 0 ? (
-            <div className="p-12 text-center">
-              <div className="text-6xl mb-4">📭</div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                No leads yet
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Leads will appear here when users download guides from your resources page.
-              </p>
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead className="bg-gray-50 dark:bg-gray-900">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                      Name
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                      Email
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                      Business
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                      Guide
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                      Newsletter
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                      Date
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                  {leads.map((lead, index) => (
-                    <motion.tr
-                      key={lead.id}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.05 * index }}
-                      className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                    >
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900 dark:text-white">
-                          {lead.name}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-600 dark:text-gray-400">
-                          {lead.email}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-600 dark:text-gray-400">
-                          {lead.business || '-'}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="text-sm text-gray-600 dark:text-gray-400 max-w-xs truncate">
-                          {lead.guideTitle || lead.guide}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {lead.newsletter ? (
-                          <span className="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                            ✓ Yes
-                          </span>
-                        ) : (
-                          <span className="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
-                            No
-                          </span>
-                        )}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-600 dark:text-gray-400">
-                          {lead.timestamp?.toDate().toLocaleDateString() || 'Unknown'}
-                        </div>
-                        <div className="text-xs text-gray-400 dark:text-gray-500">
-                          {lead.timestamp?.toDate().toLocaleTimeString() || ''}
-                        </div>
-                      </td>
-                    </motion.tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </motion.div>
+        {activeTab === 'leads' && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden"
+          >
+            {leads.length === 0 ? (
+              <div className="p-12 text-center">
+                <div className="text-6xl mb-4">📭</div>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                  No leads yet
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  Leads will appear here when users download guides from your resources page.
+                </p>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                  <thead className="bg-gray-50 dark:bg-gray-900">
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Name
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Email
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Business
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Guide
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Newsletter
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Date
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                    {leads.map((lead, index) => (
+                      <motion.tr
+                        key={lead.id}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.05 * index }}
+                        className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                      >
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm font-medium text-gray-900 dark:text-white">
+                            {lead.name}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-600 dark:text-gray-400">
+                            {lead.email}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-600 dark:text-gray-400">
+                            {lead.business || '-'}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="text-sm text-gray-600 dark:text-gray-400 max-w-xs truncate">
+                            {lead.guideTitle || lead.guide}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {lead.newsletter ? (
+                            <span className="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                              ✓ Yes
+                            </span>
+                          ) : (
+                            <span className="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                              No
+                            </span>
+                          )}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-600 dark:text-gray-400">
+                            {lead.timestamp?.toDate().toLocaleDateString() || 'Unknown'}
+                          </div>
+                          <div className="text-xs text-gray-400 dark:text-gray-500">
+                            {lead.timestamp?.toDate().toLocaleTimeString() || ''}
+                          </div>
+                        </td>
+                      </motion.tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </motion.div>
+        )}
+
+        {/* Contacts Table */}
+        {activeTab === 'contacts' && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden"
+          >
+            {contacts.length === 0 ? (
+              <div className="p-12 text-center">
+                <div className="text-6xl mb-4">📭</div>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                  No contact messages yet
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  Contact form submissions will appear here.
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-4 p-6">
+                {contacts.map((contact, index) => (
+                  <motion.div
+                    key={contact.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.05 * index }}
+                    className={`p-6 rounded-lg border-2 transition-all ${
+                      contact.read
+                        ? 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900'
+                        : 'border-blue-300 dark:border-blue-600 bg-blue-50 dark:bg-blue-900/20'
+                    }`}
+                  >
+                    <div className="flex justify-between items-start mb-4">
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                          {contact.name}
+                          {!contact.read && (
+                            <span className="ml-2 px-2 py-1 text-xs font-semibold rounded-full bg-blue-500 text-white">
+                              NEW
+                            </span>
+                          )}
+                        </h3>
+                        <a
+                          href={`mailto:${contact.email}`}
+                          className="text-blue-600 dark:text-blue-400 hover:underline"
+                        >
+                          {contact.email}
+                        </a>
+                      </div>
+                      <div className="text-right text-sm text-gray-500 dark:text-gray-400">
+                        <div>{contact.createdAt?.toDate().toLocaleDateString() || 'Unknown'}</div>
+                        <div className="text-xs">{contact.createdAt?.toDate().toLocaleTimeString() || ''}</div>
+                      </div>
+                    </div>
+                    <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                      <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
+                        {contact.message}
+                      </p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            )}
+          </motion.div>
+        )}
 
         {/* Footer Info */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
+          transition={{ delay: 0.9 }}
           className="mt-8 text-center text-sm text-gray-500 dark:text-gray-400"
         >
           <p>
-            Showing {leads.length} lead{leads.length !== 1 ? 's' : ''} • Last updated: {new Date().toLocaleString()}
+            {activeTab === 'leads'
+              ? `Showing ${leads.length} lead${leads.length !== 1 ? 's' : ''}`
+              : `Showing ${contacts.length} contact message${contacts.length !== 1 ? 's' : ''}`
+            } • Last updated: {new Date().toLocaleString()}
           </p>
         </motion.div>
       </div>
