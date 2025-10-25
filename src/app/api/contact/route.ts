@@ -30,13 +30,30 @@ export async function POST(request: Request) {
     const validatedData = contactSchema.parse(body);
 
     // Save to Firebase Firestore
-    await addDoc(collection(db, "contacts"), {
+    const docRef = await addDoc(collection(db, "contacts"), {
       name: validatedData.name,
       email: validatedData.email,
       message: validatedData.message,
       createdAt: serverTimestamp(),
       read: false, // Track whether admin has read it
     });
+
+    // Trigger Zapier webhook for notifications
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/webhooks/zapier`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'contact',
+          secret: process.env.WEBHOOK_SECRET,
+          id: docRef.id,
+          ...validatedData,
+        }),
+      });
+    } catch (webhookError) {
+      console.error('Webhook error (non-critical):', webhookError);
+      // Don't fail the request if webhook fails
+    }
 
     return NextResponse.json(
       { message: "Message sent successfully!" },
