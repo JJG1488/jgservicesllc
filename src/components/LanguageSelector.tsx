@@ -96,12 +96,15 @@ export default function LanguageSelector() {
     setIsOpen(false);
     setSearchQuery('');
 
-    // Trigger Google Translate
-    const selectElement = document.querySelector('.goog-te-combo') as HTMLSelectElement;
-    if (selectElement) {
-      selectElement.value = language.code;
-      selectElement.dispatchEvent(new Event('change'));
-    }
+    // Wait a bit for Google Translate to initialize if needed
+    setTimeout(() => {
+      // Trigger Google Translate
+      const selectElement = document.querySelector('.goog-te-combo') as HTMLSelectElement;
+      if (selectElement) {
+        selectElement.value = language.code;
+        selectElement.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    }, 100);
   };
 
   const filteredLanguages = languages.filter(lang =>
@@ -111,8 +114,8 @@ export default function LanguageSelector() {
 
   return (
     <div className="relative" ref={dropdownRef}>
-      {/* Hidden Google Translate Element */}
-      <div id="google_translate_element" className="hidden"></div>
+      {/* Hidden Google Translate Element - visually hidden but in DOM */}
+      <div id="google_translate_element" className="absolute opacity-0 pointer-events-none" style={{ width: 1, height: 1, overflow: 'hidden' }}></div>
 
       {/* Custom Language Selector Button */}
       <button
@@ -229,10 +232,19 @@ export default function LanguageSelector() {
           top: 0 !important;
         }
         #google_translate_element {
-          display: none !important;
+          position: absolute !important;
+          width: 1px !important;
+          height: 1px !important;
+          opacity: 0 !important;
+          pointer-events: none !important;
+          overflow: hidden !important;
         }
         .goog-te-gadget {
-          display: none !important;
+          font-size: 0 !important;
+        }
+        .goog-te-gadget-simple {
+          background: transparent !important;
+          border: none !important;
         }
       `}</style>
     </div>
