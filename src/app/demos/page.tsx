@@ -77,29 +77,6 @@ export default function DemosPage() {
       liveUrl: '/demos/service',
       testimonial: '"Lead generation increased 5x with this professional website"',
     },
-    {
-      id: 'booking',
-      name: 'Serenity Spa & Wellness',
-      type: 'Booking & Scheduling',
-      description: 'Test a complete booking system with calendar, staff selection, service packages, and automated reminders.',
-      image: '/images/demo-booking.jpg',
-      color: 'rgba(34, 197, 94, 0.4)', // green
-      features: [
-        'Real-time Availability',
-        'Staff Selection',
-        'Service Packages',
-        'Customer Profiles',
-        'Email Reminders',
-        'Payment Processing',
-      ],
-      metrics: {
-        performance: 94,
-        accessibility: 97,
-        seo: 91,
-      },
-      liveUrl: '/demos/booking',
-      testimonial: '"Booking automation saved us 15 hours per week"',
-    },
   ];
 
   return (
@@ -121,16 +98,16 @@ export default function DemosPage() {
           <FadeIn delay={0.4}>
             <div className="flex justify-center gap-4 flex-wrap">
               <div className="bg-white bg-opacity-20 backdrop-blur rounded-lg px-6 py-3 text-center">
-                <p className="text-3xl font-bold">100%</p>
-                <p className="text-sm text-blue-100">Interactive</p>
+                <p className="text-3xl font-bold text-white">100%</p>
+                <p className="text-sm text-white font-semibold">Interactive</p>
               </div>
               <div className="bg-white bg-opacity-20 backdrop-blur rounded-lg px-6 py-3 text-center">
-                <p className="text-3xl font-bold">4</p>
-                <p className="text-sm text-blue-100">Live Demos</p>
+                <p className="text-3xl font-bold text-white">3</p>
+                <p className="text-sm text-white font-semibold">Live Demos</p>
               </div>
               <div className="bg-white bg-opacity-20 backdrop-blur rounded-lg px-6 py-3 text-center">
-                <p className="text-3xl font-bold">Real</p>
-                <p className="text-sm text-blue-100">Functionality</p>
+                <p className="text-3xl font-bold text-white">Real</p>
+                <p className="text-sm text-white font-semibold">Functionality</p>
               </div>
             </div>
           </FadeIn>
