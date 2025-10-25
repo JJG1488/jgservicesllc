@@ -35,16 +35,22 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const toggleTheme = () => {
+    console.log('toggleTheme called, current theme:', theme);
     const newTheme = theme === "light" ? "dark" : "light";
+    console.log('New theme will be:', newTheme);
     setTheme(newTheme);
     localStorage.setItem("theme", newTheme);
+    console.log('Saved to localStorage:', newTheme);
 
     // Remove and add class explicitly for reliability
     if (newTheme === "dark") {
       document.documentElement.classList.add("dark");
+      console.log('Added dark class to html element');
     } else {
       document.documentElement.classList.remove("dark");
+      console.log('Removed dark class from html element');
     }
+    console.log('HTML classList:', document.documentElement.classList.toString());
   };
 
   // Prevent flash of incorrect theme

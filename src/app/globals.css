@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
 @theme {
+  /* Dark mode configuration */
+  --color-scheme: light dark;
+
   --color-primary-50: #eff6ff;
   --color-primary-100: #dbeafe;
   --color-primary-200: #bfdbfe;
@@ -15,6 +18,9 @@
   --font-family-playfair: "Playfair Display", serif;
   --font-family-ephesis: "Ephesis", cursive;
 }
+
+/* Enable class-based dark mode */
+@variant dark (.dark &);
 
 @layer utilities {
   .text-shadow {
