@@ -54,7 +54,9 @@ export default function LanguageSelector() {
   useEffect(() => {
     // Initialize Google Translate
     window.googleTranslateElementInit = () => {
+      console.log('Google Translate initializing...');
       if (window.google && window.google.translate) {
+        console.log('Google Translate object found');
         new window.google.translate.TranslateElement(
           {
             pageLanguage: 'en',
@@ -64,17 +66,23 @@ export default function LanguageSelector() {
           },
           'google_translate_element'
         );
+        console.log('Google Translate initialized successfully');
+      } else {
+        console.error('Google Translate object not found');
       }
     };
 
     // Load Google Translate script if not already loaded
     if (!document.getElementById('google-translate-script')) {
+      console.log('Loading Google Translate script...');
       const script = document.createElement('script');
       script.id = 'google-translate-script';
-      script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+      script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
       script.async = true;
+      script.onerror = () => console.error('Failed to load Google Translate script');
       document.body.appendChild(script);
     } else {
+      console.log('Google Translate script already exists');
       if (window.google && window.google.translate) {
         window.googleTranslateElementInit();
       }
@@ -96,15 +104,30 @@ export default function LanguageSelector() {
     setIsOpen(false);
     setSearchQuery('');
 
-    // Wait a bit for Google Translate to initialize if needed
-    setTimeout(() => {
-      // Trigger Google Translate
-      const selectElement = document.querySelector('.goog-te-combo') as HTMLSelectElement;
-      if (selectElement) {
-        selectElement.value = language.code;
-        selectElement.dispatchEvent(new Event('change', { bubbles: true }));
+    // If selecting English, restore original page
+    if (language.code === 'en') {
+      // Restore to original language
+      const frame = document.querySelector('iframe.goog-te-menu-frame') as HTMLIFrameElement;
+      if (frame) {
+        const frameDoc = frame.contentDocument || frame.contentWindow?.document;
+        if (frameDoc) {
+          const resetLink = frameDoc.querySelector('.goog-te-menu2-item span.text:first-child') as HTMLElement;
+          resetLink?.click();
+        }
       }
-    }, 100);
+      // Also try clearing cookies
+      document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      window.location.reload();
+      return;
+    }
+
+    // For other languages, set cookie directly
+    console.log('Setting language to:', language.code);
+    document.cookie = `googtrans=/en/${language.code}; path=/`;
+    document.cookie = `googtrans=/en/${language.code}; path=/; domain=${window.location.hostname}`;
+
+    // Reload the page to apply translation
+    window.location.reload();
   };
 
   const filteredLanguages = languages.filter(lang =>
@@ -114,8 +137,8 @@ export default function LanguageSelector() {
 
   return (
     <div className="relative" ref={dropdownRef}>
-      {/* Hidden Google Translate Element - visually hidden but in DOM */}
-      <div id="google_translate_element" className="absolute opacity-0 pointer-events-none" style={{ width: 1, height: 1, overflow: 'hidden' }}></div>
+      {/* Hidden Google Translate Element - positioned off-screen */}
+      <div id="google_translate_element" style={{ position: 'fixed', left: '-9999px', top: '-9999px' }}></div>
 
       {/* Custom Language Selector Button */}
       <button
@@ -223,7 +246,7 @@ export default function LanguageSelector() {
         )}
       </AnimatePresence>
 
-      {/* Hide Google Translate UI */}
+      {/* Hide Google Translate UI but keep functional elements */}
       <style jsx global>{`
         .goog-te-banner-frame {
           display: none !important;
@@ -231,20 +254,11 @@ export default function LanguageSelector() {
         body {
           top: 0 !important;
         }
-        #google_translate_element {
-          position: absolute !important;
-          width: 1px !important;
-          height: 1px !important;
-          opacity: 0 !important;
-          pointer-events: none !important;
-          overflow: hidden !important;
-        }
-        .goog-te-gadget {
-          font-size: 0 !important;
-        }
-        .goog-te-gadget-simple {
-          background: transparent !important;
-          border: none !important;
+        /* Keep Google Translate functional but visually hide it */
+        .skiptranslate.goog-te-gadget {
+          position: fixed !important;
+          left: -9999px !important;
+          top: -9999px !important;
         }
       `}</style>
     </div>
