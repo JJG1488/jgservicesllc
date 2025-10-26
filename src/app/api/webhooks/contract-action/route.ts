@@ -1,23 +1,48 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { initializeApp, getApps, cert } from 'firebase-admin/app';
-import { getFirestore } from 'firebase-admin/firestore';
+import { getFirestore, Firestore } from 'firebase-admin/firestore';
 
-// Initialize Firebase Admin (server-side only)
-if (!getApps().length) {
-  // In production, use environment variables for credentials
-  initializeApp({
-    credential: cert({
-      projectId: process.env.FIREBASE_PROJECT_ID,
-      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-      privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-    }),
-  });
+// Check if Firebase Admin credentials are properly configured
+const hasValidCredentials =
+  process.env.FIREBASE_PROJECT_ID &&
+  process.env.FIREBASE_CLIENT_EMAIL &&
+  process.env.FIREBASE_PRIVATE_KEY &&
+  process.env.FIREBASE_PRIVATE_KEY.includes('BEGIN PRIVATE KEY') &&
+  process.env.FIREBASE_PRIVATE_KEY.length > 100;
+
+let db: Firestore | null = null;
+
+// Initialize Firebase Admin only if valid credentials exist
+if (hasValidCredentials) {
+  try {
+    if (!getApps().length) {
+      initializeApp({
+        credential: cert({
+          projectId: process.env.FIREBASE_PROJECT_ID!,
+          clientEmail: process.env.FIREBASE_CLIENT_EMAIL!,
+          privateKey: process.env.FIREBASE_PRIVATE_KEY!.replace(/\\n/g, '\n'),
+        }),
+      });
+    }
+    db = getFirestore();
+  } catch (error) {
+    console.warn('Firebase Admin initialization skipped:', error);
+  }
 }
-
-const db = getFirestore();
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if Firebase Admin is configured
+    if (!db) {
+      return NextResponse.json(
+        {
+          error: 'Service temporarily unavailable',
+          message: 'Firebase Admin credentials not configured. Please add FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, and FIREBASE_PRIVATE_KEY to environment variables.',
+        },
+        { status: 503 }
+      );
+    }
+
     const { contractId, action, secret } = await request.json();
 
     // Verify secret key to prevent unauthorized access

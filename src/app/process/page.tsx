@@ -50,7 +50,7 @@ export default function Process() {
       title: "Design & Prototyping",
       duration: "2-3 weeks",
       description: "We transform requirements into visual designs and interactive prototypes, ensuring the user experience is intuitive and aligned with your brand.",
-      color: "purple",
+      color: "orange",
       icon: "🎨",
       steps: [
         {
@@ -87,7 +87,7 @@ export default function Process() {
       title: "Development",
       duration: "4-8 weeks",
       description: "This is where the magic happens. We write clean, maintainable code following industry best practices and modern development standards.",
-      color: "green",
+      color: "purple",
       icon: "💻",
       steps: [
         {
@@ -214,7 +214,7 @@ export default function Process() {
       title: "Training & Handoff",
       duration: "1 week",
       description: "We ensure you and your team are fully equipped to manage and maintain your new website.",
-      color: "indigo",
+      color: "green",
       icon: "📚",
       steps: [
         {
@@ -351,7 +351,7 @@ export default function Process() {
       <section className="bg-gradient-to-br from-blue-600 via-blue-500 to-purple-600 text-white py-20 mb-16">
         <div className="container mx-auto px-4">
           <FadeIn>
-            <h1 className="text-4xl md:text-5xl font-bold text-center mb-6">
+            <h1 className="text-4xl md:text-5xl font-bold text-center mb-6 ">
               Our Development Process
             </h1>
           </FadeIn>
@@ -367,7 +367,7 @@ export default function Process() {
       {/* Interactive Timeline */}
       <section className="container mx-auto px-4 mb-32">
         <FadeIn>
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-900">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-purple-600">
             Our 7-Phase Process
           </h2>
         </FadeIn>
@@ -377,10 +377,10 @@ export default function Process() {
       {/* Detailed Process Phases */}
       <section className="container mx-auto px-4 mb-20">
         <FadeIn>
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-purple-600">
             Detailed Phase Breakdown
           </h2>
-          <p className="text-center text-gray-600 mb-16 max-w-2xl mx-auto">
+          <p className="text-center text-purple-600 mb-16 max-w-2xl mx-auto">
             Dive deeper into each phase to see exactly what we do and what you'll receive at every step.
           </p>
         </FadeIn>
@@ -397,7 +397,7 @@ export default function Process() {
               {/* Phase Header */}
               <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 pb-6 border-b border-gray-200 dark:border-gray-700">
                 <div className="flex items-center gap-4 mb-4 md:mb-0">
-                  <span className={`text-5xl font-bold text-${phase.color}-500`}>
+                  <span className={`text-5xl font-bold text-${phase.color}-600`}>
                     {phase.number}
                   </span>
                   <div>
@@ -409,7 +409,7 @@ export default function Process() {
                     </p>
                   </div>
                 </div>
-                <div className={`px-4 py-2 bg-${phase.color}-100 dark:bg-${phase.color}-900 text-${phase.color}-800 dark:text-${phase.color}-200 rounded-lg font-semibold whitespace-nowrap`}>
+                <div className={`px-4 py-2 bg-${phase.color}-500 dark:bg-${phase.color}-500 text-${phase.color}-100 dark:text-${phase.color}-500 rounded-lg font-semibold whitespace-nowrap`}>
                   {phase.duration}
                 </div>
               </div>

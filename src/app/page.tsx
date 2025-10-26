@@ -137,7 +137,7 @@ export default function Home() {
       </section>
 
       {/* Process Section */}
-      <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
+      <section className="py-16 ">
         <div className="container mx-auto px-4">
           <ScaleIn>
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
@@ -390,7 +390,7 @@ export default function Home() {
       </section>
 
       {/* Stats/Metrics Section */}
-      <section className="py-16 bg-white dark:bg-gray-800">
+      <section className="py-16">
         <div className="container mx-auto px-4">
           <ScaleIn>
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
@@ -434,7 +434,7 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-16 bg-gray-50 dark:bg-gray-900">
+      <section className="py-16 ">
         <div className="container mx-auto px-4">
           <ScaleIn>
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
