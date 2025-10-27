@@ -357,7 +357,7 @@ export default function Services() {
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900 dark:text-white">
               See Our Work in Action
             </h2>
-            <p className="text-center text-gray-600 max-w-2xl mx-auto">
+            <p className="text-center text-gray-600 max-w-2xl mx-auto dark:text-gray-400">
               Here are some examples of the clean, modern code we write. Click to expand and explore.
             </p>
           </FadeIn>

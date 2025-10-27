@@ -379,7 +379,7 @@ Thank you for trusting JG Services LLC with your business growth!
               className={`px-6 py-3 rounded-full font-semibold transition-all ${
                 selectedCategory === category.id
                   ? 'bg-blue-600 text-white shadow-lg scale-105'
-                  : 'bg-white text-gray-700 hover:bg-gray-100 shadow'
+                  : 'bg-white text-gray-700 hover:bg-gray-100 shadow '
               }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -398,7 +398,7 @@ Thank you for trusting JG Services LLC with your business growth!
       {(selectedCategory === 'all' || selectedCategory !== 'tools') && (
         <section className="container mx-auto px-4 mb-20">
           <FadeIn>
-            <h2 className="text-3xl font-bold text-center mb-4 text-gray-900">
+            <h2 className="text-3xl font-bold text-center mb-4 text-gray-900 dark:text-white">
               Downloadable Guides
             </h2>
             <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
@@ -424,7 +424,7 @@ Thank you for trusting JG Services LLC with your business growth!
                       </div>
 
                       {/* Title */}
-                      <h3 className="text-xl font-bold mb-3 text-gray-900">
+                      <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">
                         {guide.title}
                       </h3>
 
@@ -485,7 +485,7 @@ Thank you for trusting JG Services LLC with your business growth!
       {(selectedCategory === 'all' || selectedCategory === 'tools') && (
         <section className="container mx-auto px-4 mb-20">
           <FadeIn>
-            <h2 className="text-3xl font-bold text-center mb-4 text-gray-900">
+            <h2 className="text-3xl font-bold text-center mb-4 text-gray-900 dark:text-white">
               Interactive Tools
             </h2>
             <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
@@ -502,7 +502,7 @@ Thank you for trusting JG Services LLC with your business growth!
                       <div className="text-6xl mb-4 text-center">
                         {tool.icon}
                       </div>
-                      <h3 className="text-2xl font-bold mb-3 text-gray-900 text-center">
+                      <h3 className="text-2xl font-bold mb-3 text-gray-900 text-center dark:text-white">
                         {tool.title}
                       </h3>
                       <p className="text-gray-600 text-center mb-6">

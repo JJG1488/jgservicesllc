@@ -151,7 +151,7 @@ export default function DemosPage() {
                       <span className="text-sm font-semibold text-blue-600 uppercase tracking-wide">
                         {demo.type}
                       </span>
-                      <h3 className="text-2xl font-bold text-gray-900 mt-1 mb-2">
+                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white mt-1 mb-2">
                         {demo.name}
                       </h3>
                       <p className="text-gray-600">
@@ -161,7 +161,7 @@ export default function DemosPage() {
 
                     {/* Features */}
                     <div className="mb-4">
-                      <h4 className="font-semibold text-gray-900 mb-2 text-sm">
+                      <h4 className="font-semibold text-gray-900 mb-2 text-sm dark:text-white">
                         Key Features:
                       </h4>
                       <div className="grid grid-cols-2 gap-2">
@@ -176,7 +176,7 @@ export default function DemosPage() {
 
                     {/* Metrics */}
                     <div className="mb-4 bg-gray-50 rounded-lg p-4">
-                      <h4 className="font-semibold text-gray-900 mb-3 text-sm">
+                      <h4 className="font-semibold text-gray-900 mb-3 text-sm dark:text-white">
                         Performance Metrics:
                       </h4>
                       <div className="space-y-2">
@@ -292,7 +292,7 @@ export default function DemosPage() {
       {/* What Clients Say */}
       <section className="container mx-auto px-4 mb-20">
         <FadeIn>
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-900">
+          <h2 className="text-3xl font-bold text-center mb-12 text-gray-900 dark:text-white">
             What Happens After You See the Demos
           </h2>
         </FadeIn>
@@ -306,7 +306,7 @@ export default function DemosPage() {
             <div className="flex items-start gap-4">
               <div className="text-3xl">💬</div>
               <div>
-                <h4 className="font-bold text-gray-900 mb-2">
+                <h4 className="font-bold text-gray-900 mb-2 dark:text-white">
                   "I knew exactly what I wanted"
                 </h4>
                 <p className="text-gray-600 text-sm mb-2">
@@ -326,7 +326,7 @@ export default function DemosPage() {
             <div className="flex items-start gap-4">
               <div className="text-3xl">🎨</div>
               <div>
-                <h4 className="font-bold text-gray-900 mb-2">
+                <h4 className="font-bold text-gray-900 mb-2 dark:text-white">
                   "The quality spoke for itself"
                 </h4>
                 <p className="text-gray-600 text-sm mb-2">
@@ -346,7 +346,7 @@ export default function DemosPage() {
             <div className="flex items-start gap-4">
               <div className="text-3xl">⚡</div>
               <div>
-                <h4 className="font-bold text-gray-900 mb-2">
+                <h4 className="font-bold text-gray-900 mb-2 dark:text-white">
                   "Faster project kickoff"
                 </h4>
                 <p className="text-gray-600 text-sm mb-2">
@@ -366,7 +366,7 @@ export default function DemosPage() {
             <div className="flex items-start gap-4">
               <div className="text-3xl">🚀</div>
               <div>
-                <h4 className="font-bold text-gray-900 mb-2">
+                <h4 className="font-bold text-gray-900 mb-2 dark:text-white">
                   "ROI was clear immediately"
                 </h4>
                 <p className="text-gray-600 text-sm mb-2">

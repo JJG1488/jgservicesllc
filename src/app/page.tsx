@@ -319,7 +319,7 @@ export default function Home() {
                 </motion.h2>
 
                 <motion.p
-                  className="text-gray-700 mb-4"
+                  className="text-gray-700 dark:text-white mb-4"
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
@@ -334,7 +334,7 @@ export default function Home() {
                 </motion.p>
 
                 <motion.p
-                  className="text-gray-700 mb-6"
+                  className="text-gray-700 mb-6 dark:text-white"
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
