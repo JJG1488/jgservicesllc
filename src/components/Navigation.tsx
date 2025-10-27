@@ -24,13 +24,13 @@ export default function Navigation() {
   const isActive = (path: string) => pathname === path;
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 shadow-md transition-colors">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gradient-to-r dark:from-sapphire-950 dark:to-amethyst-950 shadow-md border-b border-gray-200 dark:border-sapphire-800 transition-colors backdrop-blur-sm">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link
             href="/"
-            className="text-2xl font-ephesis text-shadow text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition"
+            className="text-2xl font-ephesis text-shadow bg-gradient-to-r from-blue-600 to-purple-600 dark:from-sapphire-400 dark:to-amethyst-400 bg-clip-text text-transparent hover:from-blue-700 hover:to-purple-700 transition"
           >
             JGServicesLLC
           </Link>
@@ -43,8 +43,8 @@ export default function Navigation() {
                 href={link.href}
                 className={`font-medium transition duration-300 ${
                   isActive(link.href)
-                    ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
-                    : "text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+                    ? "text-blue-600 dark:text-amethyst-400 border-b-2 border-blue-600 dark:border-amethyst-400"
+                    : "text-gray-700 dark:text-sapphire-100 hover:text-purple-600 dark:hover:text-amethyst-300"
                 }`}
               >
                 {link.label}

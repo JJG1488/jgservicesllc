@@ -377,7 +377,7 @@ export default function Process() {
       {/* Detailed Process Phases */}
       <section className="container mx-auto px-4 mb-20">
         <FadeIn>
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-purple-600">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-600 dark:text-white">
             Detailed Phase Breakdown
           </h2>
           <p className="text-center text-purple-600 mb-16 max-w-2xl mx-auto">

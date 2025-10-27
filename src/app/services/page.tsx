@@ -12,7 +12,7 @@ export default function Services() {
     {
       title: "Custom Web Application Development",
       shortDesc: "Full-stack web applications tailored to your unique business needs.",
-      image: "/images/portfolio_custom_development.png",
+      image: "/images/custom_web_application_development.png",
       icon: "💻",
       features: [
         "Custom user interfaces built with React/Next.js",
@@ -37,7 +37,7 @@ export default function Services() {
     {
       title: "Responsive Website Design & Development",
       shortDesc: "Beautiful, mobile-first websites that work flawlessly on all devices.",
-      image: "/images/portfolio_responsive_design.png",
+      image: "/images/responsive_web_development.png",
       icon: "📱",
       features: [
         "Mobile-first design approach (60%+ of traffic is mobile)",
@@ -62,7 +62,7 @@ export default function Services() {
     {
       title: "E-Commerce Solutions",
       shortDesc: "Complete online stores with secure payments and inventory management.",
-      image: "/images/portfolio_custom_development.png",
+      image: "/images/ecommerce_website.png",
       icon: "🛒",
       features: [
         "Product catalog with categories and search",
@@ -89,7 +89,7 @@ export default function Services() {
     {
       title: "SEO & Performance Optimization",
       shortDesc: "Technical SEO, Core Web Vitals optimization, and search engine visibility.",
-      image: "/images/portfolio_SEO_Optimization.png",
+      image: "/images/SEO_Performance_Optimization.png",
       icon: "🔍",
       features: [
         "Technical SEO audit and implementation",
@@ -118,7 +118,7 @@ export default function Services() {
     {
       title: "Website Maintenance & Support",
       shortDesc: "Keep your website secure, updated, and performing at its best.",
-      image: "/images/portfolio_custom_development.png",
+      image: "/images/website_maintenance_and_support.png",
       icon: "🛠️",
       features: [
         "Security updates and vulnerability patches",
@@ -145,7 +145,7 @@ export default function Services() {
     {
       title: "API Development & Integration",
       shortDesc: "Connect your systems with custom APIs and third-party integrations.",
-      image: "/images/portfolio_custom_development.png",
+      image: "/images/API_development.png",
       icon: "🔌",
       features: [
         "RESTful API design and development",
@@ -354,7 +354,7 @@ export default function Services() {
       <section className="container mx-auto px-4 mb-20">
         <div className="mb-12">
           <FadeIn>
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900 dark:text-white">
               See Our Work in Action
             </h2>
             <p className="text-center text-gray-600 max-w-2xl mx-auto">

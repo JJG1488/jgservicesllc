@@ -57,7 +57,7 @@ export default function RootLayout({
           href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
         />
       </head>
-      <body className="min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
+      <body className="min-h-screen flex flex-col bg-white dark:bg-[#0a0e17] text-gray-900 dark:text-gray-100 transition-colors">
         <ThemeProvider>
           <AuthProvider>
             <DynamicTechBackground mode="page-specific" />

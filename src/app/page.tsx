@@ -36,11 +36,11 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section with Parallax Effect */}
-      <section className="relative bg-gradient-to-br from-blue-600 via-blue-500 to-purple-600 pt-32 pb-20 overflow-hidden">
+      {/* Hero Section with Parallax Effect - Sapphire to Amethyst */}
+      <section className="relative bg-gradient-to-br from-blue-600 via-purple-500 to-purple-600 dark:from-sapphire-700 dark:via-amethyst-700 dark:to-amethyst-800 pt-32 pb-20 overflow-hidden">
         {/* Animated background elements */}
         <motion.div
-          className="absolute top-20 left-10 w-72 h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-30"
+          className="absolute top-20 left-10 w-72 h-72 bg-blue-400 dark:bg-sapphire-500 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-xl opacity-30 dark:opacity-20"
           animate={{
             x: [0, 100, 0],
             y: [0, -50, 0],
@@ -53,7 +53,7 @@ export default function Home() {
           }}
         />
         <motion.div
-          className="absolute bottom-20 right-10 w-72 h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-30"
+          className="absolute bottom-20 right-10 w-72 h-72 bg-purple-400 dark:bg-amethyst-500 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-xl opacity-30 dark:opacity-20"
           animate={{
             x: [0, -100, 0],
             y: [0, 50, 0],
@@ -140,12 +140,12 @@ export default function Home() {
       <section className="py-16 ">
         <div className="container mx-auto px-4">
           <ScaleIn>
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 bg-gradient-to-r from-blue-600 via-purple-600 to-purple-700 dark:from-sapphire-400 dark:via-amethyst-400 dark:to-amethyst-500 bg-clip-text text-transparent">
               Our Process
             </h2>
           </ScaleIn>
           <FadeIn delay={0.2}>
-            <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+            <p className="text-center text-gray-600 dark:text-amethyst-200 mb-12 max-w-2xl mx-auto">
               We follow a proven three-step approach to bring your vision to life
             </p>
           </FadeIn>
@@ -158,15 +158,15 @@ export default function Home() {
             viewport={{ once: true, margin: "-100px" }}
           >
             <motion.div variants={itemVariants}>
-              <GlowCard glowColor="rgba(59, 130, 246, 0.4)">
-                <FloatingCard className="text-center p-6 h-full">
+              <GlowCard glowColor="rgba(37, 99, 235, 0.4)">
+                <FloatingCard className="text-center p-6 h-full bg-gradient-to-br from-blue-50 to-purple-50 dark:from-sapphire-950 dark:to-amethyst-950">
                   <motion.div
-                    className="relative w-full h-48 mb-4 bg-gray-50"
+                    className="relative w-full h-48 mb-4 bg-white dark:bg-sapphire-900/30 rounded-lg overflow-hidden"
                     whileHover={{ scale: 1.05, rotate: [0, -2, 2, 0] }}
                     transition={{ duration: 0.5 }}
                   >
                     <Image
-                      src="/images/portfolio_idea_generation.png"
+                      src="/images/idea_generation.png"
                       alt="Idea Generation"
                       fill
                       className="object-contain"
@@ -176,16 +176,16 @@ export default function Home() {
                     />
                   </motion.div>
                   <motion.div
-                    className="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center mx-auto mb-3 font-bold text-xl"
-                    whileHover={{ rotate: 360 }}
+                    className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 dark:from-sapphire-500 dark:to-sapphire-600 text-white rounded-full flex items-center justify-center mx-auto mb-3 font-bold text-xl shadow-lg"
+                    whileHover={{ rotate: 360, scale: 1.1 }}
                     transition={{ duration: 0.5 }}
                   >
                     1
                   </motion.div>
-                  <h4 className="text-xl font-semibold mb-3 text-gray-900">
+                  <h4 className="text-xl font-semibold mb-3 text-gray-900 dark:text-sapphire-50">
                     Idea Generation
                   </h4>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 dark:text-amethyst-200">
                     We begin by understanding your vision and turning everyday ideas
                     into concrete project plans.
                   </p>
@@ -194,15 +194,15 @@ export default function Home() {
             </motion.div>
 
             <motion.div variants={itemVariants}>
-              <GlowCard glowColor="rgba(168, 85, 247, 0.4)">
-                <FloatingCard className="text-center p-6 h-full">
+              <GlowCard glowColor="rgba(147, 51, 234, 0.4)">
+                <FloatingCard className="text-center p-6 h-full bg-gradient-to-br from-purple-50 to-blue-50 dark:from-amethyst-950 dark:to-sapphire-950">
                   <motion.div
-                    className="relative w-full h-48 mb-4 bg-gray-50"
+                    className="relative w-full h-48 mb-4 bg-white dark:bg-amethyst-900/30 rounded-lg overflow-hidden"
                     whileHover={{ scale: 1.05, rotate: [0, -2, 2, 0] }}
                     transition={{ duration: 0.5 }}
                   >
                     <Image
-                      src="/images/portfolio_design_and_development.png"
+                      src="/images/design_and_development.png"
                       alt="Design & Development"
                       fill
                       className="object-contain"
@@ -212,16 +212,16 @@ export default function Home() {
                     />
                   </motion.div>
                   <motion.div
-                    className="w-12 h-12 bg-purple-500 text-white rounded-full flex items-center justify-center mx-auto mb-3 font-bold text-xl"
-                    whileHover={{ rotate: 360 }}
+                    className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 dark:from-amethyst-500 dark:to-amethyst-600 text-white rounded-full flex items-center justify-center mx-auto mb-3 font-bold text-xl shadow-lg"
+                    whileHover={{ rotate: 360, scale: 1.1 }}
                     transition={{ duration: 0.5 }}
                   >
                     2
                   </motion.div>
-                  <h4 className="text-xl font-semibold mb-3 text-gray-900">
+                  <h4 className="text-xl font-semibold mb-3 text-gray-900 dark:text-amethyst-50">
                     Design & Development
                   </h4>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 dark:text-sapphire-200">
                     Our experts design intuitive interfaces and develop robust
                     applications tailored to your needs.
                   </p>
@@ -230,15 +230,15 @@ export default function Home() {
             </motion.div>
 
             <motion.div variants={itemVariants}>
-              <GlowCard glowColor="rgba(34, 197, 94, 0.4)">
-                <FloatingCard className="text-center p-6 h-full">
+              <GlowCard glowColor="rgba(37, 99, 235, 0.4)">
+                <FloatingCard className="text-center p-6 h-full bg-gradient-to-br from-blue-50 via-purple-50 to-blue-100 dark:from-sapphire-950 dark:via-amethyst-950 dark:to-sapphire-900">
                   <motion.div
-                    className="relative w-full h-48 mb-4 bg-gray-50"
+                    className="relative w-full h-48 mb-4 bg-white dark:bg-sapphire-900/30 rounded-lg overflow-hidden"
                     whileHover={{ scale: 1.05, rotate: [0, -2, 2, 0] }}
                     transition={{ duration: 0.5 }}
                   >
                     <Image
-                      src="/images/portoflio_launch_and_support.png"
+                      src="/images/launch_and_support.png"
                       alt="Launch & Support"
                       fill
                       className="object-contain"
@@ -248,16 +248,16 @@ export default function Home() {
                     />
                   </motion.div>
                   <motion.div
-                    className="w-12 h-12 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto mb-3 font-bold text-xl"
-                    whileHover={{ rotate: 360 }}
+                    className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 dark:from-sapphire-600 dark:to-amethyst-600 text-white rounded-full flex items-center justify-center mx-auto mb-3 font-bold text-xl shadow-lg"
+                    whileHover={{ rotate: 360, scale: 1.1 }}
                     transition={{ duration: 0.5 }}
                   >
                     3
                   </motion.div>
-                  <h4 className="text-xl font-semibold mb-3 text-gray-900">
+                  <h4 className="text-xl font-semibold mb-3 text-gray-900 dark:text-sapphire-50">
                     Launch & Support
                   </h4>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 dark:text-amethyst-200">
                     We ensure a smooth launch and provide ongoing support to keep
                     your application running at peak performance.
                   </p>
@@ -295,7 +295,7 @@ export default function Home() {
                     }}
                   />
                   <Image
-                    src="/images/portfolio_custom_web_development.png"
+                    src="/images/custom_web_development.png"
                     alt="Web Development In Action"
                     fill
                     className="object-contain rounded-lg relative z-10"
@@ -310,7 +310,7 @@ export default function Home() {
             <FadeIn direction="right">
               <div>
                 <motion.h2
-                  className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+                  className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-purple-700 dark:from-sapphire-400 dark:via-amethyst-500 dark:to-amethyst-600 bg-clip-text text-transparent"
                   whileInView={{ opacity: [0, 1], x: [20, 0] }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6 }}
@@ -393,7 +393,7 @@ export default function Home() {
       <section className="py-16">
         <div className="container mx-auto px-4">
           <ScaleIn>
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 bg-gradient-to-r from-blue-600 via-purple-600 to-purple-700 dark:from-sapphire-400 dark:via-amethyst-400 dark:to-amethyst-500 bg-clip-text text-transparent">
               Results That Speak for Themselves
             </h2>
           </ScaleIn>
@@ -437,7 +437,7 @@ export default function Home() {
       <section className="py-16 ">
         <div className="container mx-auto px-4">
           <ScaleIn>
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 bg-gradient-to-r from-blue-600 via-purple-600 to-purple-700 dark:from-sapphire-400 dark:via-amethyst-400 dark:to-amethyst-500 bg-clip-text text-transparent">
               What Clients Say
             </h2>
           </ScaleIn>
@@ -461,7 +461,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-r from-blue-600 via-purple-600 to-purple-700 dark:from-sapphire-700 dark:via-amethyst-700 dark:to-amethyst-800 relative overflow-hidden">
         <motion.div
           className="absolute inset-0 opacity-10"
           animate={{
