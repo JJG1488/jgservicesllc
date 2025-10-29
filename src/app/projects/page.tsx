@@ -45,11 +45,11 @@ const projects = [
   },
   {
     id: 5,
-    title: "Workday Scheduler",
-    description: "Dynamic workday planner with color-coded time blocks and local storage persistence.",
+    title: "E-Commerce Platform",
+    description: "This is a premium direct-to-consumer e-commerce application built with Next.js 15 and JavaScript (not TypeScript). It features Tailwind CSS v4, Framer Motion animations, and a complete e-commerce shopping experience including product catalog, shopping cart, checkout flow, and wishlist functionality. The brand is LUXE - a luxury retailer specializing in watches, jewelry, bags, and premium accessories.",
     image: "/images/workday-scheduler copy.png",
-    tags: ["JavaScript", "jQuery", "Bootstrap"],
-    liveUrl: "#",
+    tags: ["JavaScript", "Framer", "Tailwind CSS"],
+    liveUrl: "https://nextjs-premium-components-template.vercel.app",
     githubUrl: "#",
   },
   {
