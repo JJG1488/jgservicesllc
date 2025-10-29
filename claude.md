@@ -5,7 +5,7 @@
 **Tech Stack**: Next.js 15.3.3, React 19, TypeScript, Tailwind CSS v4, Framer Motion, Firebase
 **Repository**: https://github.com/JJG1488/jgservicesllc
 **Started**: 2025
-**Last Updated**: 2025-01-24
+**Last Updated**: 2025-01-28
 
 ---
 
@@ -24,9 +24,11 @@ JG Services LLC is a web development business offering professional website desi
 ## 🎨 Brand Identity
 
 ### Colors
-- **Primary Gradient**: Blue (#2563eb) → Purple (#7c3aed)
-- **Secondary**: Slate for text, backgrounds
-- **Accent Colors**: Used in phase indicators (blue, purple, green, orange, pink, indigo, teal)
+- **Primary**: Sapphire Blue (#2563eb) → Amethyst Purple (#9333ea)
+- **Dark Mode Only**: Site locked to dark theme with jewel-tone gradients
+- **Glass Effects**: Semi-transparent sapphire-tinted backgrounds with backdrop blur
+- **Text Colors**: White for headings, Blue-100 (#dbeafe) for body text
+- **Accent Colors**: Blue-300, Blue-400 for interactive elements
 
 ### Typography
 - **Display Font**: Ephesis (cursive, for "JGServicesLLC" branding)
@@ -44,16 +46,17 @@ JG Services LLC is a web development business offering professional website desi
 ## 🗂️ Site Structure
 
 ### Main Pages
-1. **Home** (`/`) - Hero, services overview, metrics, testimonials, CTA
-2. **Services** (`/services`) - Detailed service offerings with pricing tiers
-3. **Process** (`/process`) - 7-phase development process with interactive timeline
-4. **Projects** (`/projects`) - Case studies with `/projects/[slug]` dynamic routes
-5. **Demos** (`/demos`) - Interactive demo websites (Restaurant, E-Commerce, Service Business)
-6. **Resources** (`/resources`) - Educational tools and downloadable guides (Firebase-powered)
-7. **FAQ** (`/faq`) - 45+ questions organized by category
-8. **Contact** (`/contact`) - Contact form with email integration
-9. **Admin** (`/admin`) - Firebase-powered lead dashboard with stats and CSV export
-10. **Blog** (`/blog`) - MDX-based blog (currently has compilation issues)
+1. **Home** (`/`) - Hero, 3-step process, services preview, stats, CTA
+2. **Services** (`/services`) - 6 detailed service offerings with glass cards
+3. **Process** (`/process`) - 7-phase development process with detailed breakdowns
+4. **Demos** (`/demos`) - 4 interactive demo websites (Restaurant, E-Commerce, Service, Portfolio)
+5. **Resources** (`/resources`) - 6 downloadable guides + 4 interactive tools (Firebase-powered)
+6. **FAQ** (`/faq`) - 24 questions across 6 categories with glass accordion
+7. **Contact** (`/contact`) - Glass contact form with Firebase integration
+8. **Privacy** (`/privacy`) - Privacy Policy page
+9. **Terms** (`/terms`) - Terms of Service page
+10. **Admin** (`/admin`) - Firebase-powered lead dashboard with stats and CSV export
+11. **Blog** (`/blog`) - MDX-based blog (currently has compilation issues)
 
 ### Interactive Tools (Resources)
 1. **ROI Calculator** - Calculate website investment return
@@ -64,12 +67,16 @@ JG Services LLC is a web development business offering professional website desi
 ### Demo Websites
 1. **Restaurant Demo** (`/demos/restaurant`) - "Bella Vista Restaurant"
    - Menu, cart, reservations, contact
-2. **E-Commerce Demo** (`/demos/ecommerce`) - "TechHub Store"
+   - Red-Orange theme
+2. **E-Commerce Demo** (`/demos/ecommerce`) - "TechGear Store"
    - Product catalog, filtering, sorting, shopping cart
-3. **Service Business Demo** (`/demos/service`) - "Elevate Consulting"
+   - Blue-Cyan theme
+3. **Service Business Demo** (`/demos/service`) - "Apex Consulting"
    - Services, case studies, team, resources, contact
-4. **Booking System Demo** (`/demos/booking`) - ❌ REMOVED (build errors)
-   - Was "Serenity Spa & Wellness" - needs to be recreated
+   - Purple-Pink theme
+4. **Portfolio Demo** (`/demos/portfolio`) - "Alex Morgan Creative" ✨ NEW!
+   - Project showcase with filtering, skills, testimonials
+   - Emerald-Teal theme
 
 ---
 
@@ -392,6 +399,44 @@ const phases = [
 ---
 
 ## 🔄 Change Log
+
+### 2025-01-28 (Complete Design System Refactor) 🎨
+- **Unified Dark Glassmorphism Theme** 🌙
+  - Removed light mode completely - site now dark-only
+  - Implemented cohesive glassmorphism design across ALL pages
+  - Created comprehensive glass utility classes (.glass-sm, .glass, .glass-md, .glass-lg, .glass-card)
+  - Added jewel-tone shadows with sapphire-blue and amethyst-purple glows
+  - Fixed background: Deep sapphire-to-amethyst gradient (locked to dark)
+
+- **Pages Refactored (All with Glass Theme)**:
+  - ✅ Homepage - Hero with animated blobs, glass process cards, glass stats
+  - ✅ Services - 6 service cards with glass backgrounds
+  - ✅ Process - 7 phase glass cards with detailed breakdowns
+  - ✅ Demos - Glass demo cards + NEW Portfolio demo (4th demo)
+  - ✅ Contact - Glass form, glass contact info cards
+  - ✅ Resources - Glass guide cards, glass category filters, glass download modal
+  - ✅ FAQ - Glass accordion items with 24 questions
+  - ✅ Privacy Policy - NEW page with glass content cards
+  - ✅ Terms of Service - NEW page with glass content cards
+
+- **Design System Created**:
+  - Gradient text utility (.gradient-text) - Blue to purple gradient
+  - Button utilities (.btn-primary, .btn-secondary)
+  - Section container utility (.section-container) for consistent spacing
+  - Hero gradient utility (.hero-gradient) for CTA sections
+  - Removed ThemeToggle component - no longer needed
+  - Updated Navigation to clean glass design
+
+- **Typography Consistency**:
+  - All headings: Gradient text or white
+  - All body text: Blue-100 (#dbeafe)
+  - All interactive text: Blue-300, Blue-400
+  - Removed ALL instances of black text and gray backgrounds
+
+- **New Content**:
+  - Created 4th demo: Portfolio/Creative showcase at `/demos/portfolio`
+  - Privacy Policy page at `/privacy`
+  - Terms of Service page at `/terms`
 
 ### 2025-01-24 (Evening Session)
 - **Firebase Integration Complete** 🎉

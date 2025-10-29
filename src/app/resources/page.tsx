@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import FadeIn from '@/components/animations/FadeIn';
 import ScaleIn from '@/components/animations/ScaleIn';
-import GlowCard from '@/components/ui/GlowCard';
 import Link from 'next/link';
 import { db } from '@/lib/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
@@ -39,8 +38,7 @@ export default function Resources() {
         'Building your brand identity',
         'Online presence strategy',
         'Financial planning basics'
-      ],
-      color: 'rgba(59, 130, 246, 0.4)' // blue
+      ]
     },
     {
       id: 'website-planning',
@@ -57,8 +55,7 @@ export default function Resources() {
         'Feature prioritization matrix',
         'Budget planning worksheet',
         'Timeline creation guide'
-      ],
-      color: 'rgba(168, 85, 247, 0.4)' // purple
+      ]
     },
     {
       id: 'roi-guide',
@@ -75,8 +72,7 @@ export default function Resources() {
         'Revenue projection models',
         'Customer acquisition metrics',
         'Long-term growth potential'
-      ],
-      color: 'rgba(34, 197, 94, 0.4)' // green
+      ]
     },
     {
       id: 'marketing-basics',
@@ -93,8 +89,7 @@ export default function Resources() {
         'Content creation tips',
         'Analytics & measuring success',
         'Budget-friendly marketing tactics'
-      ],
-      color: 'rgba(236, 72, 153, 0.4)' // pink
+      ]
     },
     {
       id: 'maintenance-checklist',
@@ -111,8 +106,7 @@ export default function Resources() {
         'Quarterly performance reviews',
         'Annual audits & upgrades',
         'Backup & recovery procedures'
-      ],
-      color: 'rgba(251, 146, 60, 0.4)' // orange
+      ]
     },
     {
       id: 'feature-guide',
@@ -129,8 +123,7 @@ export default function Resources() {
         'Booking & scheduling systems',
         'Customer portal features',
         'Scaling your website over time'
-      ],
-      color: 'rgba(14, 165, 233, 0.4)' // sky blue
+      ]
     },
   ];
 
@@ -140,32 +133,28 @@ export default function Resources() {
       title: 'Website ROI Calculator',
       description: 'Calculate the potential return on investment for your website project. See how increased visibility and customer conversion can impact your revenue.',
       icon: '🧮',
-      link: '/resources/roi-calculator',
-      color: 'rgba(59, 130, 246, 0.4)'
+      link: '/resources/roi-calculator'
     },
     {
       id: 'readiness-quiz',
       title: 'Business Readiness Assessment',
       description: 'Take our 10-question quiz to determine if your business is ready for a website and get personalized recommendations.',
       icon: '📊',
-      link: '/resources/readiness-quiz',
-      color: 'rgba(168, 85, 247, 0.4)'
+      link: '/resources/readiness-quiz'
     },
     {
       id: 'feature-recommender',
       title: 'Feature Recommendation Tool',
       description: 'Answer a few questions about your business and get a customized list of recommended website features with priority rankings.',
       icon: '🎯',
-      link: '/resources/feature-recommender',
-      color: 'rgba(34, 197, 94, 0.4)'
+      link: '/resources/feature-recommender'
     },
     {
       id: 'timeline-estimator',
       title: 'Timeline & Budget Estimator',
       description: 'Select the features you want and get an estimated timeline and budget range for your website project.',
       icon: '📅',
-      link: '/resources/timeline-estimator',
-      color: 'rgba(236, 72, 153, 0.4)'
+      link: '/resources/timeline-estimator'
     },
   ];
 
@@ -353,24 +342,22 @@ Thank you for trusting JG Services LLC with your business growth!
   return (
     <div className="min-h-screen pt-24 pb-16">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 text-white py-20 mb-16">
-        <div className="container mx-auto px-4">
-          <FadeIn>
-            <h1 className="text-4xl md:text-5xl font-bold text-center mb-6">
-              Free Resources & Tools
-            </h1>
-          </FadeIn>
-          <FadeIn delay={0.2}>
-            <p className="text-xl text-center max-w-3xl mx-auto text-blue-50">
-              Everything you need to know about starting, planning, and growing your online business.
-              Download our comprehensive guides and use our interactive tools — completely free.
-            </p>
-          </FadeIn>
-        </div>
+      <section className="section-container text-center">
+        <ScaleIn>
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 gradient-text">
+            Free Resources & Tools
+          </h1>
+        </ScaleIn>
+        <FadeIn delay={0.2}>
+          <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+            Everything you need to know about starting, planning, and growing your online business.
+            Download our comprehensive guides and use our interactive tools — completely free.
+          </p>
+        </FadeIn>
       </section>
 
       {/* Category Filter */}
-      <section className="container mx-auto px-4 mb-12">
+      <section className="section-container">
         <div className="flex flex-wrap justify-center gap-4">
           {categories.map((category, index) => (
             <motion.button
@@ -378,8 +365,8 @@ Thank you for trusting JG Services LLC with your business growth!
               onClick={() => setSelectedCategory(category.id)}
               className={`px-6 py-3 rounded-full font-semibold transition-all ${
                 selectedCategory === category.id
-                  ? 'bg-blue-600 text-white shadow-lg scale-105'
-                  : 'bg-white text-gray-700 hover:bg-gray-100 shadow '
+                  ? 'btn-primary'
+                  : 'glass-sm text-blue-100 hover:glass-md'
               }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -396,12 +383,14 @@ Thank you for trusting JG Services LLC with your business growth!
 
       {/* Downloadable Guides */}
       {(selectedCategory === 'all' || selectedCategory !== 'tools') && (
-        <section className="container mx-auto px-4 mb-20">
-          <FadeIn>
-            <h2 className="text-3xl font-bold text-center mb-4 text-gray-900 dark:text-white">
+        <section className="section-container">
+          <ScaleIn>
+            <h2 className="text-4xl font-bold text-center mb-4 gradient-text">
               Downloadable Guides
             </h2>
-            <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+          </ScaleIn>
+          <FadeIn delay={0.2}>
+            <p className="text-center text-blue-100 mb-12 max-w-2xl mx-auto">
               Comprehensive guides to help you understand every aspect of building and growing your online presence.
             </p>
           </FadeIn>
@@ -415,65 +404,62 @@ Thank you for trusting JG Services LLC with your business growth!
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ delay: index * 0.1 }}
+                  className="glass-card rounded-xl p-6 h-full flex flex-col hover:scale-105 transition-transform duration-300"
                 >
-                  <GlowCard glowColor={guide.color}>
-                    <div className="bg-white rounded-xl shadow-lg p-6 h-full flex flex-col">
-                      {/* Icon */}
-                      <div className="text-6xl mb-4 text-center">
-                        {guide.icon}
-                      </div>
+                  {/* Icon */}
+                  <div className="text-6xl mb-4 text-center">
+                    {guide.icon}
+                  </div>
 
-                      {/* Title */}
-                      <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">
-                        {guide.title}
-                      </h3>
+                  {/* Title */}
+                  <h3 className="text-xl font-bold mb-3 text-white">
+                    {guide.title}
+                  </h3>
 
-                      {/* Meta Info */}
-                      <div className="flex gap-4 mb-4 text-sm text-gray-600">
-                        <span className="flex items-center gap-1">
-                          📄 {guide.pages}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          ⏱️ {guide.downloadTime}
-                        </span>
-                      </div>
+                  {/* Meta Info */}
+                  <div className="flex gap-4 mb-4 text-sm text-blue-200">
+                    <span className="flex items-center gap-1">
+                      📄 {guide.pages}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      ⏱️ {guide.downloadTime}
+                    </span>
+                  </div>
 
-                      {/* Description */}
-                      <p className="text-gray-600 mb-4 flex-grow">
-                        {guide.description}
-                      </p>
+                  {/* Description */}
+                  <p className="text-blue-100 mb-4 flex-grow">
+                    {guide.description}
+                  </p>
 
-                      {/* Topics */}
-                      <div className="mb-6">
-                        <p className="text-sm font-semibold text-gray-700 mb-2">
-                          What you'll learn:
-                        </p>
-                        <ul className="text-sm text-gray-600 space-y-1">
-                          {guide.topics.slice(0, 3).map((topic, idx) => (
-                            <li key={idx} className="flex items-start gap-2">
-                              <span className="text-blue-500 mt-0.5">✓</span>
-                              <span>{topic}</span>
-                            </li>
-                          ))}
-                          {guide.topics.length > 3 && (
-                            <li className="text-gray-500 italic">
-                              + {guide.topics.length - 3} more topics
-                            </li>
-                          )}
-                        </ul>
-                      </div>
+                  {/* Topics */}
+                  <div className="mb-6">
+                    <p className="text-sm font-semibold text-white mb-2">
+                      What you'll learn:
+                    </p>
+                    <ul className="text-sm text-blue-100 space-y-1">
+                      {guide.topics.slice(0, 3).map((topic, idx) => (
+                        <li key={idx} className="flex items-start gap-2">
+                          <span className="text-blue-400 mt-0.5">✓</span>
+                          <span>{topic}</span>
+                        </li>
+                      ))}
+                      {guide.topics.length > 3 && (
+                        <li className="text-blue-200 italic">
+                          + {guide.topics.length - 3} more topics
+                        </li>
+                      )}
+                    </ul>
+                  </div>
 
-                      {/* Download Button */}
-                      <motion.button
-                        onClick={() => handleDownload(guide)}
-                        className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-shadow"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        Download Free Guide
-                      </motion.button>
-                    </div>
-                  </GlowCard>
+                  {/* Download Button */}
+                  <motion.button
+                    onClick={() => handleDownload(guide)}
+                    className="w-full btn-primary"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    Download Free Guide
+                  </motion.button>
                 </motion.div>
               ))}
             </AnimatePresence>
@@ -483,12 +469,14 @@ Thank you for trusting JG Services LLC with your business growth!
 
       {/* Interactive Tools */}
       {(selectedCategory === 'all' || selectedCategory === 'tools') && (
-        <section className="container mx-auto px-4 mb-20">
-          <FadeIn>
-            <h2 className="text-3xl font-bold text-center mb-4 text-gray-900 dark:text-white">
+        <section className="section-container">
+          <ScaleIn>
+            <h2 className="text-4xl font-bold text-center mb-4 gradient-text">
               Interactive Tools
             </h2>
-            <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+          </ScaleIn>
+          <FadeIn delay={0.2}>
+            <p className="text-center text-blue-100 mb-12 max-w-2xl mx-auto">
               Use our free tools to calculate ROI, assess your readiness, and plan your website project.
             </p>
           </FadeIn>
@@ -496,27 +484,25 @@ Thank you for trusting JG Services LLC with your business growth!
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {tools.map((tool, index) => (
               <FadeIn key={tool.id} delay={index * 0.1}>
-                <GlowCard glowColor={tool.color}>
-                  <Link href={tool.link}>
-                    <div className="bg-white rounded-xl shadow-lg p-8 h-full hover:shadow-xl transition-shadow cursor-pointer">
-                      <div className="text-6xl mb-4 text-center">
-                        {tool.icon}
-                      </div>
-                      <h3 className="text-2xl font-bold mb-3 text-gray-900 text-center dark:text-white">
-                        {tool.title}
-                      </h3>
-                      <p className="text-gray-600 text-center mb-6">
-                        {tool.description}
-                      </p>
-                      <div className="text-center">
-                        <span className="inline-flex items-center gap-2 text-blue-600 font-semibold">
-                          Try it now
-                          <span>→</span>
-                        </span>
-                      </div>
+                <Link href={tool.link}>
+                  <div className="glass-card rounded-xl p-8 h-full hover:scale-105 transition-transform duration-300 cursor-pointer">
+                    <div className="text-6xl mb-4 text-center">
+                      {tool.icon}
                     </div>
-                  </Link>
-                </GlowCard>
+                    <h3 className="text-2xl font-bold mb-3 text-white text-center">
+                      {tool.title}
+                    </h3>
+                    <p className="text-blue-100 text-center mb-6">
+                      {tool.description}
+                    </p>
+                    <div className="text-center">
+                      <span className="inline-flex items-center gap-2 text-blue-300 font-semibold">
+                        Try it now
+                        <span>→</span>
+                      </span>
+                    </div>
+                  </div>
+                </Link>
               </FadeIn>
             ))}
           </div>
@@ -524,43 +510,43 @@ Thank you for trusting JG Services LLC with your business growth!
       )}
 
       {/* Why We Offer Free Resources */}
-      <section className="container mx-auto px-4 mb-20">
-        <div className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-2xl p-8 md:p-12">
-          <FadeIn>
-            <h2 className="text-3xl font-bold text-center mb-6 text-gray-900">
+      <section className="section-container">
+        <div className="glass-md rounded-3xl p-12">
+          <ScaleIn>
+            <h2 className="text-4xl font-bold text-center mb-12 gradient-text">
               Why We Offer These Resources for Free
             </h2>
-          </FadeIn>
+          </ScaleIn>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <ScaleIn delay={0.1}>
               <div className="text-center">
-                <div className="text-4xl mb-3">🎓</div>
-                <h3 className="font-bold text-lg mb-2 text-gray-900">
+                <div className="text-5xl mb-3">🎓</div>
+                <h3 className="font-bold text-xl mb-2 text-white">
                   Education First
                 </h3>
-                <p className="text-gray-600 text-sm">
+                <p className="text-blue-100">
                   We believe informed clients make the best decisions. Understanding the process helps us work together better.
                 </p>
               </div>
             </ScaleIn>
             <ScaleIn delay={0.2}>
               <div className="text-center">
-                <div className="text-4xl mb-3">🤝</div>
-                <h3 className="font-bold text-lg mb-2 text-gray-900">
+                <div className="text-5xl mb-3">🤝</div>
+                <h3 className="font-bold text-xl mb-2 text-white">
                   Building Trust
                 </h3>
-                <p className="text-gray-600 text-sm">
+                <p className="text-blue-100">
                   By sharing our knowledge freely, we demonstrate our expertise and commitment to your success beyond just building websites.
                 </p>
               </div>
             </ScaleIn>
             <ScaleIn delay={0.3}>
               <div className="text-center">
-                <div className="text-4xl mb-3">💡</div>
-                <h3 className="font-bold text-lg mb-2 text-gray-900">
+                <div className="text-5xl mb-3">💡</div>
+                <h3 className="font-bold text-xl mb-2 text-white">
                   Better Outcomes
                 </h3>
-                <p className="text-gray-600 text-sm">
+                <p className="text-blue-100">
                   When you understand the value and process, you're ready to invest properly in your online presence and see real results.
                 </p>
               </div>
@@ -570,15 +556,15 @@ Thank you for trusting JG Services LLC with your business growth!
       </section>
 
       {/* CTA */}
-      <section className="container mx-auto px-4">
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-16 rounded-2xl text-center">
+      <section className="section-container">
+        <div className="glass-lg rounded-3xl p-16 text-center hero-gradient">
           <ScaleIn>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
               Ready to Start Your Project?
             </h2>
           </ScaleIn>
           <FadeIn delay={0.2}>
-            <p className="text-xl mb-8 text-blue-50 max-w-2xl mx-auto">
+            <p className="text-xl mb-10 text-blue-100 max-w-2xl mx-auto">
               Now that you're armed with knowledge, let's talk about building your perfect website.
             </p>
           </FadeIn>
@@ -586,13 +572,13 @@ Thank you for trusting JG Services LLC with your business growth!
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/contact"
-                className="inline-block bg-white text-blue-600 font-bold py-4 px-8 rounded-lg hover:bg-blue-50 transition transform hover:scale-105"
+                className="btn-primary"
               >
                 Schedule Free Consultation
               </Link>
               <Link
                 href="/process"
-                className="inline-block border-2 border-white text-white font-bold py-4 px-8 rounded-lg hover:bg-white hover:text-blue-600 transition transform hover:scale-105"
+                className="btn-secondary"
               >
                 See Our Process
               </Link>
@@ -605,14 +591,14 @@ Thank you for trusting JG Services LLC with your business growth!
       <AnimatePresence>
         {showDownloadModal && selectedGuide && (
           <motion.div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setShowDownloadModal(false)}
           >
             <motion.div
-              className="bg-white rounded-2xl p-8 max-w-md w-full"
+              className="glass-lg rounded-2xl p-8 max-w-md w-full"
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
@@ -620,17 +606,17 @@ Thank you for trusting JG Services LLC with your business growth!
             >
               <div className="text-center mb-6">
                 <div className="text-6xl mb-4">{selectedGuide.icon}</div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                <h3 className="text-2xl font-bold text-white mb-2">
                   Download: {selectedGuide.title}
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-blue-100">
                   Get instant access to this comprehensive guide
                 </p>
               </div>
 
               <form className="space-y-4" onSubmit={handleFormSubmit}>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-white mb-2">
                     Your Name *
                   </label>
                   <input
@@ -638,13 +624,13 @@ Thank you for trusting JG Services LLC with your business growth!
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 glass-sm rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none text-white placeholder-blue-200/50"
                     placeholder="John Doe"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-white mb-2">
                     Email Address *
                   </label>
                   <input
@@ -652,20 +638,20 @@ Thank you for trusting JG Services LLC with your business growth!
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 glass-sm rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none text-white placeholder-blue-200/50"
                     placeholder="john@example.com"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-white mb-2">
                     Business Name (Optional)
                   </label>
                   <input
                     type="text"
                     value={formData.business}
                     onChange={(e) => setFormData({ ...formData, business: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 glass-sm rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none text-white placeholder-blue-200/50"
                     placeholder="Your Business"
                   />
                 </div>
@@ -678,14 +664,14 @@ Thank you for trusting JG Services LLC with your business growth!
                     onChange={(e) => setFormData({ ...formData, newsletter: e.target.checked })}
                     className="mt-1"
                   />
-                  <label htmlFor="newsletter" className="text-sm text-gray-600">
+                  <label htmlFor="newsletter" className="text-sm text-blue-100">
                     Send me occasional tips and updates about web development and digital marketing (you can unsubscribe anytime)
                   </label>
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-lg font-bold hover:shadow-lg transition-shadow"
+                  className="w-full btn-primary"
                 >
                   Download Guide
                 </button>
@@ -693,13 +679,13 @@ Thank you for trusting JG Services LLC with your business growth!
                 <button
                   type="button"
                   onClick={() => setShowDownloadModal(false)}
-                  className="w-full text-gray-600 py-2 hover:text-gray-900"
+                  className="w-full text-blue-200 py-2 hover:text-white transition"
                 >
                   Cancel
                 </button>
               </form>
 
-              <p className="text-xs text-gray-500 text-center mt-4">
+              <p className="text-xs text-blue-200 text-center mt-4">
                 We respect your privacy. Your information will never be shared.
               </p>
             </motion.div>

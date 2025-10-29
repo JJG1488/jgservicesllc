@@ -15,6 +15,7 @@ const projects = [
     tags: ["React", "Node.js", "MongoDB"],
     liveUrl: "#",
     githubUrl: "#",
+    caseStudySlug: "wannaburger",
   },
   {
     id: 2,
@@ -24,6 +25,7 @@ const projects = [
     tags: ["JavaScript", "API Integration", "Responsive"],
     liveUrl: "#",
     githubUrl: "#",
+    caseStudySlug: "weather-dashboard",
   },
   {
     id: 3,
@@ -33,6 +35,7 @@ const projects = [
     tags: ["React", "Express", "PostgreSQL"],
     liveUrl: "#",
     githubUrl: "#",
+    caseStudySlug: "travel-logger",
   },
   {
     id: 4,
@@ -81,12 +84,16 @@ export default function Projects() {
               key={project.id}
               className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition duration-300 overflow-hidden group"
             >
-              <div className="relative w-full h-48 overflow-hidden">
+              <div className="relative w-full h-48 overflow-hidden bg-gray-100">
                 <Image
                   src={project.image}
                   alt={project.title}
                   fill
                   className="object-cover group-hover:scale-110 transition duration-300"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  loading={project.id <= 2 ? "eager" : "lazy"}
+                  priority={project.id <= 2}
+                  quality={85}
                 />
               </div>
 
@@ -110,12 +117,21 @@ export default function Projects() {
                 </div>
 
                 <div className="flex gap-4">
-                  <a
-                    href={project.liveUrl}
-                    className="flex-1 text-center bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition duration-300 text-sm"
-                  >
-                    View Live
-                  </a>
+                  {project.caseStudySlug ? (
+                    <Link
+                      href={`/projects/${project.caseStudySlug}`}
+                      className="flex-1 text-center bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition duration-300 text-sm"
+                    >
+                      Case Study
+                    </Link>
+                  ) : (
+                    <a
+                      href={project.liveUrl}
+                      className="flex-1 text-center bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition duration-300 text-sm"
+                    >
+                      View Live
+                    </a>
+                  )}
                   <a
                     href={project.githubUrl}
                     className="flex-1 text-center border border-blue-600 dark:border-blue-400 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900 py-2 px-4 rounded-lg transition duration-300 text-sm"

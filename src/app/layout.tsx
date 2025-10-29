@@ -4,8 +4,11 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import FloatingBudgetCTA from "@/components/FloatingBudgetCTA";
 import DynamicTechBackground from "@/components/DynamicTechBackground";
+import ZapierChatbot from "@/components/ZapierChatbot";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { AuthProvider } from "@/contexts/AuthContext";
+
+// Zapier chatbot types are defined in /src/types/zapier.d.ts
 
 export const metadata: Metadata = {
   title: "JGServicesLLC - Professional Web Development",
@@ -28,24 +31,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
-                try {
-                  var theme = localStorage.getItem('theme');
-                  var systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                  var initialTheme = theme || systemTheme;
-                  if (initialTheme === 'dark') {
-                    document.documentElement.classList.add('dark');
-                  }
-                } catch (e) {}
+                // Force dark mode always
+                document.documentElement.classList.add('dark');
               })();
             `,
           }}
         />
+        <script async type='module' src='https://interfaces.zapier.com/assets/web-components/zapier-interfaces/zapier-interfaces.esm.js'></script>
+        
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
@@ -57,7 +56,7 @@ export default function RootLayout({
           href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
         />
       </head>
-      <body className="min-h-screen flex flex-col bg-white dark:bg-[#0a0e17] text-gray-900 dark:text-gray-100 transition-colors">
+      <body className="min-h-screen flex flex-col bg-[#0a0e17] text-gray-100 transition-colors">
         <ThemeProvider>
           <AuthProvider>
             <DynamicTechBackground mode="page-specific" />
@@ -66,12 +65,16 @@ export default function RootLayout({
               <main className="flex-grow">
                 {children}
               </main>
+              <ZapierChatbot chatbotId="cmhb5x5nh00awbrhjoqwao638" />
+              
               <Footer />
             </div>
             <FloatingBudgetCTA />
           </AuthProvider>
         </ThemeProvider>
+        
       </body>
+      
     </html>
   );
 }

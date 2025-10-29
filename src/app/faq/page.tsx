@@ -186,52 +186,54 @@ export default function FAQ() {
   return (
     <div className="min-h-screen pt-24 pb-16">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-blue-600 via-blue-500 to-purple-600 text-white py-20 mb-16">
-        <div className="container mx-auto px-4">
-          <FadeIn>
-            <h1 className="text-4xl md:text-5xl font-bold text-center mb-6">
-              Frequently Asked Questions
-            </h1>
-          </FadeIn>
-          <FadeIn delay={0.2}>
-            <p className="text-xl text-center max-w-3xl mx-auto text-blue-50">
-              Everything you need to know about working with me, from pricing to process to post-launch support.
-            </p>
-          </FadeIn>
-        </div>
+      <section className="section-container text-center">
+        <ScaleIn>
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 gradient-text">
+            Frequently Asked Questions
+          </h1>
+        </ScaleIn>
+        <FadeIn delay={0.2}>
+          <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+            Everything you need to know about working with us, from pricing to process to post-launch support.
+          </p>
+        </FadeIn>
       </section>
 
       {/* Category Filter */}
-      <section className="container mx-auto px-4 mb-12">
+      <section className="section-container">
         <div className="flex flex-wrap justify-center gap-3">
-          <button
+          <motion.button
             onClick={() => setActiveCategory("All")}
-            className={`px-4 py-2 rounded-lg font-medium transition ${
+            className={`px-6 py-3 rounded-full font-semibold transition ${
               activeCategory === "All"
-                ? "bg-blue-600 text-white"
-                : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                ? "btn-primary"
+                : "glass-sm text-blue-100 hover:glass-md"
             }`}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             All ({faqs.length})
-          </button>
+          </motion.button>
           {categories.map((category) => (
-            <button
+            <motion.button
               key={category}
               onClick={() => setActiveCategory(category)}
-              className={`px-4 py-2 rounded-lg font-medium transition ${
+              className={`px-6 py-3 rounded-full font-semibold transition ${
                 activeCategory === category
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                  ? "btn-primary"
+                  : "glass-sm text-blue-100 hover:glass-md"
               }`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               {category} ({faqs.filter(f => f.category === category).length})
-            </button>
+            </motion.button>
           ))}
         </div>
       </section>
 
       {/* FAQ Accordion */}
-      <section className="container mx-auto px-4 mb-16">
+      <section className="section-container">
         <div className="max-w-3xl mx-auto space-y-4">
           {filteredFAQs.map((faq, index) => (
             <motion.div
@@ -239,17 +241,17 @@ export default function FAQ() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.05 }}
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden"
+              className="glass-card rounded-xl overflow-hidden"
             >
               <button
                 onClick={() => setActiveIndex(activeIndex === index ? null : index)}
-                className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+                className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-white/5 transition"
               >
-                <span className="font-semibold text-lg text-gray-900 dark:text-white pr-4">
+                <span className="font-semibold text-lg text-white pr-4">
                   {faq.question}
                 </span>
                 <svg
-                  className={`w-6 h-6 text-blue-600 transform transition-transform flex-shrink-0 ${
+                  className={`w-6 h-6 text-blue-300 transform transition-transform flex-shrink-0 ${
                     activeIndex === index ? "rotate-180" : ""
                   }`}
                   fill="none"
@@ -274,8 +276,8 @@ export default function FAQ() {
                     transition={{ duration: 0.3 }}
                     className="overflow-hidden"
                   >
-                    <div className="px-6 py-4 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
-                      <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
+                    <div className="px-6 py-4 glass-sm border-t border-white/10">
+                      <p className="text-blue-100 leading-relaxed whitespace-pre-line">
                         {faq.answer}
                       </p>
                     </div>
@@ -288,28 +290,34 @@ export default function FAQ() {
       </section>
 
       {/* Still Have Questions CTA */}
-      <section className="container mx-auto px-4">
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-16 rounded-2xl text-center">
+      <section className="section-container">
+        <div className="glass-lg rounded-3xl p-16 text-center hero-gradient">
           <ScaleIn>
-            <h2 className="text-3xl font-bold mb-4">Still Have Questions?</h2>
-            <p className="text-xl mb-8 max-w-2xl mx-auto">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
+              Still Have Questions?
+            </h2>
+          </ScaleIn>
+          <FadeIn delay={0.2}>
+            <p className="text-xl mb-10 text-blue-100 max-w-2xl mx-auto">
               Don't see your question answered here? Let's chat! I'm happy to discuss your specific situation.
             </p>
+          </FadeIn>
+          <FadeIn delay={0.4}>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/contact"
-                className="inline-block bg-white text-blue-600 font-bold py-4 px-8 rounded-lg hover:bg-blue-50 transition transform hover:scale-105"
+                className="btn-primary"
               >
                 Schedule a Free Consultation
               </Link>
               <Link
                 href="/process"
-                className="inline-block border-2 border-white text-white font-bold py-4 px-8 rounded-lg hover:bg-white hover:text-blue-600 transition transform hover:scale-105"
+                className="btn-secondary"
               >
                 Learn About My Process
               </Link>
             </div>
-          </ScaleIn>
+          </FadeIn>
         </div>
       </section>
     </div>

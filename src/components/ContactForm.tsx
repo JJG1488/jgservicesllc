@@ -70,11 +70,11 @@ export default function ContactForm() {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       {submitStatus.type && (
         <div
-          className={`p-4 rounded-lg ${
+          className={`p-4 rounded-lg glass-sm ${
             submitStatus.type === "success"
-              ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200"
-              : "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200"
-          }`}
+              ? "border-green-500/30 bg-green-500/10 text-green-200"
+              : "border-red-500/30 bg-red-500/10 text-red-200"
+          } border`}
         >
           {submitStatus.message}
         </div>
@@ -83,7 +83,7 @@ export default function ContactForm() {
       <div>
         <label
           htmlFor="name"
-          className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300"
+          className="block text-sm font-medium mb-2 text-blue-100"
         >
           Name
         </label>
@@ -91,11 +91,11 @@ export default function ContactForm() {
           {...register("name")}
           type="text"
           id="name"
-          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+          className="w-full px-4 py-3 glass-sm rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none text-white placeholder-blue-200/50 transition"
           placeholder="Your name"
         />
         {errors.name && (
-          <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+          <p className="mt-2 text-sm text-red-300">
             {errors.name.message}
           </p>
         )}
@@ -104,7 +104,7 @@ export default function ContactForm() {
       <div>
         <label
           htmlFor="email"
-          className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300"
+          className="block text-sm font-medium mb-2 text-blue-100"
         >
           Email
         </label>
@@ -112,11 +112,11 @@ export default function ContactForm() {
           {...register("email")}
           type="email"
           id="email"
-          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+          className="w-full px-4 py-3 glass-sm rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none text-white placeholder-blue-200/50 transition"
           placeholder="your.email@example.com"
         />
         {errors.email && (
-          <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+          <p className="mt-2 text-sm text-red-300">
             {errors.email.message}
           </p>
         )}
@@ -125,7 +125,7 @@ export default function ContactForm() {
       <div>
         <label
           htmlFor="message"
-          className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300"
+          className="block text-sm font-medium mb-2 text-blue-100"
         >
           Message
         </label>
@@ -133,11 +133,11 @@ export default function ContactForm() {
           {...register("message")}
           id="message"
           rows={5}
-          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+          className="w-full px-4 py-3 glass-sm rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none text-white placeholder-blue-200/50 transition resize-none"
           placeholder="Tell us about your project..."
         />
         {errors.message && (
-          <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+          <p className="mt-2 text-sm text-red-300">
             {errors.message.message}
           </p>
         )}
@@ -146,7 +146,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-medium py-3 px-6 rounded-lg transition duration-300 transform hover:scale-105 disabled:transform-none disabled:cursor-not-allowed"
+        className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
       >
         {isSubmitting ? "Sending..." : "Send Message"}
       </button>

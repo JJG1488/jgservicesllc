@@ -111,24 +111,24 @@ export default function ContractPage() {
 
   if (submitSuccess) {
     return (
-      <div className="min-h-screen pt-24 pb-16 bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen pt-24 pb-16">
         <div className="container mx-auto px-4 max-w-3xl">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-12 text-center"
+            className="glass-card rounded-2xl p-12 text-center"
           >
             <div className="text-6xl mb-6">✅</div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+            <h1 className="text-3xl font-bold text-white mb-4">
               Contract Submitted Successfully!
             </h1>
-            <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
-              Thank you, <strong>{formData.clientName}</strong>! Your service contract has been received and
+            <p className="text-blue-100 mb-6 leading-relaxed">
+              Thank you, <strong className="text-white">{formData.clientName}</strong>! Your service contract has been received and
               is being reviewed. I'll contact you within 1-2 business days to discuss next steps.
             </p>
-            <div className="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-lg mb-8">
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-3">What Happens Next?</h3>
-              <ol className="text-left space-y-2 text-gray-700 dark:text-gray-300">
+            <div className="glass-sm p-6 rounded-xl mb-8">
+              <h3 className="font-semibold text-white mb-3">What Happens Next?</h3>
+              <ol className="text-left space-y-2 text-blue-100">
                 <li>1. I'll review your project details and requirements</li>
                 <li>2. I'll prepare a detailed proposal with timeline and pricing</li>
                 <li>3. We'll schedule a call to discuss the project</li>
@@ -137,19 +137,19 @@ export default function ContractPage() {
               </ol>
             </div>
             <div className="space-y-3">
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                A confirmation email has been sent to: <strong>{formData.email}</strong>
+              <p className="text-sm text-blue-200">
+                A confirmation email has been sent to: <strong className="text-white">{formData.email}</strong>
               </p>
               <div className="flex gap-4 justify-center">
                 <a
                   href="/"
-                  className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-shadow"
+                  className="btn-primary"
                 >
                   Return Home
                 </a>
                 <a
                   href="/resources"
-                  className="inline-block bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-shadow"
+                  className="glass-sm px-6 py-3 rounded-lg font-semibold text-white hover:bg-white/10 transition-all"
                 >
                   Browse Resources
                 </a>
@@ -162,12 +162,12 @@ export default function ContractPage() {
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-16 bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen pt-24 pb-16">
       <div className="container mx-auto px-4 max-w-4xl">
-        <h1 className="text-4xl font-bold text-center text-gray-900 dark:text-white mb-4">
+        <h1 className="text-4xl md:text-5xl font-bold text-center gradient-text mb-4">
           Service Contract
         </h1>
-        <p className="text-center text-gray-600 dark:text-gray-400 mb-8">
+        <p className="text-center text-blue-100 mb-8">
           Let's formalize your project! Fill out this contract to get started.
         </p>
 
@@ -177,21 +177,21 @@ export default function ContractPage() {
             {[1, 2, 3, 4].map((s) => (
               <div key={s} className="flex items-center flex-1">
                 <div
-                  className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-colors ${
+                  className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-all ${
                     step >= s
-                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white'
-                      : 'bg-gray-200 dark:bg-gray-700 text-gray-500'
+                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/30'
+                      : 'glass-sm text-blue-200'
                   }`}
                 >
                   {s}
                 </div>
                 {s < 4 && (
-                  <div className={`flex-1 h-1 mx-2 ${step > s ? 'bg-gradient-to-r from-blue-600 to-purple-600' : 'bg-gray-200 dark:bg-gray-700'}`}></div>
+                  <div className={`flex-1 h-1 mx-2 rounded-full ${step > s ? 'bg-gradient-to-r from-blue-600 to-purple-600' : 'glass-sm'}`}></div>
                 )}
               </div>
             ))}
           </div>
-          <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400">
+          <div className="flex justify-between text-xs text-blue-200">
             <span>Client Info</span>
             <span>Project Details</span>
             <span>Service Package</span>
@@ -199,7 +199,7 @@ export default function ContractPage() {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
+        <form onSubmit={handleSubmit} className="glass-card rounded-2xl p-8">
           <AnimatePresence mode="wait">
             {/* Step 1: Client Information */}
             {step === 1 && (
@@ -210,13 +210,13 @@ export default function ContractPage() {
                 exit={{ opacity: 0, x: -20 }}
                 className="space-y-6"
               >
-                <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+                <h2 className="text-2xl font-semibold text-white mb-4">
                   Client Information
                 </h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-blue-100 mb-2">
                       Full Name *
                     </label>
                     <input
@@ -225,13 +225,13 @@ export default function ContractPage() {
                       value={formData.clientName}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                      className="w-full px-4 py-3 glass-sm rounded-lg focus:ring-2 focus:ring-blue-500 text-white placeholder-blue-300/50"
                       placeholder="John Doe"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-blue-100 mb-2">
                       Company Name
                     </label>
                     <input
@@ -239,13 +239,13 @@ export default function ContractPage() {
                       name="companyName"
                       value={formData.companyName}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                      className="w-full px-4 py-3 glass-sm rounded-lg focus:ring-2 focus:ring-blue-500 text-white placeholder-blue-300/50"
                       placeholder="Acme Inc."
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-blue-100 mb-2">
                       Email Address *
                     </label>
                     <input
@@ -254,13 +254,13 @@ export default function ContractPage() {
                       value={formData.email}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                      className="w-full px-4 py-3 glass-sm rounded-lg focus:ring-2 focus:ring-blue-500 text-white placeholder-blue-300/50"
                       placeholder="john@example.com"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-blue-100 mb-2">
                       Phone Number *
                     </label>
                     <input
@@ -269,14 +269,14 @@ export default function ContractPage() {
                       value={formData.phone}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                      className="w-full px-4 py-3 glass-sm rounded-lg focus:ring-2 focus:ring-blue-500 text-white placeholder-blue-300/50"
                       placeholder="(555) 123-4567"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-blue-100 mb-2">
                     Business Address
                   </label>
                   <input
@@ -284,7 +284,7 @@ export default function ContractPage() {
                     name="address"
                     value={formData.address}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    className="w-full px-4 py-3 glass-sm rounded-lg focus:ring-2 focus:ring-blue-500 text-white placeholder-blue-300/50"
                     placeholder="123 Main St, City, State ZIP"
                   />
                 </div>
@@ -293,7 +293,7 @@ export default function ContractPage() {
                   <button
                     type="button"
                     onClick={() => setStep(2)}
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition-shadow"
+                    className="btn-primary"
                   >
                     Next: Project Details →
                   </button>
@@ -310,12 +310,12 @@ export default function ContractPage() {
                 exit={{ opacity: 0, x: -20 }}
                 className="space-y-6"
               >
-                <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+                <h2 className="text-2xl font-semibold text-white mb-4">
                   Project Details
                 </h2>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-blue-100 mb-2">
                     Project Type *
                   </label>
                   <select
@@ -323,7 +323,7 @@ export default function ContractPage() {
                     value={formData.projectType}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    className="w-full px-4 py-3 glass-sm rounded-lg focus:ring-2 focus:ring-blue-500 text-white"
                   >
                     <option value="">Select project type...</option>
                     {projectTypes.map(type => (
@@ -333,7 +333,7 @@ export default function ContractPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-blue-100 mb-2">
                     Project Description *
                   </label>
                   <textarea
@@ -342,14 +342,14 @@ export default function ContractPage() {
                     onChange={handleInputChange}
                     required
                     rows={6}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    className="w-full px-4 py-3 glass-sm rounded-lg focus:ring-2 focus:ring-blue-500 text-white placeholder-blue-300/50"
                     placeholder="Describe your project, goals, target audience, and any specific requirements..."
                   />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-blue-100 mb-2">
                       Current Website URL (if applicable)
                     </label>
                     <input
@@ -357,13 +357,13 @@ export default function ContractPage() {
                       name="websiteUrl"
                       value={formData.websiteUrl}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                      className="w-full px-4 py-3 glass-sm rounded-lg focus:ring-2 focus:ring-blue-500 text-white placeholder-blue-300/50"
                       placeholder="https://example.com"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-blue-100 mb-2">
                       Target Launch Date
                     </label>
                     <input
@@ -371,7 +371,7 @@ export default function ContractPage() {
                       name="targetLaunchDate"
                       value={formData.targetLaunchDate}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                      className="w-full px-4 py-3 glass-sm rounded-lg focus:ring-2 focus:ring-blue-500 text-white"
                     />
                   </div>
                 </div>
@@ -380,14 +380,14 @@ export default function ContractPage() {
                   <button
                     type="button"
                     onClick={() => setStep(1)}
-                    className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition-shadow"
+                    className="glass-sm px-8 py-3 rounded-lg font-semibold text-white hover:bg-white/10 transition-all"
                   >
                     ← Back
                   </button>
                   <button
                     type="button"
                     onClick={() => setStep(3)}
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition-shadow"
+                    className="btn-primary"
                   >
                     Next: Service Package →
                   </button>
@@ -404,12 +404,12 @@ export default function ContractPage() {
                 exit={{ opacity: 0, x: -20 }}
                 className="space-y-6"
               >
-                <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+                <h2 className="text-2xl font-semibold text-white mb-4">
                   Service Package
                 </h2>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                  <label className="block text-sm font-medium text-blue-100 mb-3">
                     Select Service Package *
                   </label>
                   <div className="space-y-3">
@@ -419,11 +419,11 @@ export default function ContractPage() {
                         className={`block p-4 border-2 rounded-lg cursor-pointer transition-all ${
                           formData.servicePackage === pkg.value
                             ? pkg.value === 'budget'
-                              ? 'border-green-500 bg-green-50 dark:bg-green-900/20 ring-2 ring-green-300'
-                              : 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                              ? 'border-green-400 bg-green-500/10 ring-2 ring-green-400/50'
+                              : 'border-blue-400 glass-sm ring-2 ring-blue-400/50'
                             : pkg.value === 'budget'
-                            ? 'border-green-300 dark:border-green-600 hover:border-green-400 bg-green-50/50 dark:bg-green-900/10'
-                            : 'border-gray-300 dark:border-gray-600 hover:border-blue-300'
+                            ? 'border-green-400/30 bg-green-500/5 hover:border-green-400/50'
+                            : 'border-white/10 glass-sm hover:border-blue-400/50'
                         }`}
                       >
                         <div className="flex items-start">
@@ -437,7 +437,7 @@ export default function ContractPage() {
                             required
                           />
                           <div>
-                            <span className="font-semibold text-gray-900 dark:text-white">
+                            <span className="font-semibold text-white">
                               {pkg.label}
                               {pkg.value === 'budget' && (
                                 <span className="ml-2 px-2 py-1 text-xs font-bold rounded-full bg-green-500 text-white">
@@ -445,7 +445,7 @@ export default function ContractPage() {
                                 </span>
                               )}
                             </span>
-                            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                            <p className="text-sm text-blue-100 mt-1">
                               {pkg.description}
                             </p>
                           </div>
@@ -457,14 +457,14 @@ export default function ContractPage() {
 
                 {/* Budget Package Specific Fields */}
                 {formData.servicePackage === 'budget' && (
-                  <div className="bg-green-50 dark:bg-green-900/20 p-6 rounded-lg border-2 border-green-300 dark:border-green-600 space-y-4">
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-4">
+                  <div className="bg-green-500/10 p-6 rounded-lg border-2 border-green-400/50 space-y-4">
+                    <h3 className="font-semibold text-white mb-4">
                       Budget Package Requirements
                     </h3>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-blue-100 mb-2">
                           Domain Name *
                         </label>
                         <input
@@ -473,16 +473,16 @@ export default function ContractPage() {
                           value={formData.domainName}
                           onChange={handleInputChange}
                           required={formData.servicePackage === 'budget'}
-                          className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                          className="w-full px-4 py-3 glass-sm rounded-lg focus:ring-2 focus:ring-green-500 text-white placeholder-blue-300/50"
                           placeholder="yourdomain.com"
                         />
-                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        <p className="text-xs text-blue-200 mt-1">
                           You must purchase and provide your own domain
                         </p>
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-blue-100 mb-2">
                           Business Email *
                         </label>
                         <input
@@ -491,7 +491,7 @@ export default function ContractPage() {
                           value={formData.businessEmail}
                           onChange={handleInputChange}
                           required={formData.servicePackage === 'budget'}
-                          className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                          className="w-full px-4 py-3 glass-sm rounded-lg focus:ring-2 focus:ring-green-500 text-white placeholder-blue-300/50"
                           placeholder="contact@yourdomain.com"
                         />
                       </div>
@@ -499,7 +499,7 @@ export default function ContractPage() {
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-blue-100 mb-2">
                           Primary Color *
                         </label>
                         <div className="flex gap-2">
@@ -509,20 +509,20 @@ export default function ContractPage() {
                             value={formData.primaryColor}
                             onChange={handleInputChange}
                             required={formData.servicePackage === 'budget'}
-                            className="h-12 w-16 border border-gray-300 dark:border-gray-600 rounded cursor-pointer"
+                            className="h-12 w-16 border border-white/20 rounded cursor-pointer bg-black/30"
                           />
                           <input
                             type="text"
                             value={formData.primaryColor}
                             onChange={(e) => setFormData(prev => ({ ...prev, primaryColor: e.target.value }))}
-                            className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                            className="flex-1 px-4 py-3 glass-sm rounded-lg text-white"
                             placeholder="#000000"
                           />
                         </div>
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-blue-100 mb-2">
                           Secondary Color
                         </label>
                         <div className="flex gap-2">
@@ -531,20 +531,20 @@ export default function ContractPage() {
                             name="secondaryColor"
                             value={formData.secondaryColor}
                             onChange={handleInputChange}
-                            className="h-12 w-16 border border-gray-300 dark:border-gray-600 rounded cursor-pointer"
+                            className="h-12 w-16 border border-white/20 rounded cursor-pointer bg-black/30"
                           />
                           <input
                             type="text"
                             value={formData.secondaryColor}
                             onChange={(e) => setFormData(prev => ({ ...prev, secondaryColor: e.target.value }))}
-                            className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                            className="flex-1 px-4 py-3 glass-sm rounded-lg text-white"
                             placeholder="#000000"
                           />
                         </div>
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-blue-100 mb-2">
                           Accent Color
                         </label>
                         <div className="flex gap-2">
@@ -553,24 +553,24 @@ export default function ContractPage() {
                             name="accentColor"
                             value={formData.accentColor}
                             onChange={handleInputChange}
-                            className="h-12 w-16 border border-gray-300 dark:border-gray-600 rounded cursor-pointer"
+                            className="h-12 w-16 border border-white/20 rounded cursor-pointer bg-black/30"
                           />
                           <input
                             type="text"
                             value={formData.accentColor}
                             onChange={(e) => setFormData(prev => ({ ...prev, accentColor: e.target.value }))}
-                            className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                            className="flex-1 px-4 py-3 glass-sm rounded-lg text-white"
                             placeholder="#000000"
                           />
                         </div>
                       </div>
                     </div>
 
-                    <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg border border-yellow-300 dark:border-yellow-600">
-                      <p className="text-sm text-gray-700 dark:text-gray-300">
-                        <strong className="text-yellow-800 dark:text-yellow-400">⚠️ Important Terms:</strong> By selecting the Budget Package, you agree that:
+                    <div className="bg-yellow-500/10 p-4 rounded-lg border border-yellow-400/50">
+                      <p className="text-sm text-blue-100">
+                        <strong className="text-yellow-300">⚠️ Important Terms:</strong> By selecting the Budget Package, you agree that:
                       </p>
-                      <ul className="text-sm text-gray-700 dark:text-gray-300 mt-2 space-y-1 ml-4 list-disc">
+                      <ul className="text-sm text-blue-100 mt-2 space-y-1 ml-4 list-disc">
                         <li>The $300 fixed price includes full creative control by the developer</li>
                         <li>You are responsible for purchasing and providing your domain name</li>
                         <li>Any requested changes outside the initial requirements will void this contract</li>
@@ -582,7 +582,7 @@ export default function ContractPage() {
                 )}
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-blue-100 mb-2">
                     Custom Features or Special Requirements
                   </label>
                   <textarea
@@ -590,20 +590,20 @@ export default function ContractPage() {
                     value={formData.customFeatures}
                     onChange={handleInputChange}
                     rows={4}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    className="w-full px-4 py-3 glass-sm rounded-lg focus:ring-2 focus:ring-blue-500 text-white placeholder-blue-300/50"
                     placeholder="Any specific features, integrations, or requirements not covered above..."
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-blue-100 mb-2">
                     Estimated Budget Range
                   </label>
                   <select
                     name="budget"
                     value={formData.budget}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    className="w-full px-4 py-3 glass-sm rounded-lg focus:ring-2 focus:ring-blue-500 text-white"
                   >
                     <option value="">Select budget range...</option>
                     <option value="under-5k">Under $5,000</option>
@@ -619,14 +619,14 @@ export default function ContractPage() {
                   <button
                     type="button"
                     onClick={() => setStep(2)}
-                    className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition-shadow"
+                    className="glass-sm px-8 py-3 rounded-lg font-semibold text-white hover:bg-white/10 transition-all"
                   >
                     ← Back
                   </button>
                   <button
                     type="button"
                     onClick={() => setStep(4)}
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition-shadow"
+                    className="btn-primary"
                   >
                     Review & Sign →
                   </button>
@@ -643,68 +643,68 @@ export default function ContractPage() {
                 exit={{ opacity: 0, x: -20 }}
                 className="space-y-6"
               >
-                <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+                <h2 className="text-2xl font-semibold text-white mb-4">
                   Review & Sign Contract
                 </h2>
 
                 {/* Summary */}
-                <div className="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg space-y-4">
-                  <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Contract Summary</h3>
+                <div className="glass-sm p-6 rounded-xl space-y-4">
+                  <h3 className="font-semibold text-white mb-3">Contract Summary</h3>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                     <div>
-                      <span className="text-gray-600 dark:text-gray-400">Client:</span>
-                      <p className="font-semibold text-gray-900 dark:text-white">{formData.clientName}</p>
+                      <span className="text-blue-200">Client:</span>
+                      <p className="font-semibold text-white">{formData.clientName}</p>
                     </div>
                     {formData.companyName && (
                       <div>
-                        <span className="text-gray-600 dark:text-gray-400">Company:</span>
-                        <p className="font-semibold text-gray-900 dark:text-white">{formData.companyName}</p>
+                        <span className="text-blue-200">Company:</span>
+                        <p className="font-semibold text-white">{formData.companyName}</p>
                       </div>
                     )}
                     <div>
-                      <span className="text-gray-600 dark:text-gray-400">Email:</span>
-                      <p className="font-semibold text-gray-900 dark:text-white">{formData.email}</p>
+                      <span className="text-blue-200">Email:</span>
+                      <p className="font-semibold text-white">{formData.email}</p>
                     </div>
                     <div>
-                      <span className="text-gray-600 dark:text-gray-400">Phone:</span>
-                      <p className="font-semibold text-gray-900 dark:text-white">{formData.phone}</p>
+                      <span className="text-blue-200">Phone:</span>
+                      <p className="font-semibold text-white">{formData.phone}</p>
                     </div>
                     <div>
-                      <span className="text-gray-600 dark:text-gray-400">Project Type:</span>
-                      <p className="font-semibold text-gray-900 dark:text-white">{formData.projectType}</p>
+                      <span className="text-blue-200">Project Type:</span>
+                      <p className="font-semibold text-white">{formData.projectType}</p>
                     </div>
                     <div>
-                      <span className="text-gray-600 dark:text-gray-400">Service Package:</span>
-                      <p className="font-semibold text-gray-900 dark:text-white">
+                      <span className="text-blue-200">Service Package:</span>
+                      <p className="font-semibold text-white">
                         {servicePackages.find(p => p.value === formData.servicePackage)?.label || formData.servicePackage}
                       </p>
                     </div>
                     {formData.servicePackage === 'budget' && formData.domainName && (
                       <>
                         <div>
-                          <span className="text-gray-600 dark:text-gray-400">Domain:</span>
-                          <p className="font-semibold text-gray-900 dark:text-white">{formData.domainName}</p>
+                          <span className="text-blue-200">Domain:</span>
+                          <p className="font-semibold text-white">{formData.domainName}</p>
                         </div>
                         <div>
-                          <span className="text-gray-600 dark:text-gray-400">Colors:</span>
+                          <span className="text-blue-200">Colors:</span>
                           <div className="flex gap-2 mt-1">
                             {formData.primaryColor && (
                               <div className="flex items-center gap-1">
-                                <div className="w-6 h-6 rounded border" style={{ backgroundColor: formData.primaryColor }}></div>
-                                <span className="text-xs text-gray-600 dark:text-gray-400">Primary</span>
+                                <div className="w-6 h-6 rounded border border-white/20" style={{ backgroundColor: formData.primaryColor }}></div>
+                                <span className="text-xs text-blue-200">Primary</span>
                               </div>
                             )}
                             {formData.secondaryColor && (
                               <div className="flex items-center gap-1">
-                                <div className="w-6 h-6 rounded border" style={{ backgroundColor: formData.secondaryColor }}></div>
-                                <span className="text-xs text-gray-600 dark:text-gray-400">Secondary</span>
+                                <div className="w-6 h-6 rounded border border-white/20" style={{ backgroundColor: formData.secondaryColor }}></div>
+                                <span className="text-xs text-blue-200">Secondary</span>
                               </div>
                             )}
                             {formData.accentColor && (
                               <div className="flex items-center gap-1">
-                                <div className="w-6 h-6 rounded border" style={{ backgroundColor: formData.accentColor }}></div>
-                                <span className="text-xs text-gray-600 dark:text-gray-400">Accent</span>
+                                <div className="w-6 h-6 rounded border border-white/20" style={{ backgroundColor: formData.accentColor }}></div>
+                                <span className="text-xs text-blue-200">Accent</span>
                               </div>
                             )}
                           </div>
@@ -725,9 +725,9 @@ export default function ContractPage() {
                       required
                       className="mt-1"
                     />
-                    <span className="text-sm text-gray-700 dark:text-gray-300">
+                    <span className="text-sm text-blue-100">
                       I have read and agree to the{' '}
-                      <a href="/terms" target="_blank" className="text-blue-600 dark:text-blue-400 hover:underline">
+                      <a href="/terms" target="_blank" className="text-blue-400 hover:text-blue-300 underline">
                         Terms of Service
                       </a>{' '}
                       *
@@ -743,9 +743,9 @@ export default function ContractPage() {
                       required
                       className="mt-1"
                     />
-                    <span className="text-sm text-gray-700 dark:text-gray-300">
+                    <span className="text-sm text-blue-100">
                       I have read and agree to the{' '}
-                      <a href="/privacy" target="_blank" className="text-blue-600 dark:text-blue-400 hover:underline">
+                      <a href="/privacy" target="_blank" className="text-blue-400 hover:text-blue-300 underline">
                         Privacy Policy
                       </a>{' '}
                       *
@@ -753,7 +753,7 @@ export default function ContractPage() {
                   </label>
 
                   {formData.servicePackage === 'budget' && (
-                    <label className="flex items-start gap-3 cursor-pointer bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg border border-yellow-300 dark:border-yellow-600">
+                    <label className="flex items-start gap-3 cursor-pointer bg-yellow-500/10 p-4 rounded-lg border border-yellow-400/50">
                       <input
                         type="checkbox"
                         name="agreeToBudgetTerms"
@@ -762,8 +762,8 @@ export default function ContractPage() {
                         required
                         className="mt-1"
                       />
-                      <span className="text-sm text-gray-700 dark:text-gray-300">
-                        <strong className="text-yellow-800 dark:text-yellow-400">I understand and agree to the Budget Package terms:</strong> I acknowledge that this $300 fixed-price contract grants full creative control to the developer. I am responsible for providing my own domain name. Any changes requested outside the initial requirements will void this contract and require upgrading to a custom development contract with pricing based on features (per feature, weekly, monthly, or yearly). *
+                      <span className="text-sm text-blue-100">
+                        <strong className="text-yellow-300">I understand and agree to the Budget Package terms:</strong> I acknowledge that this $300 fixed-price contract grants full creative control to the developer. I am responsible for providing my own domain name. Any changes requested outside the initial requirements will void this contract and require upgrading to a custom development contract with pricing based on features (per feature, weekly, monthly, or yearly). *
                       </span>
                     </label>
                   )}
@@ -771,7 +771,7 @@ export default function ContractPage() {
 
                 {/* Digital Signature */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-blue-100 mb-2">
                     Digital Signature *
                   </label>
                   <input
@@ -780,19 +780,19 @@ export default function ContractPage() {
                     value={formData.signature}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white font-['Brush_Script_MT',cursive] text-2xl"
+                    className="w-full px-4 py-3 glass-sm rounded-lg focus:ring-2 focus:ring-blue-500 text-white font-['Brush_Script_MT',cursive] text-2xl placeholder-blue-300/50"
                     placeholder="Type your full name as signature"
                   />
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                  <p className="text-xs text-blue-200 mt-2">
                     By typing your name above, you agree that this constitutes a legal digital signature.
                   </p>
                 </div>
 
-                <div className="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-lg">
-                  <p className="text-sm text-gray-700 dark:text-gray-300">
-                    <strong>Date:</strong> {formData.signatureDate}
+                <div className="glass-sm p-6 rounded-xl">
+                  <p className="text-sm text-blue-100">
+                    <strong className="text-white">Date:</strong> {formData.signatureDate}
                   </p>
-                  <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
+                  <p className="text-sm text-blue-100 mt-2">
                     This contract is legally binding and will be reviewed by JGServicesLLC.
                     You will receive a detailed proposal and invoice within 1-2 business days.
                   </p>
@@ -802,7 +802,7 @@ export default function ContractPage() {
                   <button
                     type="button"
                     onClick={() => setStep(3)}
-                    className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition-shadow"
+                    className="glass-sm px-8 py-3 rounded-lg font-semibold text-white hover:bg-white/10 transition-all"
                   >
                     ← Back
                   </button>
@@ -815,7 +815,7 @@ export default function ContractPage() {
                       !formData.signature ||
                       (formData.servicePackage === 'budget' && !formData.agreeToBudgetTerms)
                     }
-                    className="bg-gradient-to-r from-green-600 to-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition-shadow disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="bg-gradient-to-r from-green-600 to-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-green-500/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? 'Submitting...' : '✓ Submit Contract'}
                   </button>

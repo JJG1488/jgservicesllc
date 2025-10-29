@@ -2,9 +2,8 @@
 
 import { motion } from 'framer-motion';
 import FadeIn from '@/components/animations/FadeIn';
-import GlowCard from '@/components/ui/GlowCard';
+import ScaleIn from '@/components/animations/ScaleIn';
 import Link from 'next/link';
-import Image from 'next/image';
 
 export default function DemosPage() {
   const demos = [
@@ -13,8 +12,8 @@ export default function DemosPage() {
       name: 'Bella Vista Restaurant',
       type: 'Restaurant & Food Service',
       description: 'Experience a full-featured restaurant website with online ordering, menu display, reservations, and more.',
-      image: '/images/demo-restaurant.jpg',
-      color: 'rgba(239, 68, 68, 0.4)', // red
+      icon: '🍽️',
+      color: 'from-red-500 to-orange-600',
       features: [
         'Online Menu with Photos',
         'Table Reservations',
@@ -36,8 +35,8 @@ export default function DemosPage() {
       name: 'TechGear Store',
       type: 'E-Commerce',
       description: 'Explore a fully functional online store with shopping cart, checkout, product filtering, and customer accounts.',
-      image: '/images/demo-ecommerce.jpg',
-      color: 'rgba(59, 130, 246, 0.4)', // blue
+      icon: '🛍️',
+      color: 'from-blue-500 to-cyan-600',
       features: [
         'Product Catalog with Search',
         'Shopping Cart',
@@ -59,8 +58,8 @@ export default function DemosPage() {
       name: 'Apex Consulting',
       type: 'Professional Services',
       description: 'See how a service-based business can showcase expertise, capture leads, and book consultations.',
-      image: '/images/demo-service.jpg',
-      color: 'rgba(168, 85, 247, 0.4)', // purple
+      icon: '💼',
+      color: 'from-purple-500 to-pink-600',
       features: [
         'Service Portfolio',
         'Lead Capture Forms',
@@ -77,331 +76,291 @@ export default function DemosPage() {
       liveUrl: '/demos/service',
       testimonial: '"Lead generation increased 5x with this professional website"',
     },
+    {
+      id: 'portfolio',
+      name: 'Creative Portfolio',
+      type: 'Portfolio & Personal Brand',
+      description: 'A stunning portfolio website for creatives, freelancers, and professionals to showcase their work.',
+      icon: '🎨',
+      color: 'from-emerald-500 to-teal-600',
+      features: [
+        'Project Showcase Gallery',
+        'About & Bio Section',
+        'Skills & Expertise',
+        'Testimonials & Reviews',
+        'Contact Form',
+        'Downloadable Resume',
+      ],
+      metrics: {
+        performance: 98,
+        accessibility: 97,
+        seo: 93,
+      },
+      liveUrl: '/demos/portfolio',
+      testimonial: '"This portfolio helped me land 3 major clients in the first month"',
+    },
   ];
 
   return (
     <div className="min-h-screen pt-24 pb-16">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-purple-600 via-pink-600 to-red-600 text-white py-20 mb-16">
-        <div className="container mx-auto px-4">
-          <FadeIn>
-            <h1 className="text-4xl md:text-5xl font-bold text-center mb-6">
-              Interactive Website Demos
-            </h1>
-          </FadeIn>
-          <FadeIn delay={0.2}>
-            <p className="text-xl text-center max-w-3xl mx-auto text-blue-50 mb-8">
-              Don't just imagine your website — experience it! Click through our fully functional demos
-              to see exactly what we can build for your business.
-            </p>
-          </FadeIn>
-          <FadeIn delay={0.4}>
-            <div className="flex justify-center gap-4 flex-wrap">
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg px-6 py-3 text-center">
-                <p className="text-3xl font-bold text-white">100%</p>
-                <p className="text-sm text-white font-semibold">Interactive</p>
+      <section className="section-container text-center">
+        <ScaleIn>
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 gradient-text">
+            Interactive Website Demos
+          </h1>
+        </ScaleIn>
+        <FadeIn delay={0.2}>
+          <p className="text-xl text-blue-100 max-w-3xl mx-auto mb-12">
+            Don't just imagine your website — experience it! Click through our fully functional demos
+            to see exactly what we can build for your business.
+          </p>
+        </FadeIn>
+        <FadeIn delay={0.4}>
+          <div className="flex justify-center gap-6 flex-wrap">
+            {[
+              { value: '100%', label: 'Interactive' },
+              { value: '4', label: 'Live Demos' },
+              { value: 'Real', label: 'Functionality' },
+            ].map((stat, index) => (
+              <div key={index} className="glass-md rounded-xl px-8 py-4 text-center min-w-32">
+                <p className="text-4xl font-bold gradient-text mb-1">{stat.value}</p>
+                <p className="text-sm text-blue-100 font-semibold">{stat.label}</p>
               </div>
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg px-6 py-3 text-center">
-                <p className="text-3xl font-bold text-white">3</p>
-                <p className="text-sm text-white font-semibold">Live Demos</p>
-              </div>
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg px-6 py-3 text-center">
-                <p className="text-3xl font-bold text-white">Real</p>
-                <p className="text-sm text-white font-semibold">Functionality</p>
-              </div>
-            </div>
-          </FadeIn>
-        </div>
+            ))}
+          </div>
+        </FadeIn>
       </section>
 
       {/* Demo Grid */}
-      <section className="container mx-auto px-4 mb-20">
+      <section className="section-container">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {demos.map((demo, index) => (
             <motion.div
               key={demo.id}
               initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              className="glass-card rounded-2xl overflow-hidden hover:scale-105 transition-transform duration-300"
             >
-              <GlowCard glowColor={demo.color}>
-                <div className="bg-white rounded-2xl shadow-xl overflow-hidden h-full flex flex-col">
-                  {/* Preview Image */}
-                  <div className="relative h-64 bg-gradient-to-br from-gray-100 to-gray-200">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-center">
-                        <div className="text-6xl mb-2">
-                          {demo.id === 'restaurant' && '🍽️'}
-                          {demo.id === 'ecommerce' && '🛍️'}
-                          {demo.id === 'service' && '💼'}
-                          {demo.id === 'booking' && '📅'}
-                        </div>
-                        <p className="text-gray-500 text-sm">Preview Coming Soon</p>
+              {/* Preview Header */}
+              <div className={`relative h-48 bg-gradient-to-br ${demo.color} flex items-center justify-center`}>
+                <div className="text-center">
+                  <div className="text-8xl mb-2">{demo.icon}</div>
+                </div>
+                {/* Performance Badge */}
+                <div className="absolute top-4 right-4 glass-sm px-4 py-2 rounded-full text-sm font-bold text-white">
+                  {demo.metrics.performance} Score
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="p-8">
+                <div className="mb-6">
+                  <span className="text-sm font-semibold text-blue-300 uppercase tracking-wide">
+                    {demo.type}
+                  </span>
+                  <h3 className="text-3xl font-bold text-white mt-2 mb-3">
+                    {demo.name}
+                  </h3>
+                  <p className="text-blue-100">
+                    {demo.description}
+                  </p>
+                </div>
+
+                {/* Features */}
+                <div className="mb-6">
+                  <h4 className="font-semibold text-white mb-3 text-sm">
+                    Key Features:
+                  </h4>
+                  <div className="grid grid-cols-2 gap-2">
+                    {demo.features.map((feature, idx) => (
+                      <div key={idx} className="flex items-start gap-2 text-sm">
+                        <span className="text-green-400 flex-shrink-0">✓</span>
+                        <span className="text-blue-100">{feature}</span>
                       </div>
-                    </div>
-                    {/* Performance Badge */}
-                    <div className="absolute top-4 right-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold">
-                      {demo.metrics.performance} Performance Score
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-6 flex-grow flex flex-col">
-                    <div className="mb-4">
-                      <span className="text-sm font-semibold text-blue-600 uppercase tracking-wide">
-                        {demo.type}
-                      </span>
-                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white mt-1 mb-2">
-                        {demo.name}
-                      </h3>
-                      <p className="text-gray-600">
-                        {demo.description}
-                      </p>
-                    </div>
-
-                    {/* Features */}
-                    <div className="mb-4">
-                      <h4 className="font-semibold text-gray-900 mb-2 text-sm dark:text-white">
-                        Key Features:
-                      </h4>
-                      <div className="grid grid-cols-2 gap-2">
-                        {demo.features.slice(0, 6).map((feature, idx) => (
-                          <div key={idx} className="flex items-start gap-2 text-sm">
-                            <span className="text-green-500 flex-shrink-0">✓</span>
-                            <span className="text-gray-600">{feature}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Metrics */}
-                    <div className="mb-4 bg-gray-50 rounded-lg p-4">
-                      <h4 className="font-semibold text-gray-900 mb-3 text-sm dark:text-white">
-                        Performance Metrics:
-                      </h4>
-                      <div className="space-y-2">
-                        <div>
-                          <div className="flex justify-between text-xs mb-1">
-                            <span className="text-gray-600">Performance</span>
-                            <span className="font-bold text-green-600">{demo.metrics.performance}%</span>
-                          </div>
-                          <div className="w-full bg-gray-200 rounded-full h-2">
-                            <div
-                              className="bg-green-500 h-2 rounded-full"
-                              style={{ width: `${demo.metrics.performance}%` }}
-                            />
-                          </div>
-                        </div>
-                        <div>
-                          <div className="flex justify-between text-xs mb-1">
-                            <span className="text-gray-600">Accessibility</span>
-                            <span className="font-bold text-green-600">{demo.metrics.accessibility}%</span>
-                          </div>
-                          <div className="w-full bg-gray-200 rounded-full h-2">
-                            <div
-                              className="bg-green-500 h-2 rounded-full"
-                              style={{ width: `${demo.metrics.accessibility}%` }}
-                            />
-                          </div>
-                        </div>
-                        <div>
-                          <div className="flex justify-between text-xs mb-1">
-                            <span className="text-gray-600">SEO</span>
-                            <span className="font-bold text-green-600">{demo.metrics.seo}%</span>
-                          </div>
-                          <div className="w-full bg-gray-200 rounded-full h-2">
-                            <div
-                              className="bg-green-500 h-2 rounded-full"
-                              style={{ width: `${demo.metrics.seo}%` }}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Testimonial */}
-                    <div className="mb-6 bg-blue-50 border-l-4 border-blue-500 p-3 rounded">
-                      <p className="text-sm italic text-gray-700">
-                        {demo.testimonial}
-                      </p>
-                    </div>
-
-                    {/* CTA */}
-                    <div className="mt-auto">
-                      <Link
-                        href={demo.liveUrl}
-                        className="block w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white text-center py-4 rounded-lg font-bold hover:shadow-lg transition-shadow"
-                      >
-                        Explore Live Demo →
-                      </Link>
-                    </div>
+                    ))}
                   </div>
                 </div>
-              </GlowCard>
+
+                {/* Metrics */}
+                <div className="mb-6 glass-sm rounded-lg p-4">
+                  <h4 className="font-semibold text-white mb-3 text-sm">
+                    Performance Metrics:
+                  </h4>
+                  <div className="space-y-3">
+                    {Object.entries(demo.metrics).map(([key, value]) => (
+                      <div key={key}>
+                        <div className="flex justify-between text-xs mb-1">
+                          <span className="text-blue-200 capitalize">{key}</span>
+                          <span className="font-bold text-green-400">{value}%</span>
+                        </div>
+                        <div className="w-full bg-white/10 rounded-full h-2">
+                          <div
+                            className="bg-gradient-to-r from-green-400 to-emerald-500 h-2 rounded-full"
+                            style={{ width: `${value}%` }}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Testimonial */}
+                <div className="mb-6 glass-sm border-l-4 border-blue-400 p-4 rounded">
+                  <p className="text-sm italic text-blue-100">
+                    {demo.testimonial}
+                  </p>
+                </div>
+
+                {/* CTA */}
+                <Link
+                  href={demo.liveUrl}
+                  className="block w-full btn-primary text-center"
+                >
+                  Explore Live Demo →
+                </Link>
+              </div>
             </motion.div>
           ))}
         </div>
       </section>
 
       {/* Why Try Our Demos */}
-      <section className="container mx-auto px-4 mb-20">
-        <div className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-2xl p-8 md:p-12">
-          <FadeIn>
-            <h2 className="text-3xl font-bold text-center mb-8 text-gray-900">
+      <section className="section-container">
+        <div className="glass-md rounded-3xl p-12">
+          <ScaleIn>
+            <h2 className="text-4xl font-bold text-center mb-12 gradient-text">
               Why Experience Our Demos?
             </h2>
-          </FadeIn>
+          </ScaleIn>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <FadeIn delay={0.1}>
-              <div className="text-center">
-                <div className="text-5xl mb-4">🎯</div>
-                <h3 className="font-bold text-xl mb-2 text-gray-900">
-                  See Real Quality
-                </h3>
-                <p className="text-gray-600">
-                  Don't imagine what your site could look like — click through and experience the actual user journey, design, and functionality.
-                </p>
-              </div>
-            </FadeIn>
-            <FadeIn delay={0.2}>
-              <div className="text-center">
-                <div className="text-5xl mb-4">💡</div>
-                <h3 className="font-bold text-xl mb-2 text-gray-900">
-                  Get Ideas
-                </h3>
-                <p className="text-gray-600">
-                  Discover features you didn't know you needed. See how other businesses solve problems similar to yours.
-                </p>
-              </div>
-            </FadeIn>
-            <FadeIn delay={0.3}>
-              <div className="text-center">
-                <div className="text-5xl mb-4">✅</div>
-                <h3 className="font-bold text-xl mb-2 text-gray-900">
-                  Confident Decision
-                </h3>
-                <p className="text-gray-600">
-                  Make an informed choice. You'll know exactly what you're getting before we start your project.
-                </p>
-              </div>
-            </FadeIn>
+            {[
+              {
+                icon: '🎯',
+                title: 'See Real Quality',
+                description: "Don't imagine what your site could look like — click through and experience the actual user journey, design, and functionality."
+              },
+              {
+                icon: '💡',
+                title: 'Get Ideas',
+                description: "Discover features you didn't know you needed. See how other businesses solve problems similar to yours."
+              },
+              {
+                icon: '✅',
+                title: 'Confident Decision',
+                description: "Make an informed choice. You'll know exactly what you're getting before we start your project."
+              }
+            ].map((item, index) => (
+              <FadeIn key={index} delay={0.1 * index}>
+                <div className="text-center">
+                  <div className="text-6xl mb-4">{item.icon}</div>
+                  <h3 className="font-bold text-2xl mb-3 text-white">
+                    {item.title}
+                  </h3>
+                  <p className="text-blue-100">
+                    {item.description}
+                  </p>
+                </div>
+              </FadeIn>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* What Clients Say */}
-      <section className="container mx-auto px-4 mb-20">
-        <FadeIn>
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-900 dark:text-white">
+      {/* Client Testimonials */}
+      <section className="section-container">
+        <ScaleIn>
+          <h2 className="text-4xl font-bold text-center mb-12 gradient-text">
             What Happens After You See the Demos
           </h2>
-        </FadeIn>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2 }}
-            className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500"
-          >
-            <div className="flex items-start gap-4">
-              <div className="text-3xl">💬</div>
-              <div>
-                <h4 className="font-bold text-gray-900 mb-2 dark:text-white">
-                  "I knew exactly what I wanted"
-                </h4>
-                <p className="text-gray-600 text-sm mb-2">
-                  "After clicking through the restaurant demo, I could point to specific features and say 'I want this.' Made the planning process so much easier."
-                </p>
-                <p className="text-xs text-gray-500">— Sarah M., Restaurant Owner</p>
+        </ScaleIn>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          {[
+            {
+              icon: '💬',
+              title: '"I knew exactly what I wanted"',
+              quote: "After clicking through the restaurant demo, I could point to specific features and say 'I want this.' Made the planning process so much easier.",
+              author: 'Sarah M., Restaurant Owner',
+              color: 'border-green-500'
+            },
+            {
+              icon: '🎨',
+              title: '"The quality spoke for itself"',
+              quote: "I tried other developers who showed me mockups. JG Services let me actually use a demo. The attention to detail sold me immediately.",
+              author: 'Mark T., E-commerce Store',
+              color: 'border-blue-500'
+            },
+            {
+              icon: '⚡',
+              title: '"Faster project kickoff"',
+              quote: "Because I explored the demos first, we skipped weeks of back-and-forth. I knew what was possible and what I wanted right away.",
+              author: 'Lisa K., Consultant',
+              color: 'border-purple-500'
+            },
+            {
+              icon: '🚀',
+              title: '"ROI was clear immediately"',
+              quote: "Seeing the features in action made me realize how much time and money it would save. The investment made perfect sense.",
+              author: 'James R., Creative Professional',
+              color: 'border-orange-500'
+            }
+          ].map((testimonial, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 * index }}
+              className={`glass-card rounded-xl p-6 border-l-4 ${testimonial.color}`}
+            >
+              <div className="flex items-start gap-4">
+                <div className="text-4xl">{testimonial.icon}</div>
+                <div>
+                  <h4 className="font-bold text-white mb-2">
+                    {testimonial.title}
+                  </h4>
+                  <p className="text-blue-100 text-sm mb-3">
+                    {testimonial.quote}
+                  </p>
+                  <p className="text-xs text-blue-200">— {testimonial.author}</p>
+                </div>
               </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3 }}
-            className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500"
-          >
-            <div className="flex items-start gap-4">
-              <div className="text-3xl">🎨</div>
-              <div>
-                <h4 className="font-bold text-gray-900 mb-2 dark:text-white">
-                  "The quality spoke for itself"
-                </h4>
-                <p className="text-gray-600 text-sm mb-2">
-                  "I tried other developers who showed me mockups. JG Services let me actually use a demo. The attention to detail sold me immediately."
-                </p>
-                <p className="text-xs text-gray-500">— Mark T., E-commerce Store</p>
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4 }}
-            className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500"
-          >
-            <div className="flex items-start gap-4">
-              <div className="text-3xl">⚡</div>
-              <div>
-                <h4 className="font-bold text-gray-900 mb-2 dark:text-white">
-                  "Faster project kickoff"
-                </h4>
-                <p className="text-gray-600 text-sm mb-2">
-                  "Because I explored the demos first, we skipped weeks of back-and-forth. I knew what was possible and what I wanted right away."
-                </p>
-                <p className="text-xs text-gray-500">— Lisa K., Consultant</p>
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.5 }}
-            className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-orange-500"
-          >
-            <div className="flex items-start gap-4">
-              <div className="text-3xl">🚀</div>
-              <div>
-                <h4 className="font-bold text-gray-900 mb-2 dark:text-white">
-                  "ROI was clear immediately"
-                </h4>
-                <p className="text-gray-600 text-sm mb-2">
-                  "Seeing the booking system in action made me realize how much time and money it would save. The investment made perfect sense."
-                </p>
-                <p className="text-xs text-gray-500">— James R., Spa Owner</p>
-              </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          ))}
         </div>
       </section>
 
       {/* CTA */}
-      <section className="container mx-auto px-4">
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-16 px-8 rounded-2xl text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Ready to Build Your Own?
-          </h2>
-          <p className="text-xl text-blue-50 mb-8 max-w-2xl mx-auto">
-            Now that you've seen what's possible, let's create something amazing for your business.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/contact"
-              className="inline-block bg-white text-blue-600 font-bold py-4 px-8 rounded-lg hover:bg-blue-50 transition transform hover:scale-105"
-            >
-              Start Your Project
-            </Link>
-            <Link
-              href="/resources/roi-calculator"
-              className="inline-block border-2 border-white text-white font-bold py-4 px-8 rounded-lg hover:bg-white hover:text-blue-600 transition transform hover:scale-105"
-            >
-              Calculate Your ROI
-            </Link>
-          </div>
+      <section className="section-container">
+        <div className="glass-lg rounded-3xl p-16 text-center hero-gradient">
+          <ScaleIn>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
+              Ready to Build Your Own?
+            </h2>
+          </ScaleIn>
+          <FadeIn delay={0.2}>
+            <p className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto">
+              Now that you've seen what's possible, let's create something amazing for your business.
+            </p>
+          </FadeIn>
+          <FadeIn delay={0.4}>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/contact"
+                className="btn-primary"
+              >
+                Start Your Project
+              </Link>
+              <Link
+                href="/resources"
+                className="btn-secondary"
+              >
+                Explore Resources
+              </Link>
+            </div>
+          </FadeIn>
         </div>
       </section>
     </div>

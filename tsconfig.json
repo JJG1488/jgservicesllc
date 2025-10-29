@@ -26,7 +26,16 @@
       "@/*": [
         "./src/*"
       ]
-    }
+    },
+    "skipDefaultLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types"
+    ]
   },
   "include": [
     "next-env.d.ts",

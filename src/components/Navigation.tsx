@@ -3,8 +3,6 @@
 import Link from "next/link";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import ThemeToggle from "./ThemeToggle";
-import LanguageSelector from "./LanguageSelector";
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,7 +12,6 @@ export default function Navigation() {
     { href: "/", label: "Home" },
     { href: "/services", label: "Services" },
     { href: "/process", label: "Process" },
-    { href: "/projects", label: "Projects" },
     { href: "/demos", label: "Demos" },
     { href: "/resources", label: "Resources" },
     { href: "/faq", label: "FAQ" },
@@ -24,47 +21,42 @@ export default function Navigation() {
   const isActive = (path: string) => pathname === path;
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gradient-to-r dark:from-sapphire-950 dark:to-amethyst-950 shadow-md border-b border-gray-200 dark:border-sapphire-800 transition-colors backdrop-blur-sm">
-      <div className="container mx-auto px-4">
+    <nav className="fixed top-0 left-0 right-0 z-50 glass-md border-b border-white/10">
+      <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link
             href="/"
-            className="text-2xl font-ephesis text-shadow bg-gradient-to-r from-blue-600 to-purple-600 dark:from-sapphire-400 dark:to-amethyst-400 bg-clip-text text-transparent hover:from-blue-700 hover:to-purple-700 transition"
+            className="text-2xl font-ephesis gradient-text hover:opacity-80 transition"
           >
             JGServicesLLC
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-6">
+          <div className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`font-medium transition duration-300 ${
+                className={`font-medium transition-all duration-300 ${
                   isActive(link.href)
-                    ? "text-blue-600 dark:text-amethyst-400 border-b-2 border-blue-600 dark:border-amethyst-400"
-                    : "text-gray-700 dark:text-sapphire-100 hover:text-purple-600 dark:hover:text-amethyst-300"
+                    ? "text-white border-b-2 border-blue-400 pb-1"
+                    : "text-blue-100 hover:text-white"
                 }`}
               >
                 {link.label}
               </Link>
             ))}
-            <LanguageSelector />
-            <ThemeToggle />
           </div>
 
-          {/* Mobile Menu Button, Language, and Theme Toggle */}
-          <div className="md:hidden flex items-center space-x-2">
-            <LanguageSelector />
-            <ThemeToggle />
-            <button
-              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition"
-              onClick={() => setIsOpen(!isOpen)}
-              aria-label="Toggle menu"
-            >
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden p-2 rounded-lg hover:bg-white/10 transition"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle menu"
+          >
             <svg
-              className="w-6 h-6"
+              className="w-6 h-6 text-white"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -86,7 +78,6 @@ export default function Navigation() {
               )}
             </svg>
           </button>
-          </div>
         </div>
 
         {/* Mobile Navigation */}
@@ -96,10 +87,10 @@ export default function Navigation() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`block py-2 px-4 rounded-lg transition ${
+                className={`block py-3 px-4 rounded-lg transition ${
                   isActive(link.href)
-                    ? "bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 font-medium"
-                    : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                    ? "bg-blue-500/30 text-white font-medium"
+                    : "text-blue-100 hover:bg-white/10"
                 }`}
                 onClick={() => setIsOpen(false)}
               >
