@@ -9,7 +9,7 @@ export default function FloatingBudgetCTA() {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="fixed bottom-6 left-6 z-50">
       <AnimatePresence>
         {isExpanded && (
           <motion.div
@@ -63,12 +63,10 @@ export default function FloatingBudgetCTA() {
         onMouseLeave={() => setIsHovered(false)}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className='relative inset-x-x-x-0 right-390 top-10'
-        // className="relative justify-baseline left-0 bottom-0 top-0 right-0 text-gray-400 hover:text-white transition px-3 py-1 rounded hover:bg-gray-700"
-        // className="relative bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-full shadow-2xl transition-all overflow-hidden"
+        className="relative bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-full shadow-2xl transition-all overflow-hidden"
         style={{
-          width: isHovered ? '180px' : '64px',
-          height: '64px',
+          width: isHovered ? '180px' : '40px',
+          height: '40px',
           transition: 'width 0.3s ease-in-out'
         }}
         aria-label="Budget-Friendly Package"
@@ -83,7 +81,7 @@ export default function FloatingBudgetCTA() {
                 exit={{ opacity: 0 }}
                 className="text-sm font-bold whitespace-nowrap"
               >
-                 💰
+                Only $300! 💰
               </motion.span>
             ) : (
               <motion.span
@@ -104,7 +102,7 @@ export default function FloatingBudgetCTA() {
 
         {/* Badge for "New" or "$300" */}
         <span className="absolute -top-1 -right-1 bg-yellow-400 text-yellow-900 text-xs font-bold px-2 py-1 rounded-full shadow-lg">
-          $300
+          {/* $300 */}
         </span>
       </motion.button>
     </div>
