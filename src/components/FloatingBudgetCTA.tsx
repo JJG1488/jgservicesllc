@@ -83,7 +83,7 @@ export default function FloatingBudgetCTA() {
                 exit={{ opacity: 0 }}
                 className="text-sm font-bold whitespace-nowrap"
               >
-                Only $300! 💰
+                 💰
               </motion.span>
             ) : (
               <motion.span
