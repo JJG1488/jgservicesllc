@@ -63,7 +63,7 @@ export default function FloatingBudgetCTA() {
         onMouseLeave={() => setIsHovered(false)}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className='relative inset-x-x-x-0 right-15.5'
+        className='relative inset-x-x-x-0 right-15.5 top-10'
         // className="relative justify-baseline left-0 bottom-0 top-0 right-0 text-gray-400 hover:text-white transition px-3 py-1 rounded hover:bg-gray-700"
         // className="relative bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-full shadow-2xl transition-all overflow-hidden"
         style={{
