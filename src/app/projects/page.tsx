@@ -9,12 +9,13 @@ import ScaleIn from "@/components/animations/ScaleIn";
 const projects = [
   {
     id: 1,
-    title: "A and M Construction",
-    description: "A modern, responsive website for a construction company.",
-    image: "/images/a_and_m_construction.png",
-    tags: ["Next.js", "Node.js", "Tailwind CSS"],
-    liveUrl: "https://a-and-m-construction-tw21.vercel.app/",
+    title: "Brandforge AI",
+    description: "A powerful AI-powered recommendation engine for instant branding and logo creation.",
+    image: "/images/brandforgeai.png",
+    tags: ["Next.js", "Stripe", "Talwind CSS"],
+    liveUrl: "https://brandforgeai.pro",
     githubUrl: "#",
+    
   },
   {
     id: 2,
@@ -27,30 +28,32 @@ const projects = [
   },
   {
     id: 3,
-    title: "Brandforge AI",
-    description: "A powerful AI-powered recommendation engine for instant branding and logo creation.",
-    image: "/images/brandforgeai.png",
-    tags: ["Next.js", "Stripe", "Talwind CSS"],
-    liveUrl: "https://brandforgeai.pro",
-    githubUrl: "#",
-  },
-  {
-    id: 4,
-    title: "Cornerstone Plumbing and Electric",
-    description: "A modern, responsive website for a plumbing and electric company.",
-    image: "/images/cornerstone.png",
-    tags: ["Next.js", "Node.js", "Tailwind"],
-    liveUrl: "https://conerstone-plumbing.vercel.app",
-    githubUrl: "#",
-  },
-  {
-    id: 5,
     title: "E-Commerce Platform",
     description: "This is a premium direct-to-consumer e-commerce application built with Next.js 15 and JavaScript (not TypeScript). It features Tailwind CSS v4, Framer Motion animations, and a complete e-commerce shopping experience including product catalog, shopping cart, checkout flow, and wishlist functionality. The brand is LUXE - a luxury retailer specializing in watches, jewelry, bags, and premium accessories.",
     image: "/images/nexttjscomponent.png",
     tags: ["JavaScript", "Framer", "Tailwind CSS"],
     liveUrl: "https://nextjs-premium-components-template.vercel.app",
     githubUrl: "#",
+    
+  },
+  {
+    id: 4,
+    title: "A and M Construction",
+    description: "A modern, responsive website for a construction company.",
+    image: "/images/a_and_m_construction.png",
+    tags: ["Next.js", "Node.js", "Tailwind CSS"],
+    liveUrl: "https://a-and-m-construction-tw21.vercel.app/",
+    githubUrl: "#",
+  },
+  {
+    id: 5,
+    title: "Cornerstone Plumbing and Electric",
+    description: "A modern, responsive website for a plumbing and electric company.",
+    image: "/images/cornerstone.png",
+    tags: ["Next.js", "Node.js", "Tailwind"],
+    liveUrl: "https://conerstone-plumbing.vercel.app",
+    githubUrl: "#",
+    
   },
   {
     id: 6,
