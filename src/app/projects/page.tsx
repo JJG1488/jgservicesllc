@@ -1,46 +1,46 @@
+'use client';
+
 import Image from "next/image";
 import Link from "next/link";
-
-export const metadata = {
-  title: "Projects - JGServicesLLC",
-  description: "Explore our portfolio of custom web development projects and case studies.",
-};
+import { motion } from "framer-motion";
+import FadeIn from "@/components/animations/FadeIn";
+import ScaleIn from "@/components/animations/ScaleIn";
 
 const projects = [
   {
     id: 1,
-    title: "WannaBurger Restaurant Website",
-    description: "A modern, responsive website for a local burger restaurant featuring online ordering and menu management.",
-    image: "/images/wannaBurger.png",
-    tags: ["React", "Node.js", "MongoDB"],
-    liveUrl: "#",
+    title: "A and M Construction",
+    description: "A modern, responsive website for a construction company.",
+    image: "/images/a_and_m_construction.png",
+    tags: ["Next.js", "Node.js", "Tailwind CSS"],
+    liveUrl: "https://a-and-m-construction-tw21.vercel.app/",
     githubUrl: "#",
   },
   {
     id: 2,
-    title: "Weather Dashboard",
-    description: "Real-time weather application with 5-day forecasts, geolocation, and interactive maps.",
-    image: "/images/weather-dashboard.png",
-    tags: ["JavaScript", "API Integration", "Responsive"],
-    liveUrl: "#",
+    title: "Greencare Professionals",
+    description: "Lawncare application that connects lawn care professionals with clients.",
+    image: "/images/greencareprofessionals.png",
+    tags: ["Next.js", "Vercel", "TypeScript"],
+    liveUrl: "https://greencareprofessionals.com",
     githubUrl: "#",
   },
   {
     id: 3,
-    title: "Travel Logger",
-    description: "Full-stack application for tracking and sharing travel experiences with photo uploads and interactive maps.",
-    image: "/images/travel-logger.png",
-    tags: ["React", "Express", "PostgreSQL"],
-    liveUrl: "#",
+    title: "Brandforge AI",
+    description: "A powerful AI-powered recommendation engine for instant branding and logo creation.",
+    image: "/images/brandforgeai.png",
+    tags: ["Next.js", "Stripe", "Talwind CSS"],
+    liveUrl: "https://brandforgeai.pro",
     githubUrl: "#",
   },
   {
     id: 4,
-    title: "Find Your Movie",
-    description: "Movie discovery platform with advanced search, ratings, and personalized recommendations.",
-    image: "/images/find-your-movie.png",
-    tags: ["React", "API", "Tailwind"],
-    liveUrl: "#",
+    title: "Cornerstone Plumbing and Electric",
+    description: "A modern, responsive website for a plumbing and electric company.",
+    image: "/images/cornerstone.png",
+    tags: ["Next.js", "Node.js", "Tailwind"],
+    liveUrl: "https://conerstone-plumbing.vercel.app",
     githubUrl: "#",
   },
   {
@@ -65,82 +65,96 @@ const projects = [
 
 export default function Projects() {
   return (
-    <div className="min-h-screen pt-24 pb-16 bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen pt-24 pb-16">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-4">Our Projects</h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Explore a selection of projects we've built for clients and as
-            demonstrations of our capabilities.
-          </p>
-        </div>
+        <FadeIn>
+          <div className="text-center mb-12">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 gradient-text">Our Projects</h1>
+            <p className="text-lg text-blue-100 max-w-2xl mx-auto">
+              Explore a selection of projects we've built for clients and as
+              demonstrations of our capabilities.
+            </p>
+          </div>
+        </FadeIn>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project) => (
-            <div
-              key={project.id}
-              className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition duration-300 overflow-hidden group"
-            >
-              <div className="relative w-full h-48 overflow-hidden">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-cover group-hover:scale-110 transition duration-300"
-                />
-              </div>
+          {projects.map((project, index) => (
+            <ScaleIn key={project.id} delay={index * 0.1}>
+              <motion.div
+                className="glass-card rounded-2xl overflow-hidden group"
+                whileHover={{ y: -8 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <div className="relative w-full h-48 overflow-hidden">
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    className="object-cover group-hover:scale-110 transition duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </div>
 
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">
-                  {project.title}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm">
-                  {project.description}
-                </p>
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold mb-2 text-white">
+                    {project.title}
+                  </h3>
+                  <p className="text-blue-100 mb-4 text-sm">
+                    {project.description}
+                  </p>
 
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tags.map((tag, index) => (
-                    <span
-                      key={index}
-                      className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs rounded-full"
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.tags.map((tag, tagIndex) => (
+                      <span
+                        key={tagIndex}
+                        className="px-3 py-1 glass-sm text-blue-200 text-xs rounded-full"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="flex gap-3">
+                    <motion.a
+                      href={project.liveUrl}
+                      className="flex-1 text-center btn-primary py-2 px-4 text-sm"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
                     >
-                      {tag}
-                    </span>
-                  ))}
+                      View Live
+                    </motion.a>
+                    <motion.a
+                      href={project.githubUrl}
+                      className="flex-1 text-center glass-sm border border-blue-400/50 text-blue-300 hover:bg-white/10 py-2 px-4 rounded-lg transition-all text-sm"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      GitHub
+                    </motion.a>
+                  </div>
                 </div>
-
-                <div className="flex gap-4">
-                  <a
-                    href={project.liveUrl}
-                    className="flex-1 text-center bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition duration-300 text-sm"
-                  >
-                    View Live
-                  </a>
-                  <a
-                    href={project.githubUrl}
-                    className="flex-1 text-center border border-blue-600 dark:border-blue-400 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900 py-2 px-4 rounded-lg transition duration-300 text-sm"
-                  >
-                    GitHub
-                  </a>
-                </div>
-              </div>
-            </div>
+              </motion.div>
+            </ScaleIn>
           ))}
         </div>
 
-        <div className="mt-16 text-center bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold mb-4">Have a Project in Mind?</h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
-            Let's discuss how we can bring your ideas to life with custom web
-            development solutions.
-          </p>
-          <Link
-            href="/contact"
-            className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105"
-          >
-            Start a Project
-          </Link>
-        </div>
+        <FadeIn delay={0.6}>
+          <div className="mt-16 text-center glass-lg rounded-2xl p-8 md:p-12 hero-gradient">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-white">Have a Project in Mind?</h2>
+            <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
+              Let's discuss how we can bring your ideas to life with custom web
+              development solutions.
+            </p>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link
+                href="/contact"
+                className="inline-block btn-primary"
+              >
+                Start a Project
+              </Link>
+            </motion.div>
+          </div>
+        </FadeIn>
       </div>
     </div>
   );
