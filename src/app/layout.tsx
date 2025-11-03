@@ -15,6 +15,11 @@ export const metadata: Metadata = {
   description: "Transforming everyday ideas into digital reality. Custom web development, responsive design, and SEO optimization services.",
   keywords: ["web development", "custom websites", "responsive design", "SEO optimization", "JGServicesLLC"],
   authors: [{ name: "James Gault" }],
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
   openGraph: {
     title: "JGServicesLLC - Professional Web Development",
     description: "Transforming everyday ideas into digital reality.",
@@ -24,12 +29,18 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://jgservicesllc.com/favicon.ico",
+        url: "https://jgservicesllc.com/og-image.png",
         width: 1200,
         height: 630,
         alt: "JGServicesLLC - Professional Web Development",
       },
     ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "JGServicesLLC - Professional Web Development",
+    description: "Transforming everyday ideas into digital reality.",
+    images: ["https://jgservicesllc.com/og-image.png"],
   },
 };
 
