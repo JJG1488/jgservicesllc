@@ -57,11 +57,11 @@ const projects = [
   },
   {
     id: 6,
-    title: "Password Generator",
-    description: "Secure password generator with customizable length and character types.",
-    image: "/images/password-gen-screenshot copy.png",
-    tags: ["JavaScript", "Security", "UI/UX"],
-    liveUrl: "#",
+    title: "A Family Venture Express",
+    description: "Shipping and logistics company website built with Next.js and JavaScript.",
+    image: "/images/A-FAMILY-VENTUREA-FAMILY-VENTURE.jpg",
+    tags: ["Next.js", "JavaScript", "UI/UX"],
+    liveUrl: "https://www.afamilyventureexpress.com/",
     githubUrl: "#",
   },
 ];
