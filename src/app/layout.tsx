@@ -22,6 +22,14 @@ export const metadata: Metadata = {
     siteName: "JGServicesLLC",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "https://jgservicesllc.com/favicon.ico",
+        width: 1200,
+        height: 630,
+        alt: "JGServicesLLC - Professional Web Development",
+      },
+    ],
   },
 };
 

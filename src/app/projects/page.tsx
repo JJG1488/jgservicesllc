@@ -59,7 +59,7 @@ const projects = [
     id: 6,
     title: "A Family Venture Express",
     description: "Shipping and logistics company website built with Next.js and JavaScript.",
-    image: "/images/A-FAMILY-VENTUREA-FAMILY-VENTURE.jpg",
+    image: "/images/A-FAMILY-VENTUREA-FAMILY-VENTURE.png",
     tags: ["Next.js", "JavaScript", "UI/UX"],
     liveUrl: "https://www.afamilyventureexpress.com/",
     githubUrl: "#",
