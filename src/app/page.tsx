@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import FadeIn from "@/components/animations/FadeIn";
 import ScaleIn from "@/components/animations/ScaleIn";
-import FloatingIntakeButton from "@/components/FloatingIntakeButton";
+// import FloatingIntakeButton from "@/components/FloatingIntakeButton";
 import ZapierChatbot from "@/components/ZapierChatbot";
 
 
@@ -151,7 +151,7 @@ export default function Home() {
           ].map((step, index) => (
             <motion.div key={index} variants={itemVariants}>
               <div className="glass-card rounded-2xl p-8 h-full">
-                <div className="relative w-full h-48 mb-6 rounded-lg overflow-hidden bg-white/5">
+                {/* <div className="relative w-full h-48 mb-6 rounded-lg overflow-hidden bg-white/5">
                   <Image
                     src={step.image}
                     alt={step.title}
@@ -160,7 +160,7 @@ export default function Home() {
                     sizes="(max-width: 768px) 100vw, 33vw"
                     priority={index === 0}
                   />
-                </div>
+                </div> */}
                 <div className={`w-14 h-14 bg-gradient-to-br ${step.color} text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-2xl shadow-lg`}>
                   {step.number}
                 </div>
