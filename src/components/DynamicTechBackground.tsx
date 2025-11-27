@@ -52,21 +52,21 @@ export default function DynamicTechBackground({
       const path = window.location.pathname;
 
       if (path === '/' || path === '/home') {
-        setCurrentVariant('waves'); // Homepage gets grid
+        setCurrentVariant('particles'); // Homepage gets grid
       } else if (path.startsWith('/services')) {
-        setCurrentVariant('waves'); // Services gets circuit
+        setCurrentVariant('particles'); // Services gets circuit
       } else if (path.startsWith('/projects')) {
-        setCurrentVariant('waves'); // Projects gets particles
+        setCurrentVariant('particles'); // Projects gets particles
       } else if (path.startsWith('/contact') || path.startsWith('/schedule')) {
-        setCurrentVariant('waves'); // Contact gets waves
+        setCurrentVariant('particles'); // Contact gets waves
       } else if (path.startsWith('/resources')) {
-        setCurrentVariant('waves'); // Resources gets particles
+        setCurrentVariant('particles'); // Resources gets particles
       } else if (path.startsWith('/admin')) {
-        setCurrentVariant('waves'); // Admin gets circuit
+        setCurrentVariant('particles'); // Admin gets circuit
       } else if (path.startsWith('/blog')) {
-        setCurrentVariant('waves'); // Blog gets waves
+        setCurrentVariant('particles'); // Blog gets waves
       } else if (path.startsWith('/faq') || path.startsWith('/process')) {
-        setCurrentVariant('waves'); // FAQ/Process gets grid
+        setCurrentVariant('particles'); // FAQ/Process gets grid
       } else {
         // Default: random for any other page
         const randomVariant = variants[Math.floor(Math.random() * variants.length)];
