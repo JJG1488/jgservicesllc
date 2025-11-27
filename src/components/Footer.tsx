@@ -190,13 +190,12 @@ export default function Footer() {
             <p className="text-gray-600 dark:text-gray-400 mb-4">
               Get a free consultation and see how we can help your business grow online.
             </p>
-            {/* <Link
-              href="/contact"
+            <Link
+              href="/intake"
               className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-shadow"
             >
               Get Started Today
-            </Link> */}
-            <FloatingIntakeButton />
+            </Link>
           </div>
         </motion.div>
       </div>

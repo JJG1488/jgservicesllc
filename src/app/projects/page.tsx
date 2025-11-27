@@ -150,7 +150,7 @@ export default function Projects() {
             </p>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link
-                href="/contact"
+                href="/intake"
                 className="inline-block btn-primary"
               >
                 Start a Project

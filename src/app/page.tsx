@@ -266,7 +266,7 @@ export default function Home() {
           </FadeIn>
           <FadeIn delay={0.4}>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/contact" className="btn-primary">
+              <Link href="/intake" className="btn-primary">
                 Start Your Journey
               </Link>
               

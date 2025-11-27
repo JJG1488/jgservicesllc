@@ -254,11 +254,11 @@ export default function IntakeWizard({ onClose }: IntakeWizardProps) {
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
-        className="glass-lg rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col"
+        className="glass-lg rounded-2xl max-w-4xl w-full max-h-[85vh] sm:max-h-[90vh] overflow-hidden flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="p-6 border-b border-white/10">
+        <div className="p-4 sm:p-6 border-b border-white/10">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-2xl font-bold gradient-text">
               New Project Intake
@@ -293,7 +293,7 @@ export default function IntakeWizard({ onClose }: IntakeWizardProps) {
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentStep}
@@ -317,7 +317,7 @@ export default function IntakeWizard({ onClose }: IntakeWizardProps) {
         </div>
 
         {/* Footer */}
-        <div className="p-6 border-t border-white/10 flex justify-between items-center">
+        <div className="p-4 sm:p-6 border-t border-white/10 flex justify-between items-center">
           <button
             onClick={handleBack}
             disabled={currentStep === 0}
@@ -326,7 +326,7 @@ export default function IntakeWizard({ onClose }: IntakeWizardProps) {
             Back
           </button>
 
-          <div className="flex items-center gap-2">
+          <div className="hidden sm:flex items-center gap-2">
             {steps.map((_, index) => (
               <div
                 key={index}
@@ -357,7 +357,7 @@ export default function IntakeWizard({ onClose }: IntakeWizardProps) {
         </div>
 
         {submitError && (
-          <div className="px-6 pb-4">
+          <div className="px-4 sm:px-6 pb-4">
             <div className="bg-red-500/20 border border-red-500/50 text-red-200 px-4 py-3 rounded-lg">
               {submitError}
             </div>
