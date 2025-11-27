@@ -84,7 +84,7 @@ export default function Projects() {
           {projects.map((project, index) => (
             <ScaleIn key={project.id} delay={index * 0.1}>
               <motion.div
-                className="glass-card rounded-2xl overflow-hidden group"
+                className="glass-card rounded-2xl overflow-hidden group hero-gradient"
                 whileHover={{ y: -8 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >

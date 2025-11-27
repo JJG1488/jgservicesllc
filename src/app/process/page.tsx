@@ -391,7 +391,7 @@ export default function Process() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="glass-card rounded-2xl p-8 md:p-12"
+              className="glass-card rounded-2xl p-8 md:p-12 hero-gradient"
             >
               {/* Phase Header */}
               <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 pb-6 border-b border-white/10">
@@ -461,7 +461,7 @@ export default function Process() {
 
       {/* Methodologies */}
       <section className="section-container">
-        <div className="glass-md rounded-3xl p-12">
+        <div className="glass-md rounded-3xl p-12 hero-gradient">
           <ScaleIn>
             <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 gradient-text">
               Our Core Principles
@@ -481,7 +481,7 @@ export default function Process() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="glass-sm p-6 rounded-xl hover:glass-md transition-all"
+                className="glass-sm p-6 rounded-xl hover:glass-md transition-all hero-gradient"
               >
                 <div className="text-5xl mb-4">{method.icon}</div>
                 <h3 className="text-xl font-bold mb-2 text-white">

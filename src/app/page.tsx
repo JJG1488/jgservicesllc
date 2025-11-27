@@ -150,7 +150,7 @@ export default function Home() {
             }
           ].map((step, index) => (
             <motion.div key={index} variants={itemVariants}>
-              <div className="glass-card rounded-2xl p-8 h-full">
+              <div className="glass-card rounded-2xl p-8 h-full hero-gradient">
                 {/* <div className="relative w-full h-48 mb-6 rounded-lg overflow-hidden bg-white/5">
                   <Image
                     src={step.image}
@@ -178,7 +178,7 @@ export default function Home() {
 
       {/* Services Preview Section */}
       <section className="section-container">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center hero-gradient rounded-3xl">
           <FadeIn direction="left">
             <div className="glass-lg rounded-2xl p-8">
               <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">
@@ -201,7 +201,7 @@ export default function Home() {
           </FadeIn>
 
           <FadeIn direction="right">
-            <div className="relative h-96 rounded-2xl overflow-hidden glass">
+            <div className="relative h-96 rounded-2xl overflow-hidden glass-lg">
               <Image
                 src="/images/custom_web_development.png"
                 alt="Web Development"
@@ -216,9 +216,9 @@ export default function Home() {
 
       {/* Stats Section */}
       <section className="section-container">
-        <div className="glass-md rounded-3xl p-12">
+        <div className="glass-md rounded-3xl p-12 hero-gradient">
           <ScaleIn>
-            <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 gradient-text">
+            <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 gradient-text ">
               Results That Speak
             </h2>
           </ScaleIn>

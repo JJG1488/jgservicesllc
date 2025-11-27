@@ -158,7 +158,7 @@ export default function Services() {
 
       {/* Services Grid */}
       <section className="section-container">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 ">
           {services.map((service, index) => (
             <motion.div
               key={index}
@@ -166,7 +166,7 @@ export default function Services() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="glass-card rounded-2xl p-8 hover:scale-105 transition-transform duration-300"
+              className="glass-card rounded-2xl p-8 hover:scale-105 transition-transform duration-300 hero-gradient"
             >
               {/* Icon */}
               <div className="text-6xl mb-6">{service.icon}</div>
@@ -235,7 +235,7 @@ export default function Services() {
 
       {/* Why Choose Us */}
       <section className="section-container">
-        <div className="glass-md rounded-3xl p-12">
+        <div className="glass-md rounded-3xl p-12 hero-gradient">
           <ScaleIn>
             <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 gradient-text">
               Why Choose JGServicesLLC?
