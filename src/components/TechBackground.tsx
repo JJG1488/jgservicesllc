@@ -265,7 +265,7 @@ export default function TechBackground({ variant = 'grid' }: TechBackgroundProps
       className="fixed inset-0 pointer-events-none"
       style={{
         background: 'transparent',
-        zIndex: -1
+        zIndex: 1
       }}
     />
   );

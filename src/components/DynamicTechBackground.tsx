@@ -19,7 +19,7 @@ interface DynamicTechBackgroundProps {
  * - 'page-specific': Uses route-based selection (default)
  */
 export default function DynamicTechBackground({
-  mode = 'page-specific',
+  mode = 'rotate',
   specificVariant
 }: DynamicTechBackgroundProps) {
   const variants: Variant[] = ['grid', 'particles', 'circuit', 'waves'];
@@ -44,7 +44,7 @@ export default function DynamicTechBackground({
       const interval = setInterval(() => {
         index = (index + 1) % variants.length;
         setCurrentVariant(variants[index]);
-      }, 30000); // 30 seconds
+      }, 10000); // 10 seconds
 
       return () => clearInterval(interval);
     } else if (mode === 'page-specific') {
