@@ -3,6 +3,7 @@ import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import FloatingBudgetCTA from "@/components/FloatingBudgetCTA";
+import FloatingIntakeButton from "@/components/FloatingIntakeButton";
 import DynamicTechBackground from "@/components/DynamicTechBackground";
 import ZapierChatbot from "@/components/ZapierChatbot";
 import { ThemeProvider } from "@/contexts/ThemeContext";
@@ -89,6 +90,7 @@ export default function RootLayout({
               <Footer />
             </div>
             <FloatingBudgetCTA />
+            <FloatingIntakeButton />
           </AuthProvider>
         </ThemeProvider>
         

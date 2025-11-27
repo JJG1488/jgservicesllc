@@ -44,14 +44,40 @@ interface Contract {
   approved: boolean;
 }
 
+interface Intake {
+  id: string;
+  status: 'draft' | 'submitted' | 'reviewed' | 'in_progress' | 'completed';
+  clientInfo: {
+    name: string;
+    email: string;
+    phone: string;
+    companyName?: string;
+  };
+  baseType: {
+    type: string;
+    basePrice: number;
+  };
+  pricing: {
+    total: number;
+    oneTimeTotal: number;
+    monthlyTotal: number;
+    annualTotal: number;
+  };
+  timeline: {
+    deliverySpeed: string;
+  };
+  submittedAt: any;
+}
+
 export default function AdminDashboard() {
   const { user, loading: authLoading, signInWithGoogle, signOut, isAdmin } = useAuth();
   const [leads, setLeads] = useState<Lead[]>([]);
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [contracts, setContracts] = useState<Contract[]>([]);
+  const [intakes, setIntakes] = useState<Intake[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'leads' | 'contacts' | 'contracts'>('leads');
+  const [activeTab, setActiveTab] = useState<'leads' | 'contacts' | 'contracts' | 'intakes'>('leads');
   const [stats, setStats] = useState({
     total: 0,
     newsletter: 0,
@@ -60,6 +86,8 @@ export default function AdminDashboard() {
     unreadContacts: 0,
     totalContracts: 0,
     pendingContracts: 0,
+    totalIntakes: 0,
+    submittedIntakes: 0,
   });
 
   useEffect(() => {
@@ -100,9 +128,18 @@ export default function AdminDashboard() {
           ...doc.data()
         })) as Contract[];
 
+        // Fetch intakes
+        const intakesQuery = query(collection(db, 'intakes'), orderBy('submittedAt', 'desc'));
+        const intakesSnapshot = await getDocs(intakesQuery);
+        const intakesData = intakesSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })) as Intake[];
+
         setLeads(leadsData);
         setContacts(contactsData);
         setContracts(contractsData);
+        setIntakes(intakesData);
 
         // Calculate stats
         const weekAgo = new Date();
@@ -119,6 +156,8 @@ export default function AdminDashboard() {
           unreadContacts: contactsData.filter(c => !c.read).length,
           totalContracts: contractsData.length,
           pendingContracts: contractsData.filter(c => c.status === 'pending_review').length,
+          totalIntakes: intakesData.length,
+          submittedIntakes: intakesData.filter(i => i.status === 'submitted').length,
         });
 
         setLoading(false);
@@ -156,6 +195,54 @@ export default function AdminDashboard() {
     const link = document.createElement('a');
     link.href = url;
     link.download = `jg-leads-${new Date().toISOString().split('T')[0]}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  const exportIntakesToCSV = () => {
+    const headers = [
+      'Client Name',
+      'Email',
+      'Phone',
+      'Company',
+      'Base Type',
+      'Base Price',
+      'One-Time Total',
+      'Monthly Total',
+      'Annual Total',
+      'Timeline',
+      'Status',
+      'Submitted Date',
+      'Submitted Time'
+    ];
+    const rows = intakes.map(intake => [
+      intake.clientInfo.name,
+      intake.clientInfo.email,
+      intake.clientInfo.phone,
+      intake.clientInfo.companyName || '',
+      intake.baseType.type,
+      `$${intake.baseType.basePrice.toLocaleString()}`,
+      `$${intake.pricing.oneTimeTotal.toLocaleString()}`,
+      `$${intake.pricing.monthlyTotal.toLocaleString()}`,
+      `$${intake.pricing.annualTotal.toLocaleString()}`,
+      intake.timeline.deliverySpeed,
+      intake.status,
+      intake.submittedAt?.toDate().toLocaleDateString() || '',
+      intake.submittedAt?.toDate().toLocaleTimeString() || ''
+    ]);
+
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `jg-intakes-${new Date().toISOString().split('T')[0]}.csv`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -308,7 +395,7 @@ export default function AdminDashboard() {
         </motion.div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -413,6 +500,36 @@ export default function AdminDashboard() {
               <div className="text-4xl">⏳</div>
             </div>
           </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6"
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Project Intakes</p>
+                <p className="text-3xl font-bold text-gray-900 dark:text-white">{stats.totalIntakes}</p>
+              </div>
+              <div className="text-4xl">📋</div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9 }}
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6"
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">New Submissions</p>
+                <p className="text-3xl font-bold text-gray-900 dark:text-white">{stats.submittedIntakes}</p>
+              </div>
+              <div className="text-4xl">🎯</div>
+            </div>
+          </motion.div>
         </div>
 
         {/* Tabs */}
@@ -462,6 +579,21 @@ export default function AdminDashboard() {
               </span>
             )}
           </button>
+          <button
+            onClick={() => setActiveTab('intakes')}
+            className={`px-6 py-3 rounded-lg font-semibold transition-all relative ${
+              activeTab === 'intakes'
+                ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+                : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:shadow-md'
+            }`}
+          >
+            📋 Project Intakes ({stats.totalIntakes})
+            {stats.submittedIntakes > 0 && (
+              <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center">
+                {stats.submittedIntakes}
+              </span>
+            )}
+          </button>
         </motion.div>
 
         {/* Export Button */}
@@ -478,6 +610,23 @@ export default function AdminDashboard() {
             >
               <span>📥</span>
               Export Leads to CSV
+            </button>
+          </motion.div>
+        )}
+
+        {activeTab === 'intakes' && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.7 }}
+            className="mb-6 flex justify-end"
+          >
+            <button
+              onClick={exportIntakesToCSV}
+              className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-shadow flex items-center gap-2"
+            >
+              <span>📥</span>
+              Export Intakes to CSV
             </button>
           </motion.div>
         )}
@@ -783,6 +932,657 @@ export default function AdminDashboard() {
           </motion.div>
         )}
 
+        {/* Intakes View */}
+        {activeTab === 'intakes' && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden"
+          >
+            {intakes.length === 0 ? (
+              <div className="p-12 text-center">
+                <div className="text-6xl mb-4">📭</div>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                  No project intakes yet
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  Client intake forms will appear here when submitted.
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-6 p-6">
+                {intakes.map((intake, index) => {
+                  const intakeData = intake as any; // Type assertion for full access
+
+                  return (
+                    <motion.div
+                      key={intake.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.05 * index }}
+                      className={`p-6 rounded-lg border-2 transition-all ${
+                        intake.status === 'submitted'
+                          ? 'border-green-300 dark:border-green-600 bg-green-50 dark:bg-green-900/20'
+                          : intake.status === 'reviewed'
+                          ? 'border-blue-300 dark:border-blue-600 bg-blue-50 dark:bg-blue-900/20'
+                          : intake.status === 'in_progress'
+                          ? 'border-orange-300 dark:border-orange-600 bg-orange-50 dark:bg-orange-900/20'
+                          : 'border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900/20'
+                      }`}
+                    >
+                      {/* Header */}
+                      <div className="flex justify-between items-start mb-6">
+                        <div>
+                          <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+                            {intake.clientInfo.name}
+                            {intake.status === 'submitted' && (
+                              <span className="ml-3 px-3 py-1 text-sm font-semibold rounded-full bg-green-500 text-white">
+                                🆕 NEW SUBMISSION
+                              </span>
+                            )}
+                            {intake.status === 'reviewed' && (
+                              <span className="ml-3 px-3 py-1 text-sm font-semibold rounded-full bg-blue-500 text-white">
+                                👁️ REVIEWED
+                              </span>
+                            )}
+                            {intake.status === 'in_progress' && (
+                              <span className="ml-3 px-3 py-1 text-sm font-semibold rounded-full bg-orange-500 text-white">
+                                ⚡ IN PROGRESS
+                              </span>
+                            )}
+                            {intake.status === 'completed' && (
+                              <span className="ml-3 px-3 py-1 text-sm font-semibold rounded-full bg-gray-500 text-white">
+                                ✓ COMPLETED
+                              </span>
+                            )}
+                          </h3>
+                          {intake.clientInfo.companyName && (
+                            <p className="text-lg text-gray-600 dark:text-gray-400 font-semibold mt-1">
+                              {intake.clientInfo.companyName}
+                            </p>
+                          )}
+                          <div className="flex gap-4 mt-2 text-sm">
+                            <a
+                              href={`mailto:${intake.clientInfo.email}`}
+                              className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
+                            >
+                              📧 {intake.clientInfo.email}
+                            </a>
+                            <a
+                              href={`tel:${intake.clientInfo.phone}`}
+                              className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
+                            >
+                              📱 {intake.clientInfo.phone}
+                            </a>
+                          </div>
+                        </div>
+                        <div className="text-right text-sm text-gray-500 dark:text-gray-400">
+                          <div>{intake.submittedAt?.toDate().toLocaleDateString() || 'Unknown'}</div>
+                          <div className="text-xs">{intake.submittedAt?.toDate().toLocaleTimeString() || ''}</div>
+                        </div>
+                      </div>
+
+                      {/* Pricing Overview - PROMINENT */}
+                      <div className="mb-6 bg-gradient-to-br from-blue-500 to-purple-600 p-6 rounded-xl text-white">
+                        <h4 className="text-sm font-semibold mb-4 opacity-90">PROJECT INVESTMENT</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                          <div>
+                            <p className="text-sm opacity-90">Base Site Type</p>
+                            <p className="text-2xl font-bold capitalize">{intake.baseType.type}</p>
+                            <p className="text-sm opacity-75">${intake.baseType.basePrice.toLocaleString()} base</p>
+                          </div>
+                          <div>
+                            <p className="text-sm opacity-90">One-Time Cost</p>
+                            <p className="text-3xl font-bold">${intake.pricing.oneTimeTotal.toLocaleString()}</p>
+                            <p className="text-xs opacity-75">Development & Setup</p>
+                          </div>
+                          <div>
+                            <p className="text-sm opacity-90">Monthly</p>
+                            <p className="text-3xl font-bold">${intake.pricing.monthlyTotal.toLocaleString()}</p>
+                            <p className="text-xs opacity-75">Hosting & Maintenance</p>
+                          </div>
+                          <div>
+                            <p className="text-sm opacity-90">Annual</p>
+                            <p className="text-3xl font-bold">${intake.pricing.annualTotal.toLocaleString()}</p>
+                            <p className="text-xs opacity-75">Yearly Services</p>
+                          </div>
+                        </div>
+                        <div className="mt-4 pt-4 border-t border-white/20">
+                          <p className="text-sm opacity-90">Timeline / Delivery Speed</p>
+                          <p className="text-xl font-bold capitalize">{intake.timeline.deliverySpeed}</p>
+                        </div>
+                      </div>
+
+                      {/* Expandable Details */}
+                      <details className="group">
+                        <summary className="cursor-pointer font-semibold text-gray-900 dark:text-white text-lg mb-4 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                          📋 View All Selected Features & Details
+                        </summary>
+
+                        <div className="mt-4 space-y-4">
+                          {/* Design & Branding */}
+                          {(intakeData.design?.customDesign !== 'none' ||
+                            intakeData.design?.premiumDesign !== 'none' ||
+                            intakeData.design?.logoDesign ||
+                            intakeData.design?.brandIdentity ||
+                            intakeData.design?.customIllustrations > 0 ||
+                            intakeData.design?.darkModeToggle) && (
+                            <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                              <h5 className="font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                                🎨 Design & Branding
+                              </h5>
+                              <ul className="space-y-2 text-sm">
+                                {intakeData.design?.customDesign !== 'none' && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">
+                                      Custom Design ({intakeData.design.customDesign})
+                                    </span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.design.customDesignPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.design?.premiumDesign !== 'none' && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">
+                                      Premium Design ({intakeData.design.premiumDesign})
+                                    </span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.design.premiumDesignPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.design?.logoDesign && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">Logo Design</span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.design.logoPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.design?.brandIdentity && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">Brand Identity Package</span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.design.brandIdentityPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.design?.customIllustrations > 0 && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">
+                                      Custom Illustrations ({intakeData.design.customIllustrations} sets)
+                                    </span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.design.illustrationsPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.design?.darkModeToggle && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">Dark Mode Toggle</span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.design.darkModePrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                              </ul>
+                            </div>
+                          )}
+
+                          {/* Content Creation */}
+                          {(intakeData.content?.stockImagery !== 'none' ||
+                            intakeData.content?.copywriting?.perPage > 0 ||
+                            intakeData.content?.videoEditing > 0) && (
+                            <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                              <h5 className="font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                                ✍️ Content Creation
+                              </h5>
+                              <ul className="space-y-2 text-sm">
+                                {intakeData.content?.stockImagery !== 'none' && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">
+                                      Stock Imagery ({intakeData.content.stockImagery})
+                                    </span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.content.stockImageryPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.content?.copywritingPrice > 0 && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">Professional Copywriting</span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.content.copywritingPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.content?.videoEditing > 0 && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">
+                                      Video Editing ({intakeData.content.videoEditing} videos)
+                                    </span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.content.videoEditingPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                              </ul>
+                              {intakeData.content?.contentNotes && (
+                                <div className="mt-3 p-3 bg-gray-50 dark:bg-gray-900 rounded">
+                                  <p className="text-xs text-gray-600 dark:text-gray-400 font-semibold mb-1">Notes:</p>
+                                  <p className="text-sm text-gray-700 dark:text-gray-300">{intakeData.content.contentNotes}</p>
+                                </div>
+                              )}
+                            </div>
+                          )}
+
+                          {/* Pages & Sections */}
+                          {(intakeData.pages?.heroSections > 0 ||
+                            intakeData.pages?.aboutTeamSection ||
+                            intakeData.pages?.servicesSection ||
+                            intakeData.pages?.portfolio !== 'none' ||
+                            intakeData.pages?.testimonials !== 'none' ||
+                            intakeData.pages?.faqSection !== 'none' ||
+                            intakeData.pages?.caseStudies > 0 ||
+                            intakeData.pages?.pricingTable !== 'none' ||
+                            intakeData.pages?.blogSection !== 'none' ||
+                            intakeData.pages?.careersPage !== 'none' ||
+                            intakeData.pages?.additionalPages?.length > 0) && (
+                            <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                              <h5 className="font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                                📄 Pages & Sections
+                              </h5>
+                              <ul className="space-y-2 text-sm">
+                                {intakeData.pages?.heroSections > 0 && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">
+                                      Hero Sections ({intakeData.pages.heroSections})
+                                    </span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.pages.heroPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.pages?.aboutTeamSection && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">About/Team Section</span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.pages.aboutPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.pages?.servicesSection && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">Services Section</span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.pages.servicesPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.pages?.portfolio !== 'none' && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">
+                                      Portfolio ({intakeData.pages.portfolio})
+                                    </span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.pages.portfolioPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.pages?.testimonials !== 'none' && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">
+                                      Testimonials ({intakeData.pages.testimonials})
+                                    </span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.pages.testimonialsPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.pages?.faqSection !== 'none' && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">
+                                      FAQ Section ({intakeData.pages.faqSection})
+                                    </span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.pages.faqPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.pages?.caseStudies > 0 && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">
+                                      Case Studies ({intakeData.pages.caseStudies})
+                                    </span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.pages.caseStudiesPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.pages?.pricingTable !== 'none' && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">
+                                      Pricing Table ({intakeData.pages.pricingTable})
+                                    </span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.pages.pricingTablePrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.pages?.blogSection !== 'none' && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">
+                                      Blog Section ({intakeData.pages.blogSection})
+                                    </span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.pages.blogPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.pages?.careersPage !== 'none' && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">
+                                      Careers Page ({intakeData.pages.careersPage})
+                                    </span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.pages.careersPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.pages?.additionalPages?.map((page: any, idx: number) => (
+                                  <li key={idx} className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">
+                                      {page.name} ({page.contentBy})
+                                    </span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${page.price.toLocaleString()}
+                                    </span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+
+                          {/* Forms & Lead Capture */}
+                          {(intakeData.forms?.advancedMultiStep ||
+                            intakeData.forms?.quoteCalculator ||
+                            intakeData.forms?.fileUpload ||
+                            intakeData.forms?.newsletter ||
+                            intakeData.forms?.popupModal ||
+                            intakeData.forms?.exitIntent) && (
+                            <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                              <h5 className="font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                                📝 Forms & Lead Capture
+                              </h5>
+                              <ul className="space-y-2 text-sm">
+                                {intakeData.forms?.advancedMultiStep && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">Advanced Multi-Step Form</span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.forms.multiStepPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.forms?.quoteCalculator && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">Quote Calculator</span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.forms.calculatorPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.forms?.fileUpload && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">File Upload</span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.forms.fileUploadPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.forms?.newsletter && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">Newsletter Signup</span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.forms.newsletterPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.forms?.popupModal && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">Popup Modal</span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.forms.popupPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.forms?.exitIntent && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">Exit Intent Popup</span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.forms.exitIntentPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                              </ul>
+                            </div>
+                          )}
+
+                          {/* E-commerce */}
+                          {intakeData.ecommerce?.enabled && (
+                            <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                              <h5 className="font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                                🛒 E-Commerce Features
+                              </h5>
+                              <ul className="space-y-2 text-sm">
+                                <li className="flex justify-between">
+                                  <span className="text-gray-700 dark:text-gray-300">
+                                    Product Catalog ({intakeData.ecommerce.productCatalogSize} products)
+                                  </span>
+                                  <span className="font-semibold text-gray-900 dark:text-white">
+                                    ${intakeData.ecommerce.catalogPrice.toLocaleString()}
+                                  </span>
+                                </li>
+                                {intakeData.ecommerce?.paymentProcessing && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">Payment Processing</span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.ecommerce.paymentPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.ecommerce?.subscriptionBilling && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">Subscription Billing</span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.ecommerce.subscriptionPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.ecommerce?.customerAccounts && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">Customer Accounts</span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.ecommerce.accountsPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.ecommerce?.inventoryManagement && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">Inventory Management</span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.ecommerce.inventoryPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                              </ul>
+                            </div>
+                          )}
+
+                          {/* Integrations */}
+                          {(intakeData.integrations?.googleAnalytics ||
+                            intakeData.integrations?.googleTagManager ||
+                            intakeData.integrations?.metaPixel ||
+                            intakeData.integrations?.googleMaps ||
+                            intakeData.integrations?.emailMarketing ||
+                            intakeData.integrations?.crmIntegration ||
+                            intakeData.integrations?.liveChatWidget) && (
+                            <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                              <h5 className="font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                                🔌 Integrations
+                              </h5>
+                              <ul className="space-y-2 text-sm">
+                                {intakeData.integrations?.googleAnalytics && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">Google Analytics</span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.integrations.analyticsPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.integrations?.emailMarketing && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">
+                                      Email Marketing {intakeData.integrations.emailMarketingService && `(${intakeData.integrations.emailMarketingService})`}
+                                    </span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.integrations.emailMarketingPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.integrations?.crmIntegration && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">
+                                      CRM Integration {intakeData.integrations.crmService && `(${intakeData.integrations.crmService})`}
+                                    </span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.integrations.crmPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                              </ul>
+                            </div>
+                          )}
+
+                          {/* SEO & Performance */}
+                          {(intakeData.seo?.basicSEO ||
+                            intakeData.seo?.advancedSEO ||
+                            intakeData.seo?.coreWebVitals ||
+                            intakeData.seo?.imageOptimization ||
+                            intakeData.seo?.pageSpeedOptimization) && (
+                            <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                              <h5 className="font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                                🚀 SEO & Performance
+                              </h5>
+                              <ul className="space-y-2 text-sm">
+                                {intakeData.seo?.basicSEO && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">Basic SEO</span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.seo.basicSEOPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.seo?.advancedSEO && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">Advanced SEO</span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.seo.advancedSEOPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.seo?.coreWebVitals && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">Core Web Vitals</span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.seo.coreWebVitalsPrice.toLocaleString()}
+                                    </span>
+                                  </li>
+                                )}
+                              </ul>
+                            </div>
+                          )}
+
+                          {/* Ongoing Services */}
+                          {(intakeData.ongoingServices?.domainRegistration ||
+                            intakeData.ongoingServices?.hostingManagement ||
+                            intakeData.ongoingServices?.maintenanceRetainer !== 'none' ||
+                            intakeData.ongoingServices?.securityMonitoring ||
+                            intakeData.ongoingServices?.dailyBackups) && (
+                            <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                              <h5 className="font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                                🔄 Ongoing Services
+                              </h5>
+                              <ul className="space-y-2 text-sm">
+                                {intakeData.ongoingServices?.domainRegistration && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">Domain Registration (annual)</span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.ongoingServices.domainPrice.toLocaleString()}/yr
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.ongoingServices?.hostingManagement && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">Hosting Management (monthly)</span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.ongoingServices.hostingManagementPrice.toLocaleString()}/mo
+                                    </span>
+                                  </li>
+                                )}
+                                {intakeData.ongoingServices?.maintenanceRetainer !== 'none' && (
+                                  <li className="flex justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">
+                                      Maintenance Retainer ({intakeData.ongoingServices.maintenanceRetainer}) (monthly)
+                                    </span>
+                                    <span className="font-semibold text-gray-900 dark:text-white">
+                                      ${intakeData.ongoingServices.maintenancePrice.toLocaleString()}/mo
+                                    </span>
+                                  </li>
+                                )}
+                              </ul>
+                            </div>
+                          )}
+
+                          {/* Project Description */}
+                          {intakeData.projectDescription && (
+                            <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                              <h5 className="font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                                📖 Project Description
+                              </h5>
+                              <div className="space-y-3 text-sm">
+                                {intakeData.projectDescription.businessDescription && (
+                                  <div>
+                                    <p className="font-semibold text-gray-900 dark:text-white mb-1">Business Description:</p>
+                                    <p className="text-gray-700 dark:text-gray-300">{intakeData.projectDescription.businessDescription}</p>
+                                  </div>
+                                )}
+                                {intakeData.projectDescription.targetAudience && (
+                                  <div>
+                                    <p className="font-semibold text-gray-900 dark:text-white mb-1">Target Audience:</p>
+                                    <p className="text-gray-700 dark:text-gray-300">{intakeData.projectDescription.targetAudience}</p>
+                                  </div>
+                                )}
+                                {intakeData.projectDescription.mainGoals && (
+                                  <div>
+                                    <p className="font-semibold text-gray-900 dark:text-white mb-1">Main Goals:</p>
+                                    <p className="text-gray-700 dark:text-gray-300">{intakeData.projectDescription.mainGoals}</p>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </details>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            )}
+          </motion.div>
+        )}
+
         {/* Footer Info */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -795,7 +1595,9 @@ export default function AdminDashboard() {
               ? `Showing ${leads.length} lead${leads.length !== 1 ? 's' : ''}`
               : activeTab === 'contacts'
               ? `Showing ${contacts.length} contact message${contacts.length !== 1 ? 's' : ''}`
-              : `Showing ${contracts.length} service contract${contracts.length !== 1 ? 's' : ''}`
+              : activeTab === 'contracts'
+              ? `Showing ${contracts.length} service contract${contracts.length !== 1 ? 's' : ''}`
+              : `Showing ${intakes.length} project intake${intakes.length !== 1 ? 's' : ''}`
             } • Last updated: {new Date().toLocaleString()}
           </p>
         </motion.div>
