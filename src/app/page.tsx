@@ -6,6 +6,8 @@ import { motion } from "framer-motion";
 import FadeIn from "@/components/animations/FadeIn";
 import ScaleIn from "@/components/animations/ScaleIn";
 import FloatingIntakeButton from "@/components/FloatingIntakeButton";
+import ZapierChatbot from "@/components/ZapierChatbot";
+
 
 
 export default function Home() {
@@ -256,7 +258,6 @@ export default function Home() {
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
               Ready to Start Your Project?
             </h2>
-            
           </ScaleIn>
           <FadeIn delay={0.2}>
             <p className="text-xl mb-10 text-blue-100 max-w-2xl mx-auto">
@@ -265,10 +266,10 @@ export default function Home() {
           </FadeIn>
           <FadeIn delay={0.4}>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              {/* <Link href="/contact" className="btn-primary">
+              <Link href="/contact" className="btn-primary">
                 Start Your Journey
-              </Link> */}
-              <FloatingIntakeButton />
+              </Link>
+              
               <Link href="/process" className="btn-secondary">
                 Learn Our Process
               </Link>
@@ -276,6 +277,7 @@ export default function Home() {
           </FadeIn>
         </div>
       </section>
+      <ZapierChatbot chatbotId="cmhb5x5nh00awbrhjoqwao638" />
     </div>
   );
 }

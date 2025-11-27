@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import FloatingIntakeButton from './FloatingIntakeButton';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -189,12 +190,13 @@ export default function Footer() {
             <p className="text-gray-600 dark:text-gray-400 mb-4">
               Get a free consultation and see how we can help your business grow online.
             </p>
-            <Link
+            {/* <Link
               href="/contact"
               className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-shadow"
             >
               Get Started Today
-            </Link>
+            </Link> */}
+            <FloatingIntakeButton />
           </div>
         </motion.div>
       </div>

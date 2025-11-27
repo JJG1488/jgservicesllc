@@ -4,7 +4,6 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import FloatingBudgetCTA from "@/components/FloatingBudgetCTA";
 import DynamicTechBackground from "@/components/DynamicTechBackground";
-import ZapierChatbot from "@/components/ZapierChatbot";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 
@@ -84,11 +83,9 @@ export default function RootLayout({
               <main className="flex-grow">
                 {children}
               </main>
-              <ZapierChatbot chatbotId="cmhb5x5nh00awbrhjoqwao638" />
-              
               <Footer />
             </div>
-            <FloatingBudgetCTA />
+            {/* <FloatingBudgetCTA /> */}
             
           </AuthProvider>
         </ThemeProvider>
