@@ -1,29 +1,29 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ProjectIntake, createEmptyIntake } from '@/types/intake';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 
-// Import step components
-import ClientInfoStep from './intake-steps/ClientInfoStep';
-import BaseTypeStep from './intake-steps/BaseTypeStep';
-import DesignStep from './intake-steps/DesignStep';
-import ContentStep from './intake-steps/ContentStep';
-import PagesStep from './intake-steps/PagesStep';
-import FormsStep from './intake-steps/FormsStep';
-import BookingStep from './intake-steps/BookingStep';
-import EcommerceStep from './intake-steps/EcommerceStep';
-import UserSystemsStep from './intake-steps/UserSystemsStep';
-import IntegrationsStep from './intake-steps/IntegrationsStep';
-import SEOStep from './intake-steps/SEOStep';
-import CMSStep from './intake-steps/CMSStep';
-import SecurityStep from './intake-steps/SecurityStep';
-import OngoingServicesStep from './intake-steps/OngoingServicesStep';
-import TimelineStep from './intake-steps/TimelineStep';
-import ProjectDescriptionStep from './intake-steps/ProjectDescriptionStep';
-import ReviewStep from './intake-steps/ReviewStep';
+// Dynamic imports for step components (load on-demand to reduce bundle size)
+const ClientInfoStep = lazy(() => import('./intake-steps/ClientInfoStep'));
+const BaseTypeStep = lazy(() => import('./intake-steps/BaseTypeStep'));
+const DesignStep = lazy(() => import('./intake-steps/DesignStep'));
+const ContentStep = lazy(() => import('./intake-steps/ContentStep'));
+const PagesStep = lazy(() => import('./intake-steps/PagesStep'));
+const FormsStep = lazy(() => import('./intake-steps/FormsStep'));
+const BookingStep = lazy(() => import('./intake-steps/BookingStep'));
+const EcommerceStep = lazy(() => import('./intake-steps/EcommerceStep'));
+const UserSystemsStep = lazy(() => import('./intake-steps/UserSystemsStep'));
+const IntegrationsStep = lazy(() => import('./intake-steps/IntegrationsStep'));
+const SEOStep = lazy(() => import('./intake-steps/SEOStep'));
+const CMSStep = lazy(() => import('./intake-steps/CMSStep'));
+const SecurityStep = lazy(() => import('./intake-steps/SecurityStep'));
+const OngoingServicesStep = lazy(() => import('./intake-steps/OngoingServicesStep'));
+const TimelineStep = lazy(() => import('./intake-steps/TimelineStep'));
+const ProjectDescriptionStep = lazy(() => import('./intake-steps/ProjectDescriptionStep'));
+const ReviewStep = lazy(() => import('./intake-steps/ReviewStep'));
 
 interface IntakeWizardProps {
   onClose: () => void;
@@ -329,16 +329,22 @@ export default function IntakeWizard({ onClose }: IntakeWizardProps) {
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <CurrentStepComponent
-                intake={intake}
-                onUpdate={(updater) => {
-                  if (typeof updater === 'function') {
-                    setIntake(updater);
-                  } else {
-                    setIntake(updater);
-                  }
-                }}
-              />
+              <Suspense fallback={
+                <div className="flex items-center justify-center py-12">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400"></div>
+                </div>
+              }>
+                <CurrentStepComponent
+                  intake={intake}
+                  onUpdate={(updater) => {
+                    if (typeof updater === 'function') {
+                      setIntake(updater);
+                    } else {
+                      setIntake(updater);
+                    }
+                  }}
+                />
+              </Suspense>
             </motion.div>
           </AnimatePresence>
         </div>
