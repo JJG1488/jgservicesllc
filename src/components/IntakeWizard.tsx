@@ -202,6 +202,30 @@ export default function IntakeWizard({ onClose }: IntakeWizardProps) {
     };
   };
 
+  // Helper function to remove undefined values (Firestore doesn't accept them)
+  const sanitizeForFirestore = (obj: any): any => {
+    if (obj === null || obj === undefined) {
+      return null;
+    }
+
+    if (Array.isArray(obj)) {
+      return obj.map(item => sanitizeForFirestore(item));
+    }
+
+    if (typeof obj === 'object') {
+      const cleaned: any = {};
+      Object.keys(obj).forEach(key => {
+        const value = obj[key];
+        if (value !== undefined) {
+          cleaned[key] = sanitizeForFirestore(value);
+        }
+      });
+      return cleaned;
+    }
+
+    return obj;
+  };
+
   const handleSubmit = async () => {
     setIsSubmitting(true);
     setSubmitError(null);
@@ -217,9 +241,12 @@ export default function IntakeWizard({ onClose }: IntakeWizardProps) {
         status: 'submitted',
       });
 
+      // Sanitize data to remove undefined values
+      const sanitizedIntake = sanitizeForFirestore(finalIntake);
+
       // Add to Firestore
       const docRef = await addDoc(collection(db, 'intakes'), {
-        ...finalIntake,
+        ...sanitizedIntake,
         submittedAt: serverTimestamp(),
       });
 
@@ -231,7 +258,7 @@ export default function IntakeWizard({ onClose }: IntakeWizardProps) {
       alert('Your project intake has been submitted successfully! We will review it and get back to you soon.');
     } catch (error) {
       console.error('Error submitting intake:', error);
-      setSubmitError('Failed to submit intake. Please try again.');
+      setSubmitError(`Failed to submit intake. Please try again. Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setIsSubmitting(false);
     }
