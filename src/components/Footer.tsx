@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import FloatingIntakeButton from './FloatingIntakeButton';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -29,7 +28,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950 border-t border-gray-200 dark:border-gray-800 transition-colors">
+    <footer className="glass-md border-t border-white/10 mt-20">
       <div className="container mx-auto px-4 py-12">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
@@ -41,23 +40,23 @@ export default function Footer() {
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
             >
-              <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-3">
+              <h3 className="text-2xl font-bold gradient-text mb-3">
                 JGServicesLLC
               </h3>
-              <p className="text-gray-600 dark:text-gray-400 mb-4 max-w-md">
+              <p className="text-blue-100 mb-4 max-w-md">
                 Professional web development services tailored to your business needs.
                 From concept to launch and beyond, we build websites that drive results.
               </p>
-              <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+              <div className="space-y-2 text-sm text-blue-100">
                 <div className="flex items-center gap-2">
-                  <span className="text-blue-600 dark:text-blue-400">📧</span>
-                  <a href="mailto:info@jgservicesllc.com" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                  <span className="text-blue-400">📧</span>
+                  <a href="mailto:info@jgservicesllc.com" className="hover:text-white transition-colors">
                     info@jgservicesllc.com
                   </a>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-blue-600 dark:text-blue-400">📱</span>
-                  <a href="tel:+15862765646" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                  <span className="text-blue-400">📱</span>
+                  <a href="tel:+15862765646" className="hover:text-white transition-colors">
                     (586) 276-5646
                   </a>
                 </div>
@@ -72,13 +71,13 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Company</h4>
+            <h4 className="font-semibold text-white mb-4">Company</h4>
             <ul className="space-y-2">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm"
+                    className="text-blue-100 hover:text-white transition-colors text-sm"
                   >
                     {link.name}
                   </Link>
@@ -94,13 +93,13 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Resources</h4>
+            <h4 className="font-semibold text-white mb-4">Resources</h4>
             <ul className="space-y-2">
               {footerLinks.resources.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm"
+                    className="text-blue-100 hover:text-white transition-colors text-sm"
                   >
                     {link.name}
                   </Link>
@@ -116,7 +115,7 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Connect</h4>
+            <h4 className="font-semibold text-white mb-4">Connect</h4>
             <ul className="space-y-2">
               {footerLinks.connect.map((link) => (
                 <li key={link.name}>
@@ -125,7 +124,7 @@ export default function Footer() {
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm flex items-center gap-1"
+                      className="text-blue-100 hover:text-white transition-colors text-sm flex items-center gap-1"
                     >
                       {link.name}
                       <span className="text-xs">↗</span>
@@ -133,7 +132,7 @@ export default function Footer() {
                   ) : (
                     <Link
                       href={link.href}
-                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm"
+                      className="text-blue-100 hover:text-white transition-colors text-sm"
                     >
                       {link.name}
                     </Link>
@@ -145,7 +144,7 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="border-t border-gray-200 dark:border-gray-800 my-8"></div>
+        <div className="border-t border-white/10 my-8"></div>
 
         {/* Bottom Bar */}
         <motion.div
@@ -153,16 +152,16 @@ export default function Footer() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-600 dark:text-gray-400"
+          className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-blue-100"
         >
           <div className="flex flex-col md:flex-row items-center gap-4">
             <p>© {currentYear} JGServicesLLC. All Rights Reserved.</p>
             <div className="flex gap-4">
-              <Link href="/privacy" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+              <Link href="/privacy" className="hover:text-white transition-colors">
                 Privacy Policy
               </Link>
-              <span className="text-gray-400">•</span>
-              <Link href="/terms" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+              <span className="text-blue-300">•</span>
+              <Link href="/terms" className="hover:text-white transition-colors">
                 Terms of Service
               </Link>
             </div>
@@ -181,18 +180,18 @@ export default function Footer() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.5 }}
-          className="mt-8 p-6 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl border border-blue-200 dark:border-blue-800"
+          className="mt-8 p-6 glass-card rounded-xl hero-gradient"
         >
           <div className="text-center">
-            <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+            <h4 className="text-lg font-semibold text-white mb-2">
               Ready to Start Your Project?
             </h4>
-            <p className="text-gray-600 dark:text-gray-400 mb-4">
+            <p className="text-blue-100 mb-4">
               Get a free consultation and see how we can help your business grow online.
             </p>
             <Link
               href="/intake"
-              className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-shadow"
+              className="btn-primary inline-block"
             >
               Get Started Today
             </Link>

@@ -250,14 +250,11 @@ export default function IntakeWizard({ onClose }: IntakeWizardProps) {
         submittedAt: serverTimestamp(),
       });
 
-      console.log('Intake submitted with ID:', docRef.id);
-
       // Close wizard and show success
       onClose();
       // You could add a success toast/notification here
       alert('Your project intake has been submitted successfully! We will review it and get back to you soon.');
     } catch (error) {
-      console.error('Error submitting intake:', error);
       setSubmitError(`Failed to submit intake. Please try again. Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setIsSubmitting(false);

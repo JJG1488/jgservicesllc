@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./design-system-generated.css";
 
 @theme {
   /* Dark mode configuration */
@@ -96,9 +97,11 @@
       135deg,
       #0c1838 0%,
       #1e1b4b 25%,
-      #3b0764 50%,
+      /* #3b0764 50%, */
+      #1e1b4b 50%,
       #1e1b4b 75%,
       #0c1838 100%
+      
     );
     background-attachment: fixed;
     min-height: 100vh;

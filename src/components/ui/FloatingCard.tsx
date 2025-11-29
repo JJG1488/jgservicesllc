@@ -1,28 +1,17 @@
-'use client'
+/**
+ * FloatingCard - Backward Compatibility Re-export
+ *
+ * This file maintains backward compatibility by re-exporting the refactored
+ * FloatingCard component from its new location in the UI library.
+ *
+ * @deprecated Import from '@/ui-library/primitives/FloatingCard/FloatingCard' instead
+ * @see /src/ui-library/primitives/FloatingCard/ for the new modular implementation
+ */
 
-import { motion } from 'framer-motion'
-import { ReactNode } from 'react'
-
-interface FloatingCardProps {
-  children: ReactNode
-  delay?: number
-  className?: string
-}
-
-export default function FloatingCard({ children, delay = 0, className = '' }: FloatingCardProps) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-100px' }}
-      transition={{ duration: 0.6, delay }}
-      whileHover={{
-        y: -10,
-        transition: { duration: 0.3 },
-      }}
-      className={`bg-white rounded-lg shadow-md hover:shadow-2xl transition-shadow duration-300 ${className}`}
-    >
-      {children}
-    </motion.div>
-  )
-}
+export { default, type FloatingCardProps } from '@/ui-library/primitives/FloatingCard/FloatingCard';
+export {
+  backgroundStyles,
+  floatingCardDefaults,
+  type BackgroundStyle,
+  type FloatingCardConfig,
+} from '@/ui-library/primitives/FloatingCard/FloatingCard.data';

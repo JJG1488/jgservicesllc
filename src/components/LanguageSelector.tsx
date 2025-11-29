@@ -54,9 +54,7 @@ export default function LanguageSelector() {
   useEffect(() => {
     // Initialize Google Translate
     window.googleTranslateElementInit = () => {
-      console.log('Google Translate initializing...');
       if (window.google && window.google.translate) {
-        console.log('Google Translate object found');
         new window.google.translate.TranslateElement(
           {
             pageLanguage: 'en',
@@ -66,23 +64,17 @@ export default function LanguageSelector() {
           },
           'google_translate_element'
         );
-        console.log('Google Translate initialized successfully');
-      } else {
-        console.error('Google Translate object not found');
       }
     };
 
     // Load Google Translate script if not already loaded
     if (!document.getElementById('google-translate-script')) {
-      console.log('Loading Google Translate script...');
       const script = document.createElement('script');
       script.id = 'google-translate-script';
       script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
       script.async = true;
-      script.onerror = () => console.error('Failed to load Google Translate script');
       document.body.appendChild(script);
     } else {
-      console.log('Google Translate script already exists');
       if (window.google && window.google.translate) {
         window.googleTranslateElementInit();
       }
@@ -122,7 +114,6 @@ export default function LanguageSelector() {
     }
 
     // For other languages, set cookie directly
-    console.log('Setting language to:', language.code);
     document.cookie = `googtrans=/en/${language.code}; path=/`;
     document.cookie = `googtrans=/en/${language.code}; path=/; domain=${window.location.hostname}`;
 
