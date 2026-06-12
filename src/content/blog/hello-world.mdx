@@ -1,0 +1,64 @@
+---
+title: "Why We Use Next.js (And What We'd Change About It)"
+description: "Our honest take on Next.js after using it on every client project. What works, what's annoying, and why we keep coming back."
+date: "2026-03-01"
+author: "James Gault"
+tags: ["Next.js", "Web Development", "React"]
+---
+
+## We Use Next.js for Everything. Here's Why.
+
+When I started JG Services, I spent way too long evaluating frameworks. Remix, Astro, SvelteKit, plain React with Vite — I tried all of them on side projects. I kept coming back to Next.js, not because it's perfect, but because it handles the widest range of client projects without fighting you.
+
+A marketing site? Static generation. A dashboard with auth? Server-side rendering. An e-commerce store that needs both? Next.js does it in the same codebase.
+
+## What Actually Works Well
+
+### The File-Based Router Is Underrated
+
+People complain about the App Router, and some of those complaints are valid (more on that below). But the basic idea — your folder structure is your URL structure — saves real time. I don't have to maintain a separate router config. New page? New folder. Done.
+
+### Server Components Changed How We Think About Data
+
+Before Server Components, fetching data meant choosing between `getServerSideProps` (blocking), `getStaticProps` (build-time only), or client-side fetching (loading spinners everywhere). Now we just `await` a database query right in the component. It's how it should've always worked.
+
+### Vercel Deploys Are Genuinely Easy
+
+Push to main, site is live in 90 seconds. Preview deployments for every PR. I know Vercel gets criticism for vendor lock-in, and that's fair, but the DX is hard to beat for small teams.
+
+## What We'd Change
+
+### The Caching Story Is a Mess
+
+This is Next.js's biggest weakness right now. `fetch` caching, route segment caching, `revalidatePath`, `revalidateTag` — there are too many overlapping systems and the defaults have changed between versions. We've been bitten by stale data more than once. The Canary releases are improving this, but it's still not where it needs to be.
+
+### The App Router Migration Was Rough
+
+We started on Pages Router and migrated to App Router. The concepts are better, but the migration path was painful. Docs were incomplete for months, some patterns that worked in Pages Router had no clear equivalent, and the community was split. It's settled down now, but it left a bad taste.
+
+### Build Times on Large Projects
+
+For smaller sites (like this one), builds are fast. But on larger projects with hundreds of pages and heavy image optimization, build times creep up. We've had to get creative with `generateStaticParams` and incremental static regeneration to keep deploys reasonable.
+
+## Our Typical Setup
+
+```typescript
+const stack = {
+  framework: "Next.js 15",
+  language: "TypeScript", // non-negotiable
+  styling: "Tailwind CSS",
+  animation: "Framer Motion",
+  deployment: "Vercel",
+  cms: "Sanity", // when the client needs one
+};
+```
+
+This combination covers maybe 90% of what clients ask for. For the other 10%, we adapt — but this is our starting point.
+
+## Would We Use Something Else?
+
+For a purely static content site with no interactivity? Astro is genuinely great, and we'd consider it. For a complex SPA that doesn't need SEO? Vite + React is simpler. But for the "I need a fast marketing site AND a client portal AND an API" projects that make up most of our work, Next.js is still the best fit.
+
+It's not a perfect framework. But it's the one that lets us ship the most value for clients without fighting the tooling. And at the end of the day, that's what matters.
+
+If you're evaluating frameworks for a project and want a second opinion, [reach out](/contact). Happy to share what we've learned.

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Service Agreement — JG Services LLC</title>
+  <meta name="description" content="Review and sign your web development service agreement with JG Services LLC." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Ephesis&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="pages.css" />
+</head>
+<body>
+  <div class="app-bg" aria-hidden="true"></div>
+  <div class="aurora a" aria-hidden="true"></div>
+  <div class="aurora b" aria-hidden="true"></div>
+
+  <div id="site-header"></div>
+
+  <main>
+    <section class="page-head">
+      <div class="wrap">
+        <div class="breadcrumb reveal"><a href="index.html">Home</a> <span class="sep">/</span> <span>Service Agreement</span></div>
+        <span class="kicker reveal">Sample agreement</span>
+        <h1 class="display page-title reveal">Service <span class="grad-text">agreement</span>.</h1>
+        <p class="page-lead reveal">A plain-English contract that protects both sides. This is a representative template — your actual agreement is tailored to your project scope.</p>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:1rem">
+      <div class="wrap">
+        <div class="legal-layout">
+          <aside class="surface toc reveal">
+            <h5>Agreement</h5>
+            <a href="#parties">Parties</a>
+            <a href="#scope">1. Scope of Work</a>
+            <a href="#payment">2. Payment</a>
+            <a href="#timeline">3. Timeline</a>
+            <a href="#ip">4. Ownership</a>
+            <a href="#support">5. Support</a>
+            <a href="#termination">6. Termination</a>
+            <a href="#sign">Sign</a>
+          </aside>
+
+          <div>
+            <div class="surface" style="padding:1.4rem 1.6rem;margin-bottom:1.4rem">
+              <div class="summary-row"><span class="k">Project</span><span class="v">Custom Web Application</span></div>
+              <div class="summary-row"><span class="k">Estimated investment</span><span class="v">$12,000 – $15,600</span></div>
+              <div class="summary-row"><span class="k">Estimated timeline</span><span class="v">8–12 weeks</span></div>
+              <div class="summary-row" style="border-bottom:none"><span class="k">Deposit to begin</span><span class="v">50% ($6,000)</span></div>
+            </div>
+
+            <div class="prose">
+              <h2 id="parties">Parties</h2>
+              <p>This agreement is between <b style="color:var(--ink-100)">JG Services LLC</b> ("Developer") and the undersigned ("Client"), effective on the date of signature below.</p>
+
+              <h2 id="scope">1. Scope of Work</h2>
+              <p>Developer will provide web development, design, and related technical services as described in the project proposal. Work outside the agreed scope is handled as a separate change request with its own estimate and approval.</p>
+
+              <h2 id="payment">2. Payment</h2>
+              <p>A 50% deposit is required to begin work, with the remaining 50% due upon completion and before launch. For projects over $15,000, payments may be split into milestones tied to specific deliverables. Invoices are due within 14 days.</p>
+
+              <h2 id="timeline">3. Timeline</h2>
+              <p>Timelines assume the Client provides content and feedback within 2–3 business days during review periods. Delays caused by scope changes may adjust the schedule; delays caused by the Developer do not incur additional cost.</p>
+
+              <h2 id="ip">4. Ownership &amp; Intellectual Property</h2>
+              <p>Upon final payment, the Client owns 100% of the code, design files, and project assets created specifically for the project, and the GitHub repository is transferred to the Client. Reusable libraries used across projects remain the Developer's property but do not limit the Client's ownership of their site.</p>
+
+              <h2 id="support">5. Support</h2>
+              <p>The project includes 30 days of free bug fixes after launch. Ongoing maintenance is available under a separate monthly plan. Post-launch support outside the 30-day window is billed at $150/hour.</p>
+
+              <h2 id="termination">6. Termination</h2>
+              <p>Either party may terminate with written notice. Upon termination, the Client pays for all work completed to date, and the Developer delivers all completed work and assets.</p>
+            </div>
+
+            <div class="surface surface-strong" id="sign" style="padding:1.8rem;margin-top:1.6rem">
+              <h3 style="font-family:var(--font-ui);font-size:1.2rem;color:var(--ink-100);margin:0 0 1.2rem;font-weight:700">Sign the agreement</h3>
+              <div id="sign-form">
+                <div class="field"><label for="sig-name">Full legal name <span class="req">*</span></label><input class="input" id="sig-name" placeholder="Jane Doe" /><span class="err-msg" id="sig-err" hidden>Please type your full name to sign.</span></div>
+                <label class="opt-card" id="agree-card" for="agree" style="margin-bottom:1.2rem">
+                  <span class="box" id="agree-box"></span>
+                  <input type="checkbox" id="agree" style="display:none" />
+                  <div><h5>I have read and agree to this agreement</h5><p>You're agreeing to the terms above on behalf of yourself or your company.</p></div>
+                </label>
+                <button class="btn btn-primary" id="sign-btn" style="width:100%;justify-content:center" disabled>Sign &amp; accept</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="nav-config.js"></script>
+  <script src="site.js"></script>
+  <script>
+    (function () {
+      var agree = document.getElementById("agree");
+      var card = document.getElementById("agree-card");
+      var box = document.getElementById("agree-box");
+      var name = document.getElementById("sig-name");
+      var btn = document.getElementById("sign-btn");
+      var CHECK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12 5 5L20 6"/></svg>';
+
+      function refresh() { btn.disabled = !(agree.checked && name.value.trim().length > 1); }
+      card.addEventListener("click", function (e) {
+        e.preventDefault();
+        agree.checked = !agree.checked;
+        card.classList.toggle("sel", agree.checked);
+        box.innerHTML = agree.checked ? CHECK : "";
+        refresh();
+      });
+      name.addEventListener("input", refresh);
+
+      btn.addEventListener("click", function () {
+        if (btn.disabled) return;
+        var now = new Date();
+        var ts = now.toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" }) + " at " + now.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
+        document.getElementById("sign-form").innerHTML =
+          '<div class="form-ok" style="padding:1rem"><div class="ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12 5 5L20 6"/></svg></div>' +
+          '<h3 style="font-family:var(--font-ui);font-size:1.3rem;color:var(--ink-100);margin:.2rem 0 0;font-weight:700">Agreement signed</h3>' +
+          '<div class="script grad-text" style="font-size:2.6rem;line-height:1;margin:.4rem 0">' + name.value.trim() + "</div>" +
+          '<p class="mono" style="color:var(--ink-400);font-size:.78rem;margin:0">Signed ' + ts + "</p>" +
+          '<p style="color:var(--ink-300);max-width:40ch;margin:.6rem 0 0">A countersigned copy and your deposit invoice are on the way to your inbox.</p>' +
+          '<a href="schedule.html" class="btn btn-primary" style="margin-top:.6rem">Schedule kickoff call</a></div>';
+      });
+    })();
+  </script>
+</body>
+</html>

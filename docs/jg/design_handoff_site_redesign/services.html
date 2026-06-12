@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Services — JG Services LLC</title>
+  <meta name="description" content="Custom web applications, responsive websites, e-commerce, SEO, APIs, and ongoing care — from JG Services LLC." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Ephesis&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="pages.css" />
+</head>
+<body>
+  <div class="app-bg" aria-hidden="true"></div>
+  <div class="aurora a" aria-hidden="true"></div>
+  <div class="aurora b" aria-hidden="true"></div>
+  <div class="aurora c" aria-hidden="true"></div>
+
+  <div id="site-header"></div>
+
+  <main>
+    <section class="page-head">
+      <div class="wrap">
+        <div class="breadcrumb reveal"><a href="index.html">Home</a> <span class="sep">/</span> <span>Services</span></div>
+        <span class="kicker reveal">What we build</span>
+        <h1 class="display page-title reveal">Services scoped to your <span class="grad-text">business</span>.</h1>
+        <p class="page-lead reveal">From custom web applications to ongoing maintenance — comprehensive web development with clear timelines and honest pricing. Tap any service for the full breakdown.</p>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:1rem">
+      <div class="wrap">
+        <div class="svc-grid" id="svc-grid"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="kicker" style="justify-content:center;display:flex">Why JG Services</span>
+          <h2 class="display sec-title">A partner, not just a <span class="grad-text">vendor</span>.</h2>
+          <p class="sec-lead">The difference is in how we work — transparent, communicative, and accountable from kickoff to long after launch.</p>
+        </div>
+        <div class="why-grid" id="why-grid" style="margin-top:3rem"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="surface surface-strong cta-band reveal">
+          <h2 class="display">Ready to get <span class="grad-text">started</span>?</h2>
+          <p>Let's discuss your project and put together a detailed quote. No obligation, no sales pressure.</p>
+          <div style="display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap">
+            <a href="intake.html" class="btn btn-primary">Start a project</a>
+            <a href="process.html" class="btn btn-ghost">See our process</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="nav-config.js"></script>
+  <script src="data.js"></script>
+  <script src="site.js"></script>
+  <script>
+    (function () {
+      function ic(name, size) {
+        var P = {
+          code: '<path d="M8 6 2 12l6 6"/><path d="m16 6 6 6-6 6"/>',
+          phone: '<rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/>',
+          cart: '<circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h2.5l2.2 12.2a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 2-1.5L21.5 7H6"/>',
+          gauge: '<path d="M12 14 16 9"/><path d="M3.5 18a9 9 0 1 1 17 0"/><circle cx="12" cy="14" r="1.4"/>',
+          plug: '<path d="M9 2v6M15 2v6"/><path d="M6 8h12v3a6 6 0 0 1-12 0z"/><path d="M12 17v5"/>',
+          shield: '<path d="M12 3 5 6v6c0 4.4 3 7.8 7 9 4-1.2 7-4.6 7-9V6z"/><path d="m9.2 12 1.9 1.9 3.7-3.8"/>',
+          check: '<path d="m4 12 5 5L20 6"/>', chevron: '<path d="m6 9 6 6 6-6"/>',
+          tag: '<path d="M3 7v5.6a2 2 0 0 0 .6 1.4l7 7a2 2 0 0 0 2.8 0l5.6-5.6a2 2 0 0 0 0-2.8l-7-7A2 2 0 0 0 12.6 5H7a4 4 0 0 0-4 4z"/><circle cx="8" cy="10" r="1.2"/>',
+          chat: '<path d="M21 12a8 8 0 0 1-11.5 7.2L3 21l1.8-6.5A8 8 0 1 1 21 12z"/>',
+          sparkle: '<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/>',
+          clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+          hands: '<path d="M7 11V6a2 2 0 0 1 4 0v5"/><path d="M11 11V4.5a2 2 0 0 1 4 0V11"/><path d="M15 11V6.5a2 2 0 0 1 4 0V14a7 7 0 0 1-7 7H9.5a4 4 0 0 1-2.8-1.2L3 16"/>',
+          rocket: '<path d="M5 15c-1.5 1.5-2 5-2 5s3.5-.5 5-2a2.8 2.8 0 0 0-3-3z"/><path d="M9 12a14 14 0 0 1 8-9c2 0 4 2 4 4a14 14 0 0 1-9 8z"/><circle cx="15" cy="9" r="1.4"/>'
+        };
+        size = size || 22;
+        return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + (P[name] || "") + "</svg>";
+      }
+
+      var grid = document.getElementById("svc-grid");
+      grid.innerHTML = JG.services.map(function (s, i) {
+        return '<article class="surface lift svc-card reveal" data-i="' + i + '">' +
+          '<div class="svc-head">' +
+          '<div class="svc-icon">' + ic(s.icon, 26) + "</div>" +
+          '<h3 class="svc-name">' + s.name + "</h3>" +
+          '<p class="svc-desc">' + s.desc + "</p>" +
+          '<div class="svc-meta"><div class="cell"><div class="lbl">Timeline</div><div class="val">' + s.timeline + '</div></div>' +
+          '<div class="cell"><div class="lbl">Investment</div><div class="val">' + s.price + "</div></div></div>" +
+          "</div>" +
+          '<div class="svc-expand"><div><ul class="svc-feat">' +
+          s.features.map(function (f) { return "<li>" + ic("check", 16) + "<span>" + f + "</span></li>"; }).join("") +
+          '</ul><div class="svc-chips">' + s.chips.map(function (c) { return '<span class="chip">' + c + "</span>"; }).join("") + "</div></div></div>" +
+          '<button class="svc-toggle">What\'s included ' + ic("chevron", 16) + "</button>";
+      }).join("");
+
+      grid.addEventListener("click", function (e) {
+        var card = e.target.closest(".svc-card");
+        if (!card) return;
+        var open = card.classList.toggle("open");
+        var btn = card.querySelector(".svc-toggle");
+        btn.innerHTML = (open ? "Show less " : "What's included ") + ic("chevron", 16);
+      });
+
+      var why = document.getElementById("why-grid");
+      why.innerHTML = JG.why.map(function (w, i) {
+        return '<article class="surface lift why-card reveal" style="transition-delay:' + ((i % 3) * 80) + 'ms"><div class="why-ic">' + ic(w.icon, 22) + "</div><h4>" + w.title + "</h4><p>" + w.desc + "</p></article>";
+      }).join("");
+
+      window.JGSite.reveals();
+    })();
+  </script>
+</body>
+</html>

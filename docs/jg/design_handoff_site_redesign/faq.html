@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ — JG Services LLC</title>
+  <meta name="description" content="Answers about pricing, timelines, process, technology, and support — working with JG Services LLC." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Ephesis&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="pages.css" />
+</head>
+<body>
+  <div class="app-bg" aria-hidden="true"></div>
+  <div class="aurora a" aria-hidden="true"></div>
+  <div class="aurora b" aria-hidden="true"></div>
+  <div class="aurora c" aria-hidden="true"></div>
+
+  <div id="site-header"></div>
+
+  <main>
+    <section class="page-head">
+      <div class="wrap">
+        <div class="breadcrumb reveal"><a href="index.html">Home</a> <span class="sep">/</span> <span>FAQ</span></div>
+        <span class="kicker reveal">Good questions</span>
+        <h1 class="display page-title reveal">Frequently asked <span class="grad-text">questions</span>.</h1>
+        <p class="page-lead reveal">Everything about working together — pricing, timelines, process, and post-launch support. Filter by topic or search.</p>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="wrap" style="display:flex;flex-direction:column;gap:1.2rem">
+        <input class="input reveal" id="search" type="search" placeholder="Search questions…" style="max-width:420px" />
+        <div class="pills reveal" id="filters"></div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:1rem">
+      <div class="wrap">
+        <div class="acc" id="acc"></div>
+        <p id="empty" class="reveal" style="text-align:center;color:var(--ink-400);display:none;margin-top:2rem">No questions match that search.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="surface surface-strong cta-band reveal">
+          <h2 class="display">Still have <span class="grad-text">questions</span>?</h2>
+          <p>Don't see yours answered? Let's chat — happy to discuss your specific situation.</p>
+          <div style="display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap">
+            <a href="contact.html" class="btn btn-primary">Free consultation</a>
+            <a href="process.html" class="btn btn-ghost">See our process</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="nav-config.js"></script>
+  <script src="faq-data.js"></script>
+  <script src="site.js"></script>
+  <script>
+    (function () {
+      var data = window.FAQ;
+      var cats = ["All"].concat(data.map(function (f) { return f.category; }).filter(function (v, i, a) { return a.indexOf(v) === i; }));
+      var active = "All", q = "";
+      var filters = document.getElementById("filters");
+      var acc = document.getElementById("acc");
+      var empty = document.getElementById("empty");
+
+      filters.innerHTML = cats.map(function (c) {
+        var n = c === "All" ? data.length : data.filter(function (f) { return f.category === c; }).length;
+        return '<button class="pill' + (c === active ? " active" : "") + '" data-c="' + c + '">' + c + " (" + n + ")</button>";
+      }).join("");
+
+      function chev() { return '<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>'; }
+
+      function render() {
+        var list = data.filter(function (f) {
+          var okCat = active === "All" || f.category === active;
+          var okQ = !q || (f.question + " " + f.answer).toLowerCase().indexOf(q) !== -1;
+          return okCat && okQ;
+        });
+        empty.style.display = list.length ? "none" : "block";
+        acc.innerHTML = list.map(function (f) {
+          return '<div class="surface acc-item reveal"><button class="acc-q">' + f.question + chev() + "</button>" +
+            '<div class="acc-body"><div><p>' + f.answer + "</p></div></div></div>";
+        }).join("");
+        window.JGSite.reveals();
+      }
+
+      filters.addEventListener("click", function (e) {
+        var b = e.target.closest(".pill"); if (!b) return;
+        active = b.getAttribute("data-c");
+        [].forEach.call(filters.children, function (ch) { ch.classList.toggle("active", ch.getAttribute("data-c") === active); });
+        render();
+      });
+      document.getElementById("search").addEventListener("input", function (e) { q = e.target.value.trim().toLowerCase(); render(); });
+      acc.addEventListener("click", function (e) {
+        var btn = e.target.closest(".acc-q"); if (!btn) return;
+        btn.parentElement.classList.toggle("open");
+      });
+      render();
+    })();
+  </script>
+</body>
+</html>

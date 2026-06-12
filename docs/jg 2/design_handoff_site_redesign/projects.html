@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects — JG Services LLC</title>
+  <meta name="description" content="Selected web development projects by JG Services LLC — real products designed, built, and launched." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Ephesis&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="pages.css" />
+</head>
+<body>
+  <div class="app-bg" aria-hidden="true"></div>
+  <div class="aurora a" aria-hidden="true"></div>
+  <div class="aurora b" aria-hidden="true"></div>
+  <div class="aurora c" aria-hidden="true"></div>
+
+  <div id="site-header"></div>
+
+  <main>
+    <section class="page-head">
+      <div class="wrap">
+        <div class="breadcrumb reveal"><a href="index.html">Home</a> <span class="sep">/</span> <span>Projects</span></div>
+        <span class="kicker reveal">Selected work</span>
+        <h1 class="display page-title reveal">Real products, <span class="grad-text">really shipped</span>.</h1>
+        <p class="page-lead reveal">A sample of what we've designed, built, and launched — from AI SaaS to local-business sites. Every project below is live; click through and see for yourself.</p>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="wrap">
+        <div class="pills reveal" id="filters"></div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:1rem">
+      <div class="wrap">
+        <div class="proj-grid" id="grid"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="surface surface-strong cta-band reveal">
+          <span class="kicker" style="justify-content:center;display:flex">Have a project in mind?</span>
+          <h2 class="display" style="margin-top:1rem">Let's build <span class="grad-text">yours</span> next.</h2>
+          <p>Tell us what you're picturing and we'll turn it into a concrete plan with a fixed quote — no obligation.</p>
+          <div style="display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap">
+            <a href="intake.html" class="btn btn-primary">Start a project</a>
+            <a href="contact.html" class="btn btn-ghost">Get in touch</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="nav-config.js"></script>
+  <script src="site.js"></script>
+  <script>
+    (function () {
+      var P = window.SITE.projects;
+      var cats = ["All"].concat(P.map(function (p) { return p.category; }).filter(function (v, i, a) { return a.indexOf(v) === i; }));
+      var active = "All";
+      var filters = document.getElementById("filters");
+      var grid = document.getElementById("grid");
+
+      function tag(t) { return '<span class="chip">' + t + "</span>"; }
+
+      function card(p) {
+        var shot = p.image
+          ? '<div class="proj-shot"><img src="' + p.image + '" alt="' + p.title + '" loading="lazy"/></div>'
+          : '<div class="proj-shot ph"><span class="mono">' + p.title + "</span></div>";
+        return '<article class="surface lift proj-card reveal">' +
+          shot +
+          '<span class="chip proj-cat">' + p.category + "</span>" +
+          '<div class="proj-body"><h3>' + p.title + "</h3><p>" + p.description + "</p>" +
+          '<div class="proj-tags">' + p.tags.map(tag).join("") + "</div>" +
+          '<div class="proj-actions">' +
+          '<a class="btn btn-primary" href="' + p.liveUrl + '" target="_blank" rel="noopener noreferrer">View live ↗</a>' +
+          '<a class="btn btn-ghost" href="intake.html">Build similar</a>' +
+          "</div></div></article>";
+      }
+
+      function render() {
+        var list = active === "All" ? P : P.filter(function (p) { return p.category === active; });
+        grid.innerHTML = list.map(card).join("");
+        window.JGSite.reveals();
+      }
+
+      filters.innerHTML = cats.map(function (c) {
+        return '<button class="pill' + (c === active ? " active" : "") + '" data-c="' + c + '">' + c + "</button>";
+      }).join("");
+      filters.addEventListener("click", function (e) {
+        var b = e.target.closest(".pill");
+        if (!b) return;
+        active = b.getAttribute("data-c");
+        [].forEach.call(filters.children, function (ch) { ch.classList.toggle("active", ch.getAttribute("data-c") === active); });
+        render();
+      });
+      render();
+    })();
+  </script>
+</body>
+</html>

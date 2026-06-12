@@ -1,26 +1,71 @@
 @import "tailwindcss";
+@import "./design-system.css";
+@import "./pages.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* Tailwind theme mapping — exposes Sapphire Atelier tokens as utilities
+   (text-ink-300, bg-bg-1, border-sapphire-600, font-display, …). The
+   canonical values live in design-system.css; keep these in sync. */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Fonts (next/font variables are set on <html>) */
+  --font-display: var(--font-playfair);
+  --font-sans: var(--font-sora);
+  --font-mono: var(--font-jetbrains);
+  --font-script: var(--font-ephesis);
+
+  /* Ink + backgrounds */
+  --color-bg-0: #070a14;
+  --color-bg-1: #0a1024;
+  --color-bg-2: #0e1430;
+  --color-ink-100: #f4f7ff;
+  --color-ink-200: #c9d4f0;
+  --color-ink-300: #97a6cf;
+  --color-ink-400: #6b78a3;
+
+  /* Brand */
+  --color-sapphire-300: #93c5fd;
+  --color-sapphire-400: #60a5fa;
+  --color-sapphire-500: #3b82f6;
+  --color-sapphire-600: #2563eb;
+  --color-sapphire-700: #1d4ed8;
+  --color-amethyst-300: #d8b4fe;
+  --color-amethyst-400: #c084fc;
+  --color-amethyst-500: #a855f7;
+  --color-amethyst-600: #9333ea;
+  --color-amethyst-700: #7e22ce;
+  --color-emerald-400: #34d399;
+  --color-emerald-500: #10b981;
+
+  /* Status */
+  --color-success: #10b981;
+  --color-warning: #fbbf24;
+  --color-error: #ef4444;
+
+  /* Radii (match design-system geometry) */
+  --radius-sm: 0.625rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* Scrollbar styling */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-0); }
+::-webkit-scrollbar-thumb { background: #161d3a; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--sapphire-600); }
+
+html { scroll-behavior: smooth; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-0);
+  color: var(--ink-200);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Focus ring */
+*:focus-visible {
+  outline: 2px solid var(--sapphire-400);
+  outline-offset: 2px;
 }

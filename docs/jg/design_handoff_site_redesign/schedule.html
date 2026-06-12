@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Schedule a Call — JG Services LLC</title>
+  <meta name="description" content="Book a free consultation call with JG Services LLC." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Ephesis&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="pages.css" />
+  <style>
+    .cal-days { display:grid; grid-template-columns:repeat(7,1fr); gap:.5rem; }
+    .cal-day { padding:.7rem .3rem; border-radius:12px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.03); text-align:center; cursor:pointer; transition:all .25s var(--ease); }
+    .cal-day:hover:not(.off) { border-color:var(--surface-border-strong); background:rgba(255,255,255,.06); }
+    .cal-day.off { opacity:.3; cursor:not-allowed; }
+    .cal-day.sel { background:var(--grad-brand); border-color:transparent; color:#fff; }
+    .cal-day .dow { font-family:var(--font-mono); font-size:.64rem; letter-spacing:.1em; color:var(--ink-400); text-transform:uppercase; }
+    .cal-day.sel .dow { color:rgba(255,255,255,.85); }
+    .cal-day .dnum { font-size:1.1rem; font-weight:600; color:var(--ink-100); margin-top:.2rem; }
+    .cal-day.sel .dnum { color:#fff; }
+    .slots { display:grid; grid-template-columns:repeat(3,1fr); gap:.6rem; }
+    .slot { padding:.7rem; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.03); color:var(--ink-200); font-family:var(--font-mono); font-size:.86rem; cursor:pointer; transition:all .25s var(--ease); }
+    .slot:hover { border-color:var(--surface-border-strong); color:#fff; }
+    .slot.sel { background:var(--grad-brand); border-color:transparent; color:#fff; }
+    .sched-grid { display:grid; grid-template-columns:1.3fr 1fr; gap:2rem; align-items:start; }
+    @media (max-width:880px){ .sched-grid{ grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <div class="app-bg" aria-hidden="true"></div>
+  <div class="aurora a" aria-hidden="true"></div>
+  <div class="aurora b" aria-hidden="true"></div>
+
+  <div id="site-header"></div>
+
+  <main>
+    <section class="page-head">
+      <div class="wrap">
+        <div class="breadcrumb reveal"><a href="index.html">Home</a> <span class="sep">/</span> <span>Schedule</span></div>
+        <span class="kicker reveal">Free consultation · 30 min</span>
+        <h1 class="display page-title reveal">Book a <span class="grad-text">call</span>.</h1>
+        <p class="page-lead reveal">Pick a day and time that works for you. We'll send a calendar invite with a video link — no charge, no pressure.</p>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:1rem">
+      <div class="wrap">
+        <div class="sched-grid">
+          <div class="surface" style="padding:1.8rem" id="picker">
+            <h3 style="font-size:1.05rem;color:var(--ink-100);margin:0 0 1rem;font-weight:600">Choose a day</h3>
+            <div class="cal-days" id="days"></div>
+            <h3 style="font-size:1.05rem;color:var(--ink-100);margin:1.6rem 0 1rem;font-weight:600">Available times <span class="mono" style="font-size:.74rem;color:var(--ink-400)">· ET</span></h3>
+            <div class="slots" id="slots"></div>
+          </div>
+
+          <aside class="surface surface-strong" style="padding:1.8rem;position:sticky;top:96px" id="summary">
+            <h3 style="font-size:1.1rem;color:var(--ink-100);margin:0 0 1.2rem;font-weight:600">Your booking</h3>
+            <div class="summary-row"><span class="k">Type</span><span class="v">Free consultation</span></div>
+            <div class="summary-row"><span class="k">Length</span><span class="v">30 minutes</span></div>
+            <div class="summary-row"><span class="k">Date</span><span class="v" id="s-date">—</span></div>
+            <div class="summary-row"><span class="k">Time</span><span class="v" id="s-time">—</span></div>
+            <button class="btn btn-primary" id="confirm" style="width:100%;justify-content:center;margin-top:1.4rem" disabled>Confirm booking</button>
+            <p class="form-note" style="text-align:center;margin-top:.9rem">Prefer email? <a href="contact.html" style="color:var(--sapphire-300)">Send a message instead</a></p>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="nav-config.js"></script>
+  <script src="site.js"></script>
+  <script>
+    (function () {
+      var DOW = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+      var MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+      var TIMES = ["9:00 AM","10:00 AM","11:00 AM","1:00 PM","2:00 PM","3:00 PM","4:00 PM","5:00 PM"];
+      var selDate = null, selTime = null;
+      var days = document.getElementById("days"), slots = document.getElementById("slots");
+
+      var list = [];
+      var d = new Date(); d.setHours(0,0,0,0);
+      while (list.length < 14) { d.setDate(d.getDate() + 1); var wd = d.getDay(); list.push({ date: new Date(d), off: wd === 0 || wd === 6 }); }
+
+      days.innerHTML = list.map(function (it, i) {
+        return '<div class="cal-day' + (it.off ? " off" : "") + '" data-i="' + i + '"><div class="dow">' + DOW[it.date.getDay()] + '</div><div class="dnum">' + it.date.getDate() + "</div></div>";
+      }).join("");
+      slots.innerHTML = TIMES.map(function (t) { return '<button class="slot" data-t="' + t + '">' + t + "</button>"; }).join("");
+
+      function fmt(dt) { return DOW[dt.getDay()] + ", " + MON[dt.getMonth()] + " " + dt.getDate(); }
+      function update() {
+        document.getElementById("s-date").textContent = selDate ? fmt(selDate) : "—";
+        document.getElementById("s-time").textContent = selTime || "—";
+        document.getElementById("confirm").disabled = !(selDate && selTime);
+      }
+
+      days.addEventListener("click", function (e) {
+        var el = e.target.closest(".cal-day"); if (!el || el.classList.contains("off")) return;
+        [].forEach.call(days.children, function (c) { c.classList.remove("sel"); });
+        el.classList.add("sel");
+        selDate = list[+el.getAttribute("data-i")].date; update();
+      });
+      slots.addEventListener("click", function (e) {
+        var el = e.target.closest(".slot"); if (!el) return;
+        [].forEach.call(slots.children, function (c) { c.classList.remove("sel"); });
+        el.classList.add("sel");
+        selTime = el.getAttribute("data-t"); update();
+      });
+      document.getElementById("confirm").addEventListener("click", function () {
+        var sum = document.getElementById("summary");
+        sum.innerHTML = '<div class="form-ok"><div class="ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12 5 5L20 6"/></svg></div>' +
+          '<h3 style="font-family:var(--font-ui);font-size:1.3rem;color:var(--ink-100);margin:.4rem 0 0;font-weight:700">You\'re booked!</h3>' +
+          '<p style="color:var(--ink-300);margin:0">' + fmt(selDate) + " at " + selTime + ' ET. A calendar invite is on its way to your inbox.</p>' +
+          '<a href="index.html" class="btn btn-ghost" style="margin-top:.6rem">Back to home</a></div>';
+      });
+    })();
+  </script>
+</body>
+</html>

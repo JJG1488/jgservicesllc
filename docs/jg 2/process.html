@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Process — JG Services LLC</title>
+  <meta name="description" content="A proven path from idea to launch — JG Services LLC's three-phase web development process." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Ephesis&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="pages.css" />
+</head>
+<body>
+  <div class="app-bg" aria-hidden="true"></div>
+  <div class="aurora a" aria-hidden="true"></div>
+  <div class="aurora b" aria-hidden="true"></div>
+  <div class="aurora c" aria-hidden="true"></div>
+
+  <div id="site-header"></div>
+
+  <main>
+    <section class="page-head">
+      <div class="wrap">
+        <div class="breadcrumb reveal"><a href="index.html">Home</a> <span class="sep">/</span> <span>Process</span></div>
+        <span class="kicker reveal">How it works</span>
+        <h1 class="display page-title reveal">A proven path from <span class="grad-text">idea to launch</span>.</h1>
+        <p class="page-lead reveal">Three phases, weekly demos, and no surprises. You always know exactly where your project stands — and what happens next.</p>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:1rem">
+      <div class="wrap">
+        <div class="proc">
+          <div class="proc-steps reveal" id="steps"></div>
+          <div class="surface proc-panel reveal" id="panel"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="sec-head center reveal">
+          <span class="kicker" style="justify-content:center;display:flex">What to expect</span>
+          <h2 class="display sec-title">Built around <span class="grad-text">communication</span>.</h2>
+        </div>
+        <div class="why-grid" style="margin-top:3rem">
+          <article class="surface lift why-card reveal"><div class="why-ic">📅</div><h4>Weekly demo calls</h4><p>A 30-minute demo every week on a live preview URL. You see real progress, not status emails.</p></article>
+          <article class="surface lift why-card reveal" style="transition-delay:80ms"><div class="why-ic">💬</div><h4>Direct line to your dev</h4><p>Questions go straight to the person writing the code. No account managers, no telephone game.</p></article>
+          <article class="surface lift why-card reveal" style="transition-delay:160ms"><div class="why-ic">📦</div><h4>You own everything</h4><p>On final payment, the GitHub repo and all source files transfer to you. Clean, documented, yours.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="surface surface-strong cta-band reveal">
+          <h2 class="display">Let's map out <span class="grad-text">your build</span>.</h2>
+          <p>Start with a free consultation. We'll turn your idea into a scoped plan with a fixed quote and timeline.</p>
+          <div style="display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap">
+            <a href="intake.html" class="btn btn-primary">Start a project</a>
+            <a href="faq.html" class="btn btn-ghost">Read the FAQ</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="nav-config.js"></script>
+  <script src="data.js"></script>
+  <script src="site.js"></script>
+  <script>
+    (function () {
+      var P = JG.process, active = 0;
+      var steps = document.getElementById("steps");
+      var panel = document.getElementById("panel");
+      function check() { return '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12 5 5L20 6"/></svg>'; }
+
+      function renderSteps() {
+        steps.innerHTML = P.map(function (p, i) {
+          return '<div class="proc-step' + (i === active ? " active" : "") + '" data-i="' + i + '">' +
+            '<span class="proc-num">' + p.n + "</span><div><h4>" + p.title + "</h4><p>" + p.blurb + "</p></div></div>";
+        }).join("");
+      }
+      function renderPanel() {
+        var s = P[active];
+        panel.innerHTML = '<span class="chip">' + s.tag + "</span>" +
+          '<div class="big-num grad-text" style="margin-top:.8rem">' + s.n + "</div>" +
+          '<h3 class="display" style="font-size:1.8rem;margin:.4rem 0 .7rem;color:var(--ink-100)">' + s.title + "</h3>" +
+          '<p style="color:var(--ink-300);line-height:1.7;margin:0;font-size:1.02rem">' + s.detail + "</p>" +
+          '<ul class="proc-detail-list">' + s.points.map(function (pt) { return "<li>" + check() + "<span>" + pt + "</span></li>"; }).join("") + "</ul>";
+      }
+      steps.addEventListener("click", function (e) {
+        var el = e.target.closest(".proc-step"); if (!el) return;
+        active = parseInt(el.getAttribute("data-i"), 10);
+        renderSteps(); renderPanel();
+      });
+      renderSteps(); renderPanel();
+    })();
+  </script>
+</body>
+</html>

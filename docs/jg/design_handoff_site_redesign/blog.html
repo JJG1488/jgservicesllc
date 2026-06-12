@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog — JG Services LLC</title>
+  <meta name="description" content="Notes on web development, performance, and running a software project well." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Ephesis&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="pages.css" />
+</head>
+<body>
+  <div class="app-bg" aria-hidden="true"></div>
+  <div class="aurora a" aria-hidden="true"></div>
+  <div class="aurora b" aria-hidden="true"></div>
+
+  <div id="site-header"></div>
+
+  <main>
+    <section class="page-head">
+      <div class="wrap">
+        <div class="breadcrumb reveal"><a href="index.html">Home</a> <span class="sep">/</span> <span>Blog</span></div>
+        <span class="kicker reveal">Field notes</span>
+        <h1 class="display page-title reveal">Web development, <span class="grad-text">demystified</span>.</h1>
+        <p class="page-lead reveal">Plain-English notes on performance, process, and getting software projects right.</p>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:1rem">
+      <div class="wrap">
+        <div class="blog-grid" id="blog"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="surface surface-strong cta-band reveal">
+          <h2 class="display">Have a topic you want <span class="grad-text">covered</span>?</h2>
+          <p>Ask a question and it might become the next post.</p>
+          <a href="contact.html" class="btn btn-primary">Get in touch</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="nav-config.js"></script>
+  <script src="site.js"></script>
+  <script>
+    (function () {
+      var posts = [
+        { cat: "Performance", date: "May 2026", read: "6 min", title: "What a 95+ Lighthouse score actually buys you", excerpt: "Speed isn't vanity — it's conversions, SEO, and trust. Here's where the wins really come from." },
+        { cat: "Process", date: "Apr 2026", read: "5 min", title: "Why I demo every single week", excerpt: "Weekly demos kill the biggest risk in software projects: building the wrong thing." },
+        { cat: "Budgeting", date: "Apr 2026", read: "7 min", title: "How much should a website actually cost?", excerpt: "A practical breakdown of what drives price — and how to spend where it matters." },
+        { cat: "Tech", date: "Mar 2026", read: "8 min", title: "Choosing a stack that ages well", excerpt: "Trendy frameworks come and go. Here's how I pick tools that won't be a liability in three years." },
+        { cat: "SEO", date: "Mar 2026", read: "6 min", title: "Technical SEO every site should ship with", excerpt: "The non-negotiable basics that get you found — most of which are free to do right." },
+        { cat: "Ownership", date: "Feb 2026", read: "4 min", title: "You should own your code. Full stop.", excerpt: "Why handing over the repo isn't a courtesy — it's the standard you should expect." }
+      ];
+      document.getElementById("blog").innerHTML = posts.map(function (p, i) {
+        return '<article class="surface lift blog-card reveal"' + (i % 3 ? ' style="transition-delay:' + ((i % 3) * 80) + 'ms"' : "") + ">" +
+          '<div class="cover"><span class="mono">' + p.cat.toUpperCase() + "</span></div>" +
+          '<div class="b-body"><span class="blog-meta">' + p.cat + " · " + p.date + " · " + p.read + "</span>" +
+          "<h3>" + p.title + "</h3><p>" + p.excerpt + "</p>" +
+          '<a href="#" class="mono" style="color:var(--sapphire-300);font-size:.82rem">Read article →</a></div></article>';
+      }).join("");
+      window.JGSite.reveals();
+    })();
+  </script>
+</body>
+</html>

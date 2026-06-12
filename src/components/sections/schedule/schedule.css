@@ -1,0 +1,95 @@
+/* Schedule page — calendar/slot picker styles ported verbatim from the
+   inline <style> block of docs/jg/design_handoff_site_redesign/schedule.html.
+   These classes are page-specific and intentionally live with the schedule
+   track rather than in the shared pages.css. Day cells and slots are
+   rendered as <button> elements in production, so the prototype's `.off`
+   state maps to `:disabled`. */
+
+.cal-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+}
+.cal-day {
+  padding: 0.7rem 0.3rem;
+  min-height: 44px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+}
+.cal-day:hover:not(:disabled) {
+  border-color: var(--surface-border-strong);
+  background: rgba(255, 255, 255, 0.06);
+}
+.cal-day:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+.cal-day.sel {
+  background: var(--grad-brand);
+  border-color: transparent;
+  color: #fff;
+}
+.cal-day .dow {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-400);
+  text-transform: uppercase;
+}
+.cal-day.sel .dow {
+  color: rgba(255, 255, 255, 0.85);
+}
+.cal-day .dnum {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ink-100);
+  margin-top: 0.2rem;
+}
+.cal-day.sel .dnum {
+  color: #fff;
+}
+
+.slots {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+}
+.slot {
+  padding: 0.7rem;
+  min-height: 44px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--ink-200);
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+}
+.slot:hover {
+  border-color: var(--surface-border-strong);
+  color: #fff;
+}
+.slot.sel {
+  background: var(--grad-brand);
+  border-color: transparent;
+  color: #fff;
+}
+
+.sched-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+@media (max-width: 880px) {
+  .sched-grid {
+    grid-template-columns: 1fr;
+  }
+}

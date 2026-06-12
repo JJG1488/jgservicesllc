@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demos — JG Services LLC</title>
+  <meta name="description" content="Interactive demo templates — see the kinds of sites and apps JG Services LLC builds." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Ephesis&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="pages.css" />
+</head>
+<body>
+  <div class="app-bg" aria-hidden="true"></div>
+  <div class="aurora a" aria-hidden="true"></div>
+  <div class="aurora b" aria-hidden="true"></div>
+
+  <div id="site-header"></div>
+
+  <main>
+    <section class="page-head">
+      <div class="wrap">
+        <div class="breadcrumb reveal"><a href="index.html">Home</a> <span class="sep">/</span> <span>Demos</span></div>
+        <span class="kicker reveal">Interactive demos</span>
+        <h1 class="display page-title reveal">See what we can <span class="grad-text">build</span>.</h1>
+        <p class="page-lead reveal">Explore demo templates for common business types. Each one is a starting point we tailor to your brand and needs.</p>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:1rem">
+      <div class="wrap">
+        <div class="proj-grid" id="demo-grid"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="surface surface-strong cta-band reveal">
+          <h2 class="display">Want one tailored to <span class="grad-text">your business</span>?</h2>
+          <p>Tell us your industry and we'll spin up a direction built around your brand.</p>
+          <a href="intake.html" class="btn btn-primary">Start a project</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="nav-config.js"></script>
+  <script src="site.js"></script>
+  <script>
+    (function () {
+      function svg(p) { return '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ink-100)">' + p + "</svg>"; }
+      var ICONS = {
+        cart: '<circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h2.5l2.2 12.2a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 2-1.5L21.5 7H6"/>',
+        food: '<path d="M7 3v8M5 3v4a2 2 0 0 0 4 0V3"/><path d="M17 3c-1.6 0-3 2.5-3 5.5S15.4 13 17 13v8"/><path d="M7 11v10"/>',
+        art: '<path d="M12 3a9 9 0 1 0 0 18c1.5 0 2-1 2-2s-.5-1.5-.5-2.5.8-1.5 2-1.5H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"/><circle cx="7.5" cy="11" r="1"/><circle cx="12" cy="8" r="1"/><circle cx="16" cy="11" r="1"/>',
+        wrench: '<path d="M15 7a4 4 0 0 0-5.4 4.6l-6 6 2.8 2.8 6-6A4 4 0 0 0 17 9l-2.3 2.3-2-2L15 7z"/>'
+      };
+      var demos = [
+        { icon: "cart", tag: "E-Commerce", title: "Storefront", desc: "Catalog, product pages, cart, and Stripe checkout - the full shopping experience.", tags: ["Catalog", "Cart", "Stripe"] },
+        { icon: "food", tag: "Restaurant", title: "Eatery", desc: "Menu, hours, reservations, and online ordering for food businesses.", tags: ["Menu", "Reservations", "Ordering"] },
+        { icon: "art", tag: "Portfolio", title: "Creative", desc: "A bold, image-forward portfolio for designers, photographers, and studios.", tags: ["Gallery", "Case studies", "Contact"] },
+        { icon: "wrench", tag: "Service", title: "Local Pro", desc: "Lead-focused site for trades and service businesses - quotes, booking, reviews.", tags: ["Quotes", "Booking", "Reviews"] }
+      ];
+      document.getElementById("demo-grid").innerHTML = demos.map(function (d) {
+        return '<article class="surface lift proj-card reveal">' +
+          '<div class="proj-shot ph">' + svg(ICONS[d.icon]) + "</div>" +
+          '<span class="chip proj-cat">' + d.tag + "</span>" +
+          '<div class="proj-body"><h3>' + d.title + "</h3><p>" + d.desc + "</p>" +
+          '<div class="proj-tags">' + d.tags.map(function (t) { return '<span class="chip">' + t + "</span>"; }).join("") + "</div>" +
+          '<div class="proj-actions"><a class="btn btn-primary" href="intake.html">Build this</a><a class="btn btn-ghost" href="contact.html">Ask about it</a></div></div></article>';
+      }).join("");
+      window.JGSite.reveals();
+    })();
+  </script>
+</body>
+</html>

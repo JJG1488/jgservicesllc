@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Start a Project — JG Services LLC</title>
+  <meta name="description" content="Tell us about your project and get an instant ballpark estimate." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Ephesis&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="pages.css" />
+</head>
+<body>
+  <div class="app-bg" aria-hidden="true"></div>
+  <div class="aurora a" aria-hidden="true"></div>
+  <div class="aurora b" aria-hidden="true"></div>
+
+  <div id="site-header"></div>
+
+  <main>
+    <section class="page-head">
+      <div class="wrap">
+        <div class="breadcrumb reveal"><a href="index.html">Home</a> <span class="sep">/</span> <span>Start a Project</span></div>
+        <span class="kicker reveal">Project intake</span>
+        <h1 class="display page-title reveal">Let's scope your <span class="grad-text">build</span>.</h1>
+        <p class="page-lead reveal">Five quick steps. You'll get an instant ballpark estimate — then we'll refine it together on a call.</p>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:1rem">
+      <div class="wrap">
+        <div class="wiz">
+          <aside class="surface wiz-rail">
+            <div class="wiz-prog"><div class="bar" id="bar" style="width:20%"></div></div>
+            <div class="wiz-steps" id="rail"></div>
+            <div class="estimate" style="margin-top:1.6rem">
+              <span class="lbl">Ballpark</span>
+              <span class="amt grad-text" id="est">—</span>
+            </div>
+          </aside>
+
+          <div class="surface wiz-panel" id="panel"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="nav-config.js"></script>
+  <script src="site.js"></script>
+  <script>
+    (function () {
+      var STEPS = ["Project type", "Features", "Timeline", "Your info", "Review"];
+      var TYPES = [
+        { id: "site", name: "Responsive website", desc: "Marketing site, 3–8 pages.", base: 3000 },
+        { id: "app", name: "Custom web app", desc: "Logins, data, dashboards.", base: 8000 },
+        { id: "ecom", name: "E-commerce store", desc: "Catalog, cart, checkout.", base: 8000 },
+        { id: "other", name: "Something else", desc: "SEO, API, or not sure yet.", base: 1500 }
+      ];
+      var FEATURES = [
+        { id: "design", name: "Custom design", desc: "Bespoke UI, not a template.", cost: 1500 },
+        { id: "cms", name: "Content management", desc: "Edit content yourself.", cost: 1200 },
+        { id: "auth", name: "User accounts", desc: "Sign-up, login, roles.", cost: 2000 },
+        { id: "pay", name: "Payments", desc: "Stripe checkout.", cost: 1500 },
+        { id: "seo", name: "SEO package", desc: "Technical SEO + Core Web Vitals.", cost: 1500 },
+        { id: "intg", name: "Integrations", desc: "CRM, email, third-party APIs.", cost: 2000 }
+      ];
+      var TIMELINES = [
+        { id: "flex", name: "Flexible", desc: "No firm deadline — best value.", mult: 0.95 },
+        { id: "std", name: "Standard", desc: "The normal timeline for the scope.", mult: 1 },
+        { id: "rush", name: "Rush", desc: "Prioritized; +40% rush fee.", mult: 1.4 }
+      ];
+
+      var state = { step: 0, type: "site", features: {}, timeline: "std", name: "", email: "", company: "", details: "" };
+
+      function fmt(n) { return "$" + Math.round(n).toLocaleString(); }
+      function calc() {
+        var t = TYPES.find(function (x) { return x.id === state.type; });
+        var sum = t ? t.base : 0;
+        FEATURES.forEach(function (f) { if (state.features[f.id]) sum += f.cost; });
+        var m = (TIMELINES.find(function (x) { return x.id === state.timeline; }) || {}).mult || 1;
+        return sum * m;
+      }
+      function estRange() { var c = calc(); return fmt(c) + "–" + fmt(c * 1.3); }
+
+      function ic(p, s) { return '<svg width="' + (s||16) + '" height="' + (s||16) + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + p + "</svg>"; }
+      var CHECK = '<path d="m4 12 5 5L20 6"/>';
+
+      function renderRail() {
+        document.getElementById("rail").innerHTML = STEPS.map(function (s, i) {
+          var cls = i === state.step ? "active" : (i < state.step ? "done" : "");
+          var dot = i < state.step ? ic(CHECK, 14) : (i + 1);
+          return '<div class="wiz-step ' + cls + '" data-i="' + i + '"><span class="dot">' + dot + "</span><span>" + s + "</span></div>";
+        }).join("");
+        document.getElementById("bar").style.width = ((state.step + 1) / STEPS.length * 100) + "%";
+        document.getElementById("est").textContent = state.step === 0 ? fmt(calc()) : estRange();
+      }
+
+      function optCard(sel, title, desc, price, round) {
+        return '<div class="opt-card' + (sel ? " sel" : "") + '">' +
+          '<span class="box' + (round ? " round" : "") + '">' + (sel ? ic(CHECK, 14) : "") + "</span>" +
+          '<div><h5>' + title + "</h5><p>" + desc + "</p></div>" +
+          (price ? '<span class="price">' + price + "</span>" : "") + "</div>";
+      }
+
+      function panelHTML() {
+        var s = state.step;
+        if (s === 0) {
+          return head("What are we building?", "Pick the closest match — we'll fine-tune later.") +
+            '<div class="opt-list two" id="opts">' + TYPES.map(function (t) {
+              return '<div data-id="' + t.id + '">' + optCard(state.type === t.id, t.name, t.desc, fmt(t.base) + "+", true) + "</div>";
+            }).join("") + "</div>";
+        }
+        if (s === 1) {
+          return head("Which features do you need?", "Select all that apply. The estimate updates live.") +
+            '<div class="opt-list two" id="opts">' + FEATURES.map(function (f) {
+              return '<div data-id="' + f.id + '">' + optCard(!!state.features[f.id], f.name, f.desc, "+" + fmt(f.cost)) + "</div>";
+            }).join("") + "</div>";
+        }
+        if (s === 2) {
+          return head("What's your timeline?", "This affects scheduling and price.") +
+            '<div class="opt-list" id="opts">' + TIMELINES.map(function (t) {
+              return '<div data-id="' + t.id + '">' + optCard(state.timeline === t.id, t.name, t.desc, "×" + t.mult, true) + "</div>";
+            }).join("") + "</div>";
+        }
+        if (s === 3) {
+          return head("Where can we reach you?", "So we can send your estimate and book a call.") +
+            '<div class="form-grid"><div class="field"><label>Name <span class="req">*</span></label><input class="input" id="f-name" value="' + state.name + '" placeholder="Jane Doe"/><span class="err-msg" id="e-name" hidden>Enter your name.</span></div>' +
+            '<div class="field"><label>Email <span class="req">*</span></label><input class="input" id="f-email" value="' + state.email + '" placeholder="jane@company.com"/><span class="err-msg" id="e-email" hidden>Enter a valid email.</span></div></div>' +
+            '<div class="field"><label>Company <span style="color:var(--ink-400)">(optional)</span></label><input class="input" id="f-company" value="' + state.company + '" placeholder="Acme Inc."/></div>' +
+            '<div class="field"><label>Anything else? <span style="color:var(--ink-400)">(optional)</span></label><textarea class="textarea" id="f-details" placeholder="Links, deadlines, must-haves…">' + state.details + "</textarea></div>";
+        }
+        // review
+        var t = TYPES.find(function (x) { return x.id === state.type; });
+        var feats = FEATURES.filter(function (f) { return state.features[f.id]; });
+        var tl = TIMELINES.find(function (x) { return x.id === state.timeline; });
+        return head("Review &amp; send", "Here's your project at a glance.") +
+          '<div class="summary-row"><span class="k">Project type</span><span class="v">' + t.name + "</span></div>" +
+          '<div class="summary-row"><span class="k">Features</span><span class="v">' + (feats.length ? feats.map(function (f) { return f.name; }).join(", ") : "Core only") + "</span></div>" +
+          '<div class="summary-row"><span class="k">Timeline</span><span class="v">' + tl.name + "</span></div>" +
+          '<div class="summary-row"><span class="k">Contact</span><span class="v">' + (state.name || "—") + (state.email ? " · " + state.email : "") + "</span></div>" +
+          '<div class="estimate" style="margin-top:1.4rem"><span class="lbl">Estimated range</span><span class="amt grad-text">' + estRange() + "</span></div>" +
+          '<p class="form-note" style="margin-top:.9rem">This is a ballpark from your selections — your real quote comes after a quick discovery call. No commitment.</p>';
+      }
+      function head(t, sub) { return "<h2>" + t + '</h2><p class="sub">' + sub + "</p>"; }
+
+      function renderNav() {
+        var last = state.step === STEPS.length - 1;
+        return '<div class="wiz-nav">' +
+          '<button class="btn btn-ghost" id="back"' + (state.step === 0 ? ' style="visibility:hidden"' : "") + ">Back</button>" +
+          '<button class="btn btn-primary" id="next">' + (last ? "Send project →" : "Continue →") + "</button></div>";
+      }
+
+      function render() {
+        var panel = document.getElementById("panel");
+        if (state.done) {
+          panel.innerHTML = '<div class="form-ok" style="margin:auto"><div class="ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12 5 5L20 6"/></svg></div>' +
+            '<h2 style="font-size:1.5rem">Project received</h2>' +
+            '<p style="color:var(--ink-300);max-width:42ch;margin:0">Thanks, ' + (state.name.split(" ")[0] || "there") + "! Your ballpark is <b style=\"color:var(--ink-100)\">" + estRange() + '</b>. We\'ll review the details and email you within one business day to book a discovery call.</p>' +
+            '<div style="display:flex;gap:.7rem;margin-top:.8rem;flex-wrap:wrap;justify-content:center"><a href="schedule.html" class="btn btn-primary">Book the call now</a><a href="projects.html" class="btn btn-ghost">See our work</a></div></div>';
+          renderRail();
+          document.getElementById("bar").style.width = "100%";
+          return;
+        }
+        panel.innerHTML = panelHTML() + renderNav();
+        renderRail();
+        wire();
+      }
+
+      function wire() {
+        var opts = document.getElementById("opts");
+        if (opts) opts.addEventListener("click", function (e) {
+          var el = e.target.closest("[data-id]"); if (!el) return;
+          var id = el.getAttribute("data-id");
+          if (state.step === 0) state.type = id;
+          else if (state.step === 1) state.features[id] = !state.features[id];
+          else if (state.step === 2) state.timeline = id;
+          render();
+        });
+        var back = document.getElementById("back");
+        if (back) back.onclick = function () { saveInfo(); if (state.step > 0) state.step--; render(); };
+        var next = document.getElementById("next");
+        if (next) next.onclick = function () {
+          if (state.step === 3 && !validateInfo()) return;
+          saveInfo();
+          if (state.step === STEPS.length - 1) { state.done = true; render(); window.scrollTo({ top: 0, behavior: "smooth" }); return; }
+          state.step++; render();
+        };
+      }
+
+      function saveInfo() {
+        var n = document.getElementById("f-name"); if (n) state.name = n.value.trim();
+        var e = document.getElementById("f-email"); if (e) state.email = e.value.trim();
+        var c = document.getElementById("f-company"); if (c) state.company = c.value.trim();
+        var d = document.getElementById("f-details"); if (d) state.details = d.value.trim();
+      }
+      function validateInfo() {
+        saveInfo();
+        var ok = true;
+        var en = document.getElementById("e-name"), ee = document.getElementById("e-email");
+        if (!state.name) { en.hidden = false; document.getElementById("f-name").classList.add("field-error"); ok = false; } else { en.hidden = true; document.getElementById("f-name").classList.remove("field-error"); }
+        if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(state.email)) { ee.hidden = false; document.getElementById("f-email").classList.add("field-error"); ok = false; } else { ee.hidden = true; document.getElementById("f-email").classList.remove("field-error"); }
+        return ok;
+      }
+
+      document.getElementById("rail").addEventListener("click", function (e) {
+        var el = e.target.closest(".wiz-step"); if (!el) return;
+        var i = +el.getAttribute("data-i");
+        if (i <= state.step) { saveInfo(); state.step = i; render(); }
+      });
+
+      render();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — JG Services LLC</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Ephesis&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="pages.css" />
+</head>
+<body>
+  <div class="app-bg" aria-hidden="true"></div>
+
+  <div class="admin">
+    <aside class="admin-side surface" style="border-radius:0">
+      <a href="index.html" class="brand" id="admin-brand"></a>
+      <div class="admin-nav active" data-v="dash"></div>
+      <div class="admin-nav" data-v="inq"></div>
+      <div class="admin-nav" data-v="proj"></div>
+      <div class="admin-nav" data-v="set"></div>
+      <div style="margin-top:auto">
+        <a href="index.html" class="admin-nav" id="back-link"></a>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <div class="admin-top">
+        <div>
+          <div class="mono" style="font-size:.72rem;letter-spacing:.14em;color:var(--ink-400);text-transform:uppercase" id="crumb">Dashboard</div>
+          <h1 class="display" style="font-size:1.9rem;color:var(--ink-100);margin:.3rem 0 0" id="view-title">Welcome back, James</h1>
+        </div>
+        <div style="display:flex;gap:.7rem;align-items:center">
+          <input class="input" placeholder="Search..." style="width:200px;padding:.6rem .9rem" />
+          <div style="width:42px;height:42px;border-radius:50%;background:var(--grad-brand);display:grid;place-items:center;color:#fff;font-weight:700">JG</div>
+        </div>
+      </div>
+      <div id="view"></div>
+    </main>
+  </div>
+
+  <div id="toast" style="position:fixed;bottom:1.4rem;left:50%;transform:translateX(-50%) translateY(40px);opacity:0;transition:all .4s var(--ease);z-index:80" class="surface surface-strong">
+    <div style="padding:.8rem 1.4rem;display:flex;align-items:center;gap:.6rem;color:var(--ink-100)" id="toast-inner"></div>
+  </div>
+
+  <script src="nav-config.js"></script>
+  <script src="site.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
