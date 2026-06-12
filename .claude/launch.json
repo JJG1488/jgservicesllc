@@ -4,8 +4,9 @@
     {
       "name": "jgservicesllc-prod",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "start", "--", "-p", "3781"],
-      "port": 3781
+      "runtimeArgs": ["run", "start"],
+      "port": 3781,
+      "autoPort": true
     }
   ]
 }

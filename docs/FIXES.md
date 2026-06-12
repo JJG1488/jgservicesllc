@@ -77,6 +77,13 @@ actionable items were fixed the same day:
 - `getPostBySlug` validates slugs against `/^[a-zA-Z0-9_-]+$/` before any filesystem access (and the shared frontmatter parsing was deduplicated); `blog/[slug]` sets `dynamicParams = false`; `mdx-remote.tsx` documents that MDX compiles to executable code and must only ever receive trusted repo-committed content.
 
 ### Accepted-risk / deferred (documented deliberately)
-- Security headers (CSP etc.) in `next.config.ts` — deferred to a dedicated pass so CSP can be tuned against real Vercel/Next inline-script behavior rather than guessed (a wrong CSP breaks the site silently). Tracked as a manual/next step.
+- Security headers — RESOLVED the same day; see FIX-015 below.
 - Footer © year is computed at build time — refreshes on every deploy; accepted.
 - `/admin` is publicly viewable but contains only clearly-marked mock data and is noindexed; real auth (Supabase + RLS) is a prerequisite before any real data lands there.
+
+## FIX-015 — Security headers shipped with the production deployment (2026-06-11)
+- **Problem:** no CSP / clickjacking / sniffing protections were configured.
+- **Analysis:** all 19 routes are statically prerendered (deliberate: cache the result instead of recomputing per request). Nonce-based CSP requires per-request dynamic rendering (https://nextjs.org/docs/app/guides/content-security-policy) — adopting it would have destroyed static caching site-wide. The accepted 2026 middle ground for fully-static sites keeps `'unsafe-inline'` for script/style (Next hydration bootstraps; framer-motion/next-font inline styles) while locking everything else down. No `'unsafe-eval'`.
+- **Fix:** production-only `headers()` in `next.config.ts`: CSP (`default-src 'self'`; `object-src 'none'`; `frame-ancestors 'none'`; `base-uri 'self'`; `form-action 'self'`; `upgrade-insecure-requests`), `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`, minimal `Permissions-Policy`. Dev is exempt (HMR websockets). HSTS intentionally omitted — Vercel injects it on all HTTPS domains.
+- **Verified:** headers present on `npm start` + curl; full browser session with CSP enforced showed zero console violations, all fonts/images loading.
+- **Debt note:** `'unsafe-inline'` for scripts is documented debt, acceptable while the site renders no user-generated content. Revisit if any UGC or third-party scripts are ever added.
