@@ -87,3 +87,13 @@ actionable items were fixed the same day:
 - **Fix:** production-only `headers()` in `next.config.ts`: CSP (`default-src 'self'`; `object-src 'none'`; `frame-ancestors 'none'`; `base-uri 'self'`; `form-action 'self'`; `upgrade-insecure-requests`), `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`, minimal `Permissions-Policy`. Dev is exempt (HMR websockets). HSTS intentionally omitted — Vercel injects it on all HTTPS domains.
 - **Verified:** headers present on `npm start` + curl; full browser session with CSP enforced showed zero console violations, all fonts/images loading.
 - **Debt note:** `'unsafe-inline'` for scripts is documented debt, acceptable while the site renders no user-generated content. Revisit if any UGC or third-party scripts are ever added.
+
+## FIX-016 — Vercel build failed: stale pnpm overrides on the project (2026-06-11)
+- **Symptom:** first preview deployment failed in `pnpm install` with repeated `ERR_INVALID_THIS` registry errors.
+- **Root cause:** the Vercel project (`jgservicesllc`) still carried dashboard-level Install/Build command overrides (`pnpm install` / `pnpm build`) from the legacy codebase; this repo is npm (package-lock.json), and the stale pnpm path is incompatible with the project's Node 22 runtime.
+- **Fix:** build configuration as code — `vercel.json` pins `installCommand: npm ci` and `buildCommand: npm run build`, which takes precedence over dashboard settings and is versioned with the repo. (Directly editing the shared project settings was deliberately avoided; clearing the stale dashboard overrides remains an optional cleanup in the dashboard.)
+
+## FIX-017 — Canonical host mismatch: metadata said apex, Vercel serves www (2026-06-11)
+- **Symptom:** post-deploy sweep showed every `https://jgservicesllc.com/*` URL answering 307 → `https://www.jgservicesllc.com/*` (www is the project's primary domain, inherited from the legacy setup), while sitemap.xml, robots.txt, and metadataBase all advertised apex URLs.
+- **Risk:** canonical/sitemap URLs that always redirect are an SEO smell (search engines must chase 307s; canonical signals conflict).
+- **Fix:** single source of truth — `siteConfig.url` is now `https://www.jgservicesllc.com`, and sitemap.ts/robots.ts derive from it instead of hardcoding hosts. Rule going forward: never hardcode the site host anywhere but site.config.ts.

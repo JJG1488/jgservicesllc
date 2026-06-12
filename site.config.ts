@@ -8,7 +8,8 @@ export const siteConfig: SiteConfig = {
   tagline: "Custom web development",
   description:
     "Custom web development, e-commerce, and SEO for businesses that want a site that actually works. Built on clean code and honest timelines.",
-  url: "https://jgservicesllc.com",
+  /* www is the primary domain on Vercel (apex 307s to it) — keep canonical in sync. */
+  url: "https://www.jgservicesllc.com",
   email: "info@jgservicesllc.com",
   phone: "(586) 276-5646",
   phoneHref: "tel:+15862765646",

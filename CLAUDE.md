@@ -80,9 +80,11 @@ npm run type-check   # tsc --noEmit
   auth gating the route — never expose a service-role key client-side.
 - **Schedule / intake / contract are client-side state machines** — they do not
   persist anywhere yet (see manual steps in docs/REDESIGN-IMPLEMENTATION.md).
-- **Contact form** emails via Resend only when `RESEND_API_KEY` is set; otherwise
-  it logs to console. User input is HTML-escaped server-side (FIX-006) — keep it
-  that way if you touch the email template.
+- **Contact form** emails via Resend only when `RESEND_API_KEY` is set. Without
+  it: dev logs the submission; production returns a visible error instead of
+  silently dropping leads (FIX-011). Input is HTML-escaped server-side (FIX-006)
+  — keep it that way if you touch the email template. The canonical host lives
+  ONLY in `site.config.ts` (`url`) — never hardcode it elsewhere (FIX-017).
 - **Hydration:** never derive "today"/timestamps during server render of client
   components without guarding — the schedule page derives its 14-day window
   client-side after mount for this reason.
@@ -116,3 +118,12 @@ npm run type-check   # tsc --noEmit
     WCAG 2.1 AA accessibility pass — skip link, inert mobile menu, contrast,
     focus parity, radio semantics, aria-live counts (FIX-013), and blog slug
     path-traversal guard + MDX trust boundary (FIX-014).
+- **v1.0.0 → production (2026-06-11).** Live on https://www.jgservicesllc.com
+  via the existing Vercel project (`jgservicesllc`). Production security
+  headers shipped (FIX-015); stale pnpm project overrides neutralized with
+  config-as-code `vercel.json` (FIX-016); canonical host corrected to www
+  (FIX-017). Legacy site history preserved on the `legacy-site` GitHub branch;
+  redesign pushed as `redesign/sapphire-atelier`. Deployment + rollback
+  runbook: docs/DEPLOYMENT.md. ⚠️ GitHub `main` still holds the legacy code
+  until manually aligned — do not push to `main` before that (it would
+  redeploy the old site).
