@@ -139,9 +139,10 @@ npm run type-check   # tsc --noEmit
   config-as-code `vercel.json` (FIX-016); canonical host corrected to www
   (FIX-017). Legacy site history preserved on the `legacy-site` GitHub branch;
   redesign pushed as `redesign/sapphire-atelier`. Deployment + rollback
-  runbook: docs/DEPLOYMENT.md. ⚠️ GitHub `main` still holds the legacy code
-  until manually aligned — do not push to `main` before that (it would
-  redeploy the old site).
+  runbook: docs/DEPLOYMENT.md. (Historical note: at v1.0.0 GitHub `main` still
+  held the legacy code; it has since been aligned to the redesign — as of
+  2026-06-29 `origin/main` == `origin/redesign/sapphire-atelier` == the
+  Sapphire Atelier code, so `main` is safe to build from again.)
 - **v1.1.0 (2026-06-29)** — **Inquiry capture + real admin inbox (FIX-018/019).**
   - Contact + intake submissions now persist to **Firestore** via `firebase-admin`
     (server only), with email as a best-effort notification — no lead dropped even
