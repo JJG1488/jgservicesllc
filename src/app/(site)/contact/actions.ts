@@ -1,61 +1,12 @@
 "use server";
 
-import { headers } from "next/headers";
 import { contactSchema, type ContactFormData } from "@/lib/contact-schema";
+import { addInquiry, inquiriesEnabled } from "@/lib/inquiries";
+import { clientIp, escapeHtml, isRateLimited } from "@/lib/lead-guard";
 
 interface ContactResult {
   success: boolean;
   error?: string;
-}
-
-/* User input lands inside an HTML email body — escape it so a submission
-   can never inject markup (or worse) into the message we read. */
-function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
-
-/* In-memory rate limit: max 5 submissions per 10 minutes per IP.
-   NOTE: serverless instances each hold their own Map, so this is best-effort
-   only — an attacker spread across instances can exceed it. Platform-level
-   rate limiting (e.g. Vercel WAF) is the durable layer; this just cheaply
-   absorbs naive repeat submissions. */
-const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
-const RATE_LIMIT_MAX = 5;
-const rateBuckets = new Map<string, { count: number; windowStart: number }>();
-let lastPrune = 0;
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-
-  // Periodically prune expired buckets so the Map cannot grow unbounded.
-  if (now - lastPrune > RATE_LIMIT_WINDOW_MS) {
-    lastPrune = now;
-    for (const [key, bucket] of rateBuckets) {
-      if (now - bucket.windowStart > RATE_LIMIT_WINDOW_MS) {
-        rateBuckets.delete(key);
-      }
-    }
-  }
-
-  const bucket = rateBuckets.get(ip);
-  if (!bucket || now - bucket.windowStart > RATE_LIMIT_WINDOW_MS) {
-    rateBuckets.set(ip, { count: 1, windowStart: now });
-    return false;
-  }
-  bucket.count += 1;
-  return bucket.count > RATE_LIMIT_MAX;
-}
-
-async function clientIp(): Promise<string> {
-  const headerList = await headers();
-  // First hop of x-forwarded-for is the original client (as set by the platform).
-  const forwarded = headerList.get("x-forwarded-for");
-  return forwarded?.split(",")[0]?.trim() || "unknown";
 }
 
 export async function submitContact(input: ContactFormData): Promise<ContactResult> {
@@ -77,9 +28,34 @@ export async function submitContact(input: ContactFormData): Promise<ContactResu
     return { success: false, error: "Too many requests. Please try again later." };
   }
 
-  try {
-    // If RESEND_API_KEY is configured, send via Resend
-    if (process.env.RESEND_API_KEY) {
+  let stored = false;
+  let emailed = false;
+
+  /* 1) Durable store first. This is what makes a lead recoverable: even with
+     no email provider (or a failing one), the submission lands in Firestore
+     and shows up in the admin inbox. */
+  if (inquiriesEnabled()) {
+    try {
+      await addInquiry({
+        source: "contact",
+        name: data.name,
+        email: data.email,
+        company: data.company || undefined,
+        type: data.type,
+        budget: data.budget,
+        message: data.message,
+        ip,
+      });
+      stored = true;
+    } catch (error) {
+      console.error("Contact: Firestore write failed:", error);
+    }
+  }
+
+  /* 2) Best-effort email notification via Resend (when configured). User input
+     is HTML-escaped before interpolation into the email body. */
+  if (process.env.RESEND_API_KEY) {
+    try {
       const { Resend } = await import("resend");
       const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -91,7 +67,7 @@ export async function submitContact(input: ContactFormData): Promise<ContactResu
       const message = escapeHtml(data.message).replace(/\r?\n/g, "<br />");
 
       await resend.emails.send({
-        from: "JG Services Contact <onboarding@resend.dev>",
+        from: "JG Services Contact <info@jgservicesllc.com>",
         to: "info@jgservicesllc.com",
         subject: `New Contact: ${data.name.replace(/[\r\n]+/g, " ")}`,
         html: `
@@ -105,18 +81,23 @@ export async function submitContact(input: ContactFormData): Promise<ContactResu
           <p>${message}</p>
         `,
       });
-    } else if (process.env.NODE_ENV !== "production") {
-      // Development fallback: log the submission so it is not silently lost.
-      console.log("Contact form submission:", data);
-    } else {
-      // Production without an email key: never log PII — redacted warning only.
-      console.warn("Contact form: RESEND_API_KEY is not set; submission dropped.");
-      return { success: false, error: "Email service is not configured." };
+      emailed = true;
+    } catch (error) {
+      console.error("Contact: email send failed:", error);
     }
-
-    return { success: true };
-  } catch (error) {
-    console.error("Contact form error:", error);
-    return { success: false, error: "Failed to send message. Please try again." };
   }
+
+  // Lead captured by at least one channel.
+  if (stored || emailed) {
+    return { success: true };
+  }
+
+  // Nothing configured: keep dev productive; never silently drop in prod.
+  if (process.env.NODE_ENV !== "production") {
+    console.log("Contact form submission (no store/email configured):", data);
+    return { success: true };
+  }
+
+  console.warn("Contact: no storage or email configured; submission dropped.");
+  return { success: false, error: "Submission service is not configured." };
 }

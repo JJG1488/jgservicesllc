@@ -123,3 +123,44 @@ export interface Testimonial {
   name: string;
   role: string;
 }
+
+/** Lifecycle of a captured lead in the admin inbox. */
+export type InquiryStatus = "new" | "warn" | "won" | "muted";
+
+/** Which public form produced the lead. */
+export type InquirySource = "contact" | "intake";
+
+/**
+ * A persisted lead (contact form or intake wizard), as read back from
+ * Firestore and serialized for the admin UI. Timestamps are ISO strings so
+ * the object is a plain, client-serializable payload (no Firestore types
+ * cross the server→client boundary).
+ */
+export interface Inquiry {
+  id: string;
+  source: InquirySource;
+  name: string;
+  email: string;
+  company?: string;
+  /** Contact: project-type label. Intake: chosen project-type name. */
+  type: string;
+  /** Contact: budget range. Intake: estimate range string (e.g. "$8,000–$10,400"). */
+  budget: string;
+  /** Contact: the message. Intake: the optional "anything else" details. */
+  message: string;
+  status: InquiryStatus;
+  /** ISO 8601 — when the lead was captured. */
+  createdAt: string;
+  /** Short label for table cells, e.g. "Jun 2" (formatted server-side, ET). */
+  dateLabel: string;
+  /** Full label for the detail panel, e.g. "Jun 2, 2026, 3:14 PM" (ET). */
+  dateFull: string;
+  /** Intake only: selected feature names. */
+  features?: string[];
+  /** Intake only: chosen timeline name. */
+  timeline?: string;
+  /** Intake only: numeric ballpark (low end of the range). */
+  estimate?: number;
+  /** Originating IP (best-effort, from x-forwarded-for). */
+  ip?: string;
+}

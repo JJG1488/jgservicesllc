@@ -66,25 +66,40 @@ npm run type-check   # tsc --noEmit
 - **Route-group paths:** files under `(site)` import as `@/app/(site)/...` —
   the URL has no `(site)` segment but the filesystem path does (FIX-007).
 - **package.json `overrides`** pins `postcss ^8.5.10` inside Next's tree to clear
-  GHSA-qx2v-qp2m-jg93 (FIX-004). Re-evaluate on every Next upgrade; drop it once
-  Next ships a patched PostCSS.
+  GHSA-qx2v-qp2m-jg93 (FIX-004), and `uuid ^11.1.1` to clear a firebase-admin
+  transitive advisory (FIX-018). Re-evaluate both on dependency upgrades; drop
+  each once the upstream ships a patched version.
 - **Legacy palette is gone.** The pre-redesign navy-/electric-/amber-/slate-
   utilities and `--font-syne`/`--font-ibm-plex` aliases were fully purged
   (FIX-012). Never reintroduce them — use the ink/sapphire/amethyst tokens.
 - **`greencareprofessionals.png` does not exist** — the Greencare project renders
   the gradient placeholder by design (`image: null` in `src/data/projects.ts`).
   Drop the real screenshot into `public/images/` and update the data entry.
-- **Admin is presentational.** All admin data is mock (`src/components/admin/mock-data.ts`).
-  Wiring it up requires Supabase + **RLS on every table with explicit policies**
-  (https://supabase.com/docs/guides/database/postgres/row-level-security) and real
-  auth gating the route — never expose a service-role key client-side.
-- **Schedule / intake / contract are client-side state machines** — they do not
-  persist anywhere yet (see manual steps in docs/REDESIGN-IMPLEMENTATION.md).
-- **Contact form** emails via Resend only when `RESEND_API_KEY` is set. Without
-  it: dev logs the submission; production returns a visible error instead of
-  silently dropping leads (FIX-011). Input is HTML-escaped server-side (FIX-006)
-  — keep it that way if you touch the email template. The canonical host lives
-  ONLY in `site.config.ts` (`url`) — never hardcode it elsewhere (FIX-017).
+- **Admin is REAL and auth-gated** (FIX-019, was mock pre-2026-06-29). The
+  Inquiries view + dashboard read live Firestore via `firebase-admin` (server
+  only — see `src/lib/inquiries.ts`); status changes write back. Auth is a single
+  app password: `ADMIN_PASSWORD` + `ADMIN_SESSION_SECRET` (jose-signed cookie),
+  gated by `src/proxy.ts` (the Next 16 "proxy"/middleware) and re-checked in
+  `src/app/admin/(dashboard)/layout.tsx` via `requireAdmin()`. Login lives at
+  `/admin/login` (outside the gated `(dashboard)` group). `mock-data.ts` now only
+  holds Projects/Settings sample data. **Firestore must be locked** (`allow read,
+  write: if false;`) — all access is the server service account, which bypasses
+  rules; never add a client Firebase SDK without revisiting the CSP (`connect-src`).
+- **`firebase-admin` is server-only.** Only import `@/lib/firebase-admin`,
+  `@/lib/inquiries`, `@/lib/admin-auth` from server components/actions (they carry
+  `import "server-only"`). Client UI uses `@/lib/admin-session` (edge-safe, jose)
+  and `@/components/admin/inquiry-meta` (pure). `FIREBASE_PRIVATE_KEY` is stored
+  `\n`-escaped; the init does `.replace(/\\n/g, "\n")`.
+- **Lead capture persists first, emails second** (FIX-019). Contact + intake both
+  write the lead to Firestore, then attempt a best-effort Resend email — so no
+  lead is dropped even with `RESEND_API_KEY` unset/failing. Intake now submits via
+  `src/app/(site)/intake/actions.ts` (was client-only). `/schedule` and `/contract`
+  are still client-side state machines that don't persist.
+- **Contact form** input is HTML-escaped server-side before the email body
+  (FIX-006) and re-validated with the shared zod schema (FIX-011) — keep both if
+  you touch it. The Resend "from" is `info@jgservicesllc.com`; sends fail unless
+  that domain is verified in Resend (leads still persist regardless). The
+  canonical host lives ONLY in `site.config.ts` (`url`) (FIX-017).
 - **Hydration:** never derive "today"/timestamps during server render of client
   components without guarding — the schedule page derives its 14-day window
   client-side after mount for this reason.
@@ -124,6 +139,22 @@ npm run type-check   # tsc --noEmit
   config-as-code `vercel.json` (FIX-016); canonical host corrected to www
   (FIX-017). Legacy site history preserved on the `legacy-site` GitHub branch;
   redesign pushed as `redesign/sapphire-atelier`. Deployment + rollback
-  runbook: docs/DEPLOYMENT.md. ⚠️ GitHub `main` still holds the legacy code
-  until manually aligned — do not push to `main` before that (it would
-  redeploy the old site).
+  runbook: docs/DEPLOYMENT.md. (Historical note: at v1.0.0 GitHub `main` still
+  held the legacy code; it has since been aligned to the redesign — as of
+  2026-06-29 `origin/main` == `origin/redesign/sapphire-atelier` == the
+  Sapphire Atelier code, so `main` is safe to build from again.)
+- **v1.1.0 (2026-06-29)** — **Inquiry capture + real admin inbox (FIX-018/019).**
+  - Contact + intake submissions now persist to **Firestore** via `firebase-admin`
+    (server only), with email as a best-effort notification — no lead dropped even
+    without Resend. Intake wizard wired to a server action (was client-only).
+  - `/admin` is now real and **password-protected**: jose-signed session cookie,
+    `src/proxy.ts` gate + `requireAdmin()`, `/admin/login` page, restructured into
+    `admin/(dashboard)/` (gated) vs `admin/login/`. Inquiries view shows real leads
+    with expandable detail (email/message/source) + status workflow; dashboard KPIs
+    /chart/pipeline computed from real data server-side.
+  - New env vars (set in Vercel prod + preview): `ADMIN_PASSWORD`,
+    `ADMIN_SESSION_SECRET`. `uuid` pinned to `^11.1.1` via overrides to keep
+    `npm audit` at 0 (FIX-018). Confirmed via the pulled prod env that
+    `RESEND_API_KEY` was never set — pre-v1.1.0 production leads were dropped and
+    are unrecoverable. **Manual step:** lock Firestore security rules to deny all
+    client access. build/lint/type-check green; npm audit 0.

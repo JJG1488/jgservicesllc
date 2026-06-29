@@ -4,6 +4,7 @@ import { useState, type ReactNode } from "react";
 import Link from "next/link";
 import { BrandMark } from "@/components/ui/brand-mark";
 import { cn } from "@/lib/utils";
+import { logout } from "@/app/admin/auth-actions";
 import { AdminIcon, type AdminIconName } from "./admin-icons";
 import { AdminViewContext, ADMIN_TITLES, type AdminView } from "./view-context";
 
@@ -48,6 +49,12 @@ export function AdminShell({ children }: { children: ReactNode }) {
               <AdminIcon name="back" size={18} />
               <span>Back to site</span>
             </Link>
+            <form action={logout} className="contents">
+              <button type="submit" className="admin-nav min-h-11 w-full text-left">
+                <AdminIcon name="logout" size={18} />
+                <span>Sign out</span>
+              </button>
+            </form>
           </div>
         </aside>
 

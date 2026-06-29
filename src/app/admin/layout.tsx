@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
-import { AdminShell } from "@/components/admin/admin-shell";
 import { createMetadata } from "@/lib/metadata";
 
-/* Admin lives outside the (site) group on purpose: no marketing
-   header/footer — the shell provides its own sidebar chrome. */
+/* Base admin layout: metadata + noindex for everything under /admin (the
+   login page and the gated dashboard alike). The authenticated chrome
+   (sidebar/top bar) lives in the (dashboard) group's layout so the login
+   page renders bare. Admin lives outside the (site) group on purpose —
+   no marketing header/footer. */
 
 export const metadata: Metadata = {
   ...createMetadata({
@@ -19,5 +21,5 @@ export default function AdminLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <AdminShell>{children}</AdminShell>;
+  return <>{children}</>;
 }
