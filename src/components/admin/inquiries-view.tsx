@@ -4,28 +4,23 @@ import { useState } from "react";
 import { Reveal } from "@/components/ui/reveal";
 import { cn } from "@/lib/utils";
 import { InquiryTable } from "./inquiry-table";
-import { MOCK_INQUIRIES } from "./mock-data";
+import { INQUIRY_FILTERS } from "./inquiry-meta";
+import type { Inquiry, InquiryStatus } from "@/types";
 
-const FILTERS = [
-  { id: "all", label: "All" },
-  { id: "new", label: "New" },
-  { id: "won", label: "Won" },
-  { id: "warn", label: "Following up" },
-] as const;
+type FilterId = InquiryStatus | "all";
 
-type FilterId = (typeof FILTERS)[number]["id"];
-
-/* Inquiries: filter pills + full mock-inquiry table. */
-export function InquiriesView() {
+/* Inquiries: filter pills + the full inquiry table (actionable status picker
+   and expandable detail rows). Data comes from the server page. */
+export function InquiriesView({ inquiries }: { inquiries: Inquiry[] }) {
   const [filter, setFilter] = useState<FilterId>("all");
   const rows =
-    filter === "all" ? MOCK_INQUIRIES : MOCK_INQUIRIES.filter((q) => q.status === filter);
+    filter === "all" ? inquiries : inquiries.filter((q) => q.status === filter);
 
   return (
     <>
       <Reveal className="mb-[1.4rem]">
         <div className="pills" role="group" aria-label="Filter inquiries">
-          {FILTERS.map((f) => (
+          {INQUIRY_FILTERS.map((f) => (
             <button
               key={f.id}
               type="button"
@@ -42,7 +37,15 @@ export function InquiriesView() {
         {rows.length === 1 ? "1 inquiry shown" : `${rows.length} inquiries shown`}
       </p>
       <Reveal delay={80} className="surface px-[1.4rem] py-[1.2rem]">
-        <InquiryTable rows={rows} />
+        {rows.length === 0 ? (
+          <p className="py-[1.6rem] text-center text-ink-300">
+            {inquiries.length === 0
+              ? "No inquiries yet. New contact and intake submissions will appear here."
+              : "No inquiries match this filter."}
+          </p>
+        ) : (
+          <InquiryTable rows={rows} actionable />
+        )}
       </Reveal>
     </>
   );

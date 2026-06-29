@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useReducer, useRef } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import Link from "next/link";
 import { Icon } from "@/components/ui/icons";
 import { cn } from "@/lib/utils";
+import { submitIntake } from "@/app/(site)/intake/actions";
+import type { IntakeFormData } from "@/lib/intake-schema";
 import {
   STEPS,
   PROJECT_TYPES,
@@ -229,8 +231,39 @@ function StepHead({
 
 export function IntakeWizard() {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const headingRef = useRef<HTMLHeadingElement>(null);
   const mounted = useRef(false);
+
+  /* Final step: persist the lead server-side before showing the success
+     screen. The estimate/labels are re-derived on the server from the ids,
+     so we only send the raw selections + contact info. */
+  async function handleSend() {
+    setSubmitError("");
+    setSubmitting(true);
+    const payload: IntakeFormData = {
+      type: state.type as IntakeFormData["type"],
+      features: state.features as IntakeFormData["features"],
+      timeline: state.timeline as IntakeFormData["timeline"],
+      name: state.name.trim(),
+      email: state.email.trim(),
+      company: state.company.trim() || undefined,
+      details: state.details.trim() || undefined,
+    };
+    try {
+      const result = await submitIntake(payload);
+      if (result.success) {
+        dispatch({ type: "next" });
+      } else {
+        setSubmitError(result.error ?? "Something went wrong. Please try again.");
+      }
+    } catch {
+      setSubmitError("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  }
 
   /* Move focus to the step heading on step change / completion. */
   useEffect(() => {
@@ -560,10 +593,17 @@ export function IntakeWizard() {
               </>
             )}
 
+            {submitError && (
+              <p className="err-msg mt-[0.9rem]" role="alert">
+                {submitError}
+              </p>
+            )}
+
             <div className="wiz-nav">
               <button
                 type="button"
                 className={cn("btn btn-ghost", state.step === 0 && "invisible")}
+                disabled={submitting}
                 onClick={() => dispatch({ type: "back" })}
               >
                 Back
@@ -571,9 +611,10 @@ export function IntakeWizard() {
               <button
                 type="button"
                 className="btn btn-primary"
-                onClick={() => dispatch({ type: "next" })}
+                disabled={submitting}
+                onClick={() => (lastStep ? handleSend() : dispatch({ type: "next" }))}
               >
-                {lastStep ? "Send project →" : "Continue →"}
+                {lastStep ? (submitting ? "Sending…" : "Send project →") : "Continue →"}
               </button>
             </div>
           </>

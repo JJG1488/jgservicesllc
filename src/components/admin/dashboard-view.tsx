@@ -7,12 +7,20 @@ import { Icon } from "@/components/ui/icons";
 import { Reveal } from "@/components/ui/reveal";
 import { AdminIcon } from "./admin-icons";
 import { InquiryTable } from "./inquiry-table";
-import { MOCK_CHART, MOCK_INQUIRIES, MOCK_KPIS, MOCK_PIPELINE } from "./mock-data";
 import { useAdminView } from "./view-context";
+import type { DashboardStats } from "@/lib/dashboard-stats";
+import type { Inquiry } from "@/types";
 
 /* Dashboard: KPI grid, inquiries-by-month bar chart (animated heights),
-   pipeline progress, and recent-inquiries table. All numbers are mock. */
-export function DashboardView() {
+   pipeline progress, and recent inquiries — all derived from real Firestore
+   data (stats are computed server-side; see src/lib/dashboard-stats.ts). */
+export function DashboardView({
+  inquiries,
+  stats,
+}: {
+  inquiries: Inquiry[];
+  stats: DashboardStats;
+}) {
   const { setView } = useAdminView();
   const reduce = useReducedMotion();
 
@@ -25,14 +33,15 @@ export function DashboardView() {
   }, []);
   const show = grown || !!reduce;
 
-  const chartLabel = `Bar chart, inquiries by month: ${MOCK_CHART.months
-    .map((m, i) => `${m} ${MOCK_CHART.bars[i]}`)
+  const { kpis, chart, pipeline } = stats;
+  const chartLabel = `Bar chart, inquiries by month: ${chart.months
+    .map((m, i) => `${m} ${chart.bars[i]}`)
     .join(", ")}`;
 
   return (
     <>
       <div className="kpi-grid">
-        {MOCK_KPIS.map((k, i) => (
+        {kpis.map((k, i) => (
           <Reveal key={k.label} delay={i * 60} className="surface kpi">
             <div className="kpi-top">
               <div className="kpi-ic">
@@ -42,7 +51,6 @@ export function DashboardView() {
                   <AdminIcon name={k.icon} size={20} />
                 )}
               </div>
-              {k.delta ? <span className="delta up">{k.delta}</span> : null}
             </div>
             <div className="num">
               <CountUp
@@ -63,13 +71,13 @@ export function DashboardView() {
             Inquiries by month
           </h3>
           <div className="chart" role="img" aria-label={chartLabel}>
-            {MOCK_CHART.bars.map((b, i) => (
-              <div className="col" key={MOCK_CHART.months[i]}>
+            {chart.bars.map((b, i) => (
+              <div className="col" key={chart.months[i]}>
                 <div
                   className="bar"
-                  style={{ height: show ? `${(b / MOCK_CHART.max) * 100}%` : "0%" }}
+                  style={{ height: show ? `${(b / chart.max) * 100}%` : "0%" }}
                 />
-                <div className="cl">{MOCK_CHART.months[i]}</div>
+                <div className="cl">{chart.months[i]}</div>
               </div>
             ))}
           </div>
@@ -77,7 +85,7 @@ export function DashboardView() {
 
         <Reveal delay={80} className="surface p-[1.6rem]">
           <h3 className="mb-4 text-[1.05rem] font-semibold text-ink-100">Pipeline</h3>
-          {MOCK_PIPELINE.map((p) => (
+          {pipeline.map((p) => (
             <div key={p.label} className="mb-4">
               <div className="mb-[0.4rem] flex justify-between text-[0.84rem]">
                 <span className="text-ink-300">{p.label}</span>
@@ -108,7 +116,13 @@ export function DashboardView() {
             View all
           </button>
         </div>
-        <InquiryTable rows={MOCK_INQUIRIES.slice(0, 5)} />
+        {inquiries.length === 0 ? (
+          <p className="py-[1.2rem] text-center text-ink-300">
+            No inquiries yet. New submissions will appear here.
+          </p>
+        ) : (
+          <InquiryTable rows={inquiries.slice(0, 5)} />
+        )}
       </Reveal>
     </>
   );
