@@ -1,6 +1,7 @@
 import { AdminViews } from "@/components/admin/admin-views";
 import { buildDashboardStats } from "@/lib/dashboard-stats";
 import { inquiriesEnabled, listInquiries } from "@/lib/inquiries";
+import { getSiteSettings } from "@/lib/settings";
 import type { Inquiry } from "@/types";
 
 /* Reads cookies (auth) and live Firestore data — never statically prerendered.
@@ -26,6 +27,7 @@ export default async function AdminDashboardPage() {
   }
 
   const stats = buildDashboardStats(inquiries, new Date());
+  const settings = await getSiteSettings();
 
   return (
     <>
@@ -38,7 +40,7 @@ export default async function AdminDashboardPage() {
           <p className="m-0 text-ink-200">{dataError}</p>
         </div>
       )}
-      <AdminViews inquiries={inquiries} stats={stats} />
+      <AdminViews inquiries={inquiries} stats={stats} settings={settings} />
     </>
   );
 }

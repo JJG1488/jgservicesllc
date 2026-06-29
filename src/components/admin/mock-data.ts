@@ -1,22 +1,11 @@
 /* ============================================================
-   MOCK ADMIN DATA — presentational only.
+   ADMIN APPEARANCE PICKER DATA.
 
-   Inquiries and dashboard stats are now REAL (Firestore-backed — see
-   src/lib/inquiries.ts and src/lib/dashboard-stats.ts). What remains here is
-   sample content for the Projects status overlay and the Settings appearance
-   pickers, lifted from the design handoff (docs/jg/.../admin.js). Wire these
-   to the data layer when those views go live.
+   Inquiries, dashboard stats, project status, and settings are all REAL now
+   (Firestore / the typed data layer). What remains here is the option list for
+   the Settings appearance pickers (theme + display font), lifted from the
+   design handoff (docs/jg/.../admin.js).
    ============================================================ */
-
-/* Index-aligned with the projects array in @/data/projects. */
-export const MOCK_PROJECT_STATUS: ("Live" | "In progress")[] = [
-  "Live",
-  "Live",
-  "Live",
-  "Live",
-  "In progress",
-  "Live",
-];
 
 /* Theme picker options. The literal hex pairs are picker DATA from the
    prototype's admin.js (user-selectable theme values written to

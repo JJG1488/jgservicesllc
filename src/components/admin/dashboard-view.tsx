@@ -33,7 +33,7 @@ export function DashboardView({
   }, []);
   const show = grown || !!reduce;
 
-  const { kpis, chart, pipeline } = stats;
+  const { kpis, secondary, chart, pipeline } = stats;
   const chartLabel = `Bar chart, inquiries by month: ${chart.months
     .map((m, i) => `${m} ${chart.bars[i]}`)
     .join(", ")}`;
@@ -61,6 +61,24 @@ export function DashboardView({
               />
             </div>
             <div className="lbl">{k.label}</div>
+          </Reveal>
+        ))}
+      </div>
+
+      <div className="mb-[1.6rem] grid gap-[1rem] sm:grid-cols-2 lg:grid-cols-4">
+        {secondary.map((s, i) => (
+          <Reveal key={s.label} delay={i * 50} className="surface p-[1.1rem]">
+            <div className="num" style={{ fontSize: "1.5rem" }}>
+              <CountUp
+                value={s.value}
+                decimals={s.decimals}
+                prefix={s.prefix}
+                suffix={s.suffix}
+              />
+            </div>
+            <div className="lbl mt-[0.2rem] text-[0.84rem] text-ink-300">
+              {s.label}
+            </div>
           </Reveal>
         ))}
       </div>
