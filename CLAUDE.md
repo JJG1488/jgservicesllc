@@ -81,8 +81,11 @@ npm run type-check   # tsc --noEmit
   app password: `ADMIN_PASSWORD` + `ADMIN_SESSION_SECRET` (jose-signed cookie),
   gated by `src/proxy.ts` (the Next 16 "proxy"/middleware) and re-checked in
   `src/app/admin/(dashboard)/layout.tsx` via `requireAdmin()`. Login lives at
-  `/admin/login` (outside the gated `(dashboard)` group). `mock-data.ts` now only
-  holds Projects/Settings sample data. **Firestore must be locked** (`allow read,
+  `/admin/login` (outside the gated `(dashboard)` group). Project status comes
+  from `src/data/projects.ts` (`status` field); admin Settings persist to
+  Firestore (`settings/site`, via `src/lib/settings.ts` + `settings-actions.ts`),
+  so `mock-data.ts` now only holds the appearance-picker option lists. **Firestore
+  must be locked** (`allow read,
   write: if false;`) — all access is the server service account, which bypasses
   rules; never add a client Firebase SDK without revisiting the CSP (`connect-src`).
 - **`firebase-admin` is server-only.** Only import `@/lib/firebase-admin`,

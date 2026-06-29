@@ -46,6 +46,9 @@ export interface Service {
   tech: string[];
 }
 
+/** Real delivery status, shown as a badge in the admin Projects view. */
+export type ProjectStatus = "Live" | "In progress" | "Maintenance";
+
 export interface Project {
   id: string;
   title: string;
@@ -58,6 +61,8 @@ export interface Project {
   featured?: boolean;
   /** Home bento sizing: "lg" (2x2), "wide" (2x1), or "" (1x1). */
   size?: "lg" | "wide" | "";
+  /** Delivery status for the admin Projects view. Defaults to "Live". */
+  status?: ProjectStatus;
 }
 
 export interface ProcessPhase {
@@ -122,6 +127,25 @@ export interface Testimonial {
   quote: string;
   name: string;
   role: string;
+}
+
+/**
+ * Persisted admin settings (Firestore doc `settings/site`). Profile fields
+ * default from site.config.ts; appearance fields are optional admin
+ * preferences (undefined = use the CSS design-token defaults).
+ */
+export interface SiteSettings {
+  businessName: string;
+  owner: string;
+  email: string;
+  phone: string;
+  /** Theme accent A hex (e.g. "#2563eb"). */
+  accentA?: string;
+  /** Theme accent B hex (e.g. "#9333ea"). */
+  accentB?: string;
+  /** Display-font option name (e.g. "Playfair"). */
+  fontName?: string;
+  surface?: "glass" | "solid";
 }
 
 /** Lifecycle of a captured lead in the admin inbox. */

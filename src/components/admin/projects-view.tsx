@@ -3,16 +3,23 @@
 import Image from "next/image";
 import { Reveal } from "@/components/ui/reveal";
 import { projects } from "@/data/projects";
-import { MOCK_PROJECT_STATUS } from "./mock-data";
+import type { ProjectStatus } from "@/types";
 
-/* Projects: portfolio status cards. Project content comes from the typed
-   data layer; the Live / In progress statuses are mock (index-aligned). */
+/* Status → badge class (mirrors the inquiry badge palette):
+   Live = emerald (success), In progress = amber, Maintenance = sapphire. */
+const STATUS_BADGE: Record<ProjectStatus, string> = {
+  Live: "won",
+  "In progress": "warn",
+  Maintenance: "new",
+};
+
+/* Projects: portfolio status cards. Project content AND status come from the
+   typed data layer (src/data/projects.ts). */
 export function ProjectsView() {
   return (
     <div className="proj-grid">
       {projects.map((project, i) => {
-        const status = MOCK_PROJECT_STATUS[i] ?? "Live";
-        const live = status === "Live";
+        const status: ProjectStatus = project.status ?? "Live";
         return (
           <Reveal
             as="article"
@@ -34,7 +41,7 @@ export function ProjectsView() {
                 <span className="mono">{project.title}</span>
               </div>
             )}
-            <span className={`badge ${live ? "won" : "warn"} proj-cat`}>{status}</span>
+            <span className={`badge ${STATUS_BADGE[status]} proj-cat`}>{status}</span>
             <div className="proj-body">
               <h3>{project.title}</h3>
               <p>{project.category}</p>
@@ -54,10 +61,6 @@ export function ProjectsView() {
                 >
                   Visit
                 </a>
-                {/* Mock action — wire to the CMS/Supabase editor later. */}
-                <button type="button" className="btn btn-ghost">
-                  Edit
-                </button>
               </div>
             </div>
           </Reveal>

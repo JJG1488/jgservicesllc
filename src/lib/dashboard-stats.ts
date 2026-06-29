@@ -26,8 +26,18 @@ export interface DashboardPipelineRow {
   max: number;
 }
 
+/** A small secondary metric (rendered in the strip under the KPI grid). */
+export interface DashboardStat {
+  label: string;
+  value: number;
+  prefix?: string;
+  suffix?: string;
+  decimals?: number;
+}
+
 export interface DashboardStats {
   kpis: DashboardKpi[];
+  secondary: DashboardStat[];
   chart: DashboardChart;
   pipeline: DashboardPipelineRow[];
 }
@@ -80,6 +90,30 @@ export function buildDashboardStats(
     { icon: "folder", value: total, label: "Total inquiries" },
   ];
 
+  // Secondary metrics: recency, lead source split, and open pipeline value
+  // (sum of intake estimates for leads not yet won or archived).
+  const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+  const thisWeek = inquiries.filter(
+    (q) => new Date(q.createdAt) >= weekAgo,
+  ).length;
+  const fromContact = inquiries.filter((q) => q.source === "contact").length;
+  const fromIntake = inquiries.filter((q) => q.source === "intake").length;
+  const pipelineValue = inquiries
+    .filter(
+      (q) =>
+        q.source === "intake" &&
+        (q.status === "new" || q.status === "warn") &&
+        typeof q.estimate === "number",
+    )
+    .reduce((sum, q) => sum + (q.estimate ?? 0), 0);
+
+  const secondary: DashboardStat[] = [
+    { label: "New this week", value: thisWeek },
+    { label: "From contact form", value: fromContact },
+    { label: "From intake wizard", value: fromIntake },
+    { label: "Open pipeline value", value: pipelineValue, prefix: "$" },
+  ];
+
   const pipelineMax = Math.max(1, total);
   const pipeline: DashboardPipelineRow[] = [
     { label: "New", value: newCount, max: pipelineMax },
@@ -87,5 +121,10 @@ export function buildDashboardStats(
     { label: "Won", value: won, max: pipelineMax },
   ];
 
-  return { kpis, chart: { bars, months, max: Math.max(1, ...bars) }, pipeline };
+  return {
+    kpis,
+    secondary,
+    chart: { bars, months, max: Math.max(1, ...bars) },
+    pipeline,
+  };
 }

@@ -3,6 +3,10 @@ import type { Project } from "@/types";
 /**
  * Real, current portfolio. Order matters: the home bento reads `size`
  * in this sequence — ["lg", "", "", "wide", "", ""].
+ *
+ * `status` drives the admin Projects badge. All six ship a working live URL,
+ * so they're "Live"; change an entry to "In progress" or "Maintenance" here
+ * when that changes.
  */
 export const projects: Project[] = [
   {
@@ -16,6 +20,7 @@ export const projects: Project[] = [
     liveUrl: "https://brandforgeai.pro",
     featured: true,
     size: "lg",
+    status: "Live",
   },
   {
     id: "greencare-professionals",
@@ -27,6 +32,7 @@ export const projects: Project[] = [
     tags: ["Next.js", "Vercel", "TypeScript"],
     liveUrl: "https://greencareprofessionals.com",
     size: "",
+    status: "Live",
   },
   {
     id: "luxe-e-commerce",
@@ -38,6 +44,7 @@ export const projects: Project[] = [
     tags: ["JavaScript", "Framer Motion", "Tailwind CSS"],
     liveUrl: "https://nextjs-premium-components-template.vercel.app",
     size: "",
+    status: "Live",
   },
   {
     id: "a-and-m-construction",
@@ -49,6 +56,7 @@ export const projects: Project[] = [
     tags: ["Next.js", "Node.js", "Tailwind CSS"],
     liveUrl: "https://a-and-m-construction-tw21.vercel.app/",
     size: "wide",
+    status: "Live",
   },
   {
     id: "cornerstone-plumbing-electric",
@@ -60,6 +68,7 @@ export const projects: Project[] = [
     tags: ["Next.js", "Node.js", "Tailwind"],
     liveUrl: "https://conerstone-plumbing.vercel.app",
     size: "",
+    status: "Live",
   },
   {
     id: "a-family-venture-express",
@@ -71,5 +80,6 @@ export const projects: Project[] = [
     tags: ["Next.js", "JavaScript", "UI/UX"],
     liveUrl: "https://www.afamilyventureexpress.com/",
     size: "",
+    status: "Live",
   },
 ];
